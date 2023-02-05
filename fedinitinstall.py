@@ -52,7 +52,7 @@ def install_packages():
               "nm-connection-editor shorewall-init.noarch strongswan-charon-nm zenmap nmap tcpdump xfsprogs "
               "wpa_supplicant vim-enhanced speedtest-cli remmina openvpn easy-rsa lrzsz python3-netifaces neofetch  "
               "python3-requests python3-libvirt libvirt kvm qemu-kvm virt-install virt-manager virt-viewer python3-dropbox "
-              "strongswan avahi epel-release nextcloud-client ")
+              "strongswan avahi epel-release nextcloud-client python3-pip python3-pyOpenSSL python3-bs4 konsave ")
 
 
 # Install PyPi Packages
@@ -115,12 +115,12 @@ def setup_workspace():
 
 # Download files
 def download_files():
-    os.system("wget --no-check-certificate -N -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1")
-    os.system("wget --no-check-certificate -N -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1"
+    os.system("wget -N -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1")
+    os.system("wget -N -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1"
               )
-    os.system("wget --no-check-certificate -N -O nomachine_8.2.3_4_x86_64.rpm "
+    os.system("wget -N -O nomachine_8.2.3_4_x86_64.rpm "
               "https://download.nomachine.com/download/8.2/Linux/nomachine_8.2.3_4_x86_64.rpm")
-    os.system("wget --no-check-certificate -N -O Sweet-Ambar-Blue.tar.gz "
+    os.system("wget -N -O Sweet-Ambar-Blue.tar.gz "
               "https://www.dropbox.com/s/ufs6iiajdv99s6x/Sweet-Ambar-Blue.tar.xz?dl=1")
 
 
@@ -193,27 +193,28 @@ def avahi_setup():
     os.system("systemctl enable avahi-daemon")
     os.system("systemctl start avahi-daemon")
 
+
 # Ask User how they want to set up Fedora
 def fed_type():
     # Get hostname from hostnamectl
     hostname = os.popen("hostnamectl | grep hostname | awk '{print $3}'").read()
     if "fedorabox" in hostname:
-        os.system("wget --no-check-certificate -N -O fedboxmotd.txt "
+        os.system("wget -N -O fedboxmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedboxmotd.txt")
         os.system("echo fedboxmotd.txt >> /etc/motd")
         os.system("python3 fedorabox.py")
     elif "hal9001" in hostname:
-        os.system("wget --no-check-certificate -N -O hal9001motd.txt "
+        os.system("wget -N -O hal9001motd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedhal9k1motd.txt")
         os.system("echo hal9001motd.txt >> /etc/motd")
         os.system("python3 hal9001.py")
     elif "laptop" in hostname:
-        os.system("wget --no-check-certificate -N -O laptopmotd.txt "
+        os.system("wget -N -O laptopmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedlaptopmotd.txt")
         os.system("echo laptopmotd.txt >> /etc/motd")
         os.system("python3 laptop.py")
     elif "router" in hostname:
-        os.system("wget --no-check-certificate -N -O routermotd.txt "
+        os.system("wget -N -O routermotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedroutermotd.txt")
         os.system("echo routermotd.txt >> /etc/motd")
         os.system("python3 router.py")
