@@ -108,7 +108,6 @@ def setup_workspace():
     if not os.path.exists("/home/" + user):
         print("User does not exist. Skipping workspace setup.")
     else:
-        global user
         os.system("mkdir /home/" + user + "/workspace")
         os.system("chown " + user + ":" + user + " /home/" + user + "/workspace")
         os.system("chmod 755 /home/" + user + "/workspace")
