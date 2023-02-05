@@ -228,7 +228,7 @@ def fed_type():
         os.system("echo routermotd.txt >> /etc/motd")
         os.system("python3 router.py")
     elif "shitbox" in hostname:
-        os.system("wget --no-check-check-certificate -O shitboxmotd.txt "
+        os.system("wget -O shitboxmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/shitboxmotd.txt")
         os.system("echo shitboxmotd.txt >> /etc/motd")
         os.system("python3 shitbox.py")
