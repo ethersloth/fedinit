@@ -84,14 +84,8 @@ def install_pycharm():
 # Install Visual Studio Code
 def install_vscode():
     os.system("rpm --import https://packages.microsoft.com/keys/microsoft.asc")
-    os.system("touch /etc/yum.repos.d/vscode.repo")
-    os.system("cat '[code]' >> /etc/yum.repos.d/vscode.repo")
-    os.system("cat 'name=Visual Studio Code' >> /etc/yum.repos.d/vscode.repo")
-    os.system("cat 'baseurl=https://packages.microsoft.com/yumrepos/vscode' >> /etc/yum.repos.d/vscode.repo")
-    os.system("cat '=1' >> /etc/yum.repos.d/vscode.repo")
-    os.system("cat 'gpgcheck=1' >> /etc/yum.repos.d/vscode.repo")
-    os.system("cat 'gpgkey=https://packages.microsoft.com/keys/microsoft.asc' >> /etc/yum.repos.d/vscode.repo")
-    os.system("cat 'enabled=1' >> /etc/yum.repos.d/vscode.repo")
+    command = "echo -e '[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc' > /etc/yum.repos.d/vscode.repo"
+    os.system(command)
     os.system("dnf -y check-update")
     os.system("dnf -y install code")
 
@@ -163,6 +157,7 @@ def start_sddm():
     os.system("systemctl enable sddm")
     os.system("systemctl start sddm")
     os.system("systemctl set-default graphical.target")
+    os.system("systemctl enable --now dbus")
 
 
 # Create USBEthernet NetworkManager Connection
@@ -198,7 +193,7 @@ def avahi_setup():
     # Get hostname from hostnamectl
     hostname = os.popen("hostnamectl | grep hostname | awk '{print $3}'").read()
     # Set hostname in avahi-daemon.conf
-    os.system("sed -i 's/.*host-name=.*/host-name=" + hostname + "/' /etc/avahi/avahi-daemon.conf")
+    os.system("sed -i 's/.*host-name=.*/host-name=" + hostname + "/g' /etc/avahi/avahi-daemon.conf")
     os.system("systemctl enable avahi-daemon")
     os.system("systemctl start avahi-daemon")
 
