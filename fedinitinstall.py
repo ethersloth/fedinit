@@ -21,7 +21,7 @@ def run_function(function_name):
 # Install Necessary Groups
 def install_groups():
     os.system(
-        "dnf groupinstall -y 'Development Tools' 'Hardware Support' 'base-x' 'Fonts' 'Common NetworkManager' 'Submodules' 'Printing Support' 'Input Methods' 'Multimedia' 'Development Libraries'")
+        "dnf groupinstall -y 'Development Tools' 'Hardware Support' 'base-x' 'Fonts' 'Common NetworkManager Submodules' 'Printing Support' 'Input Methods' 'Multimedia' 'Development Libraries'")
 
 
 # Install Necessary Packages
