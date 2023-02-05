@@ -26,33 +26,33 @@ def install_groups():
 
 # Install Necessary Packages
 def install_packages():
-    os.system("dnf -y install NetworkManager-config-connectivity-fedora bluedevil breeze-gtk breeze-icon-theme bzip2 "
-              "cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks "
-              "gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager "
-              "kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd "
-              "kernel-devel kf5-akonadi-server kf5-akonadi-server-mysql kf5-baloo-file kf5-kipi-plugins khotkeys "
-              "kmenuedit konsole5 kscreen kscreenlocker ksshaskpass ksysguard kwalletmanager5 kwebkitpart kwin make "
-              "pam-kwallet phonon-qt5-backend-gstreamer pinentry-qt plasma-breeze plasma-desktop plasma-desktop-doc "
-              "plasma-drkonqi plasma-nm plasma-nm-l2tp plasma-nm-openconnect plasma-nm-openswan plasma-nm-openvpn "
-              "plasma-nm-pptp plasma-nm-vpnc plasma-pa plasma-user-manager plasma-workspace "
-              "plasma-workspace-geolocation polkit-kde qt5-qtbase-gui qt5-qtdeclarative sddm sddm-breeze sddm-kcm "
-              "sni-qt xorg-x11-drv-libinput setroubleshoot kfind plasma-discover kfind firewall-config kgpg kate ark "
-              "kget kcalc gwenview spectacle fedora-workstation-repositories dhcp-server usbutils util-linux-user "
-              "pciutils htop wget zsh vim-enhanced jre NetworkManager NetworkManager-adsl NetworkManager-bluetooth "
-              "NetworkManager-cloud-setup NetworkManager-config-connectivity-fedora NetworkManager-config-server "
-              "NetworkManager-dispatcher-routing-rules NetworkManager-fortisslvpn NetworkManager-initscripts-ifcfg-rh "
-              "NetworkManager-initscripts-updown NetworkManager-iodine NetworkManager-l2tp NetworkManager-libnm "
-              "NetworkManager-libnm-devel NetworkManager-libreswan NetworkManager-openconnect NetworkManager-openvpn "
-              "NetworkManager-ovs NetworkManager-ppp NetworkManager-pptp NetworkManager-ssh NetworkManager-sstp "
-              "NetworkManager-strongswan NetworkManager-team NetworkManager-tui NetworkManager-vpnc "
-              "NetworkManager-wifi NetworkManager-wwan cockpit-networkmanager kf5-networkmanager-qt "
-              "kf5-networkmanager-qt kf5-networkmanager-qt-devel libproxy-networkmanager ModemManager NetworkManager-qt "
-              "modem-manager-gui-cm-NetworkManager netplan-default-backend-NetworkManager python-networkmanager-doc "
-              "python3-networkmanager libnma libnma-devel libnma-gtk4 libnma-gtk4-devel network-manager-applet "
-              "nm-connection-editor shorewall-init.noarch strongswan-charon-nm zenmap nmap tcpdump xfsprogs "
-              "wpa_supplicant vim-enhanced speedtest-cli remmina openvpn easy-rsa lrzsz python3-netifaces neofetch  "
-              "python3-requests python3-libvirt libvirt kvm qemu-kvm virt-install virt-manager virt-viewer python3-dropbox "
-              "strongswan avahi epel-release nextcloud-client python3-pip python3-pyOpenSSL python3-bs4 konsave ")
+    os.system("dnf -y install NetworkManager-config-connectivity-fedora bluedevil breeze-gtk breeze-icon-theme bzip2 ")
+    os.system("dnf -y install cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks ")
+    os.system("dnf -y install gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager ")
+    os.system("dnf -y install kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd ")
+    os.system("dnf -y install kernel-devel kf5-akonadi-server kf5-akonadi-server-mysql kf5-baloo-file kf5-kipi-plugins khotkeys ")
+    os.system("dnf -y install kmenuedit konsole5 kscreen kscreenlocker ksshaskpass ksysguard kwalletmanager5 kwebkitpart kwin make ")
+    os.system("dnf -y install pam-kwallet phonon-qt5-backend-gstreamer pinentry-qt plasma-breeze plasma-desktop plasma-desktop-doc ")
+    os.system("dnf -y install plasma-drkonqi plasma-nm plasma-nm-l2tp plasma-nm-openconnect plasma-nm-openswan plasma-nm-openvpn ")
+    os.system("dnf -y install plasma-nm-pptp plasma-nm-vpnc plasma-pa plasma-user-manager plasma-workspace ")
+    os.system("dnf -y install plasma-workspace-geolocation polkit-kde qt5-qtbase-gui qt5-qtdeclarative sddm sddm-breeze sddm-kcm ")
+    os.system("dnf -y install sni-qt xorg-x11-drv-libinput setroubleshoot kfind plasma-discover kfind firewall-config kgpg kate ark ")
+    os.system("dnf -y install kget kcalc gwenview spectacle fedora-workstation-repositories dhcp-server usbutils util-linux-user ")
+    os.system("dnf -y install pciutils htop wget zsh vim-enhanced jre NetworkManager NetworkManager-adsl NetworkManager-bluetooth ")
+    os.system("dnf -y install NetworkManager-cloud-setup NetworkManager-config-connectivity-fedora NetworkManager-config-server ")
+    os.system("dnf -y install NetworkManager-dispatcher-routing-rules NetworkManager-fortisslvpn NetworkManager-initscripts-ifcfg-rh ")
+    os.system("dnf -y install NetworkManager-initscripts-updown NetworkManager-iodine NetworkManager-l2tp NetworkManager-libnm ")
+    os.system("dnf -y install NetworkManager-libnm-devel NetworkManager-libreswan NetworkManager-openconnect NetworkManager-openvpn ")
+    os.system("dnf -y install NetworkManager-ovs NetworkManager-ppp NetworkManager-pptp NetworkManager-ssh NetworkManager-sstp ")
+    os.system("dnf -y install NetworkManager-strongswan NetworkManager-team NetworkManager-tui NetworkManager-vpnc ")
+    os.system("dnf -y install NetworkManager-wifi NetworkManager-wwan cockpit-networkmanager kf5-networkmanager-qt ")
+    os.system("dnf -y install kf5-networkmanager-qt-devel libproxy-networkmanager ModemManager tar xz unzip zip ")
+    os.system("dnf -y install modem-manager-gui-cm-NetworkManager netplan-default-backend-NetworkManager python-networkmanager-doc ")
+    os.system("dnf -y install python3-networkmanager libnma libnma-devel libnma-gtk4 libnma-gtk4-devel network-manager-applet ")
+    os.system("dnf -y install nm-connection-editor shorewall-init.noarch strongswan-charon-nm nmap tcpdump xfsprogs ")
+    os.system("dnf -y install wpa_supplicant vim-enhanced speedtest-cli remmina openvpn easy-rsa lrzsz python3-netifaces neofetch  ")
+    os.system("dnf -y install python3-requests python3-libvirt libvirt bridge-utils qemu-kvm virt-install virt-manager virt-viewer python3-dropbox ")
+    os.system("dnf -y install strongswan avahi nextcloud-client python3-pip python3-pyOpenSSL python3-beautifulsoup4 python3-psutil  ")
 
 
 # Install PyPi Packages
@@ -76,14 +76,23 @@ def install_chrome():
 def install_pycharm():
     os.system("dnf -y copr enable haemka/pycharm-professional")
     os.system("dnf -y install pycharm-professional")
-    os.system("wget -N https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-1.27.2.13801.tar.gz -O /tmp/jetbrains-toolbox.tar.gz")
+    os.system("wget https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-1.27.2.13801.tar.gz -O /tmp/jetbrains-toolbox.tar.gz")
     os.system("tar -xzf /tmp/jetbrains-toolbox.tar.gz -C /opt/")
     os.system("chmod 777 -R /opt/*")
 
 
 # Install Visual Studio Code
 def install_vscode():
-    os.system("dnf -y copr enable dani/vscode")
+    os.system("rpm --import https://packages.microsoft.com/keys/microsoft.asc")
+    os.system("touch /etc/yum.repos.d/vscode.repo")
+    os.system("cat '[code]' >> /etc/yum.repos.d/vscode.repo")
+    os.system("cat 'name=Visual Studio Code' >> /etc/yum.repos.d/vscode.repo")
+    os.system("cat 'baseurl=https://packages.microsoft.com/yumrepos/vscode' >> /etc/yum.repos.d/vscode.repo")
+    os.system("cat '=1' >> /etc/yum.repos.d/vscode.repo")
+    os.system("cat 'gpgcheck=1' >> /etc/yum.repos.d/vscode.repo")
+    os.system("cat 'gpgkey=https://packages.microsoft.com/keys/microsoft.asc' >> /etc/yum.repos.d/vscode.repo")
+    os.system("cat 'enabled=1' >> /etc/yum.repos.d/vscode.repo")
+    os.system("dnf -y check-update")
     os.system("dnf -y install code")
 
 
@@ -115,12 +124,12 @@ def setup_workspace():
 
 # Download files
 def download_files():
-    os.system("wget -N -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1")
-    os.system("wget -N -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1"
+    os.system("wget -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1")
+    os.system("wget -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1"
               )
-    os.system("wget -N -O nomachine_8.2.3_4_x86_64.rpm "
+    os.system("wget -O nomachine_8.2.3_4_x86_64.rpm "
               "https://download.nomachine.com/download/8.2/Linux/nomachine_8.2.3_4_x86_64.rpm")
-    os.system("wget -N -O Sweet-Ambar-Blue.tar.gz "
+    os.system("wget -O Sweet-Ambar-Blue.tar.gz "
               "https://www.dropbox.com/s/ufs6iiajdv99s6x/Sweet-Ambar-Blue.tar.xz?dl=1")
 
 
@@ -199,27 +208,27 @@ def fed_type():
     # Get hostname from hostnamectl
     hostname = os.popen("hostnamectl | grep hostname | awk '{print $3}'").read()
     if "fedorabox" in hostname:
-        os.system("wget -N -O fedboxmotd.txt "
+        os.system("wget -O fedboxmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedboxmotd.txt")
         os.system("echo fedboxmotd.txt >> /etc/motd")
         os.system("python3 fedorabox.py")
     elif "hal9001" in hostname:
-        os.system("wget -N -O hal9001motd.txt "
+        os.system("wget -O hal9001motd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedhal9k1motd.txt")
         os.system("echo hal9001motd.txt >> /etc/motd")
         os.system("python3 hal9001.py")
     elif "laptop" in hostname:
-        os.system("wget -N -O laptopmotd.txt "
+        os.system("wget -O laptopmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedlaptopmotd.txt")
         os.system("echo laptopmotd.txt >> /etc/motd")
         os.system("python3 laptop.py")
     elif "router" in hostname:
-        os.system("wget -N -O routermotd.txt "
+        os.system("wget -O routermotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedroutermotd.txt")
         os.system("echo routermotd.txt >> /etc/motd")
         os.system("python3 router.py")
     elif "shitbox" in hostname:
-        os.system("wget --no-check-check-certificate -N -O shitboxmotd.txt "
+        os.system("wget --no-check-check-certificate -O shitboxmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/shitboxmotd.txt")
         os.system("echo shitboxmotd.txt >> /etc/motd")
         os.system("python3 shitbox.py")
@@ -243,6 +252,7 @@ def main():
     run_function("kde_setup")
     run_function("install_nomachine")
     run_function("create_usbethernet_connection")
+    run_function("avahi_setup")
     run_function("fed_type")
 
 
