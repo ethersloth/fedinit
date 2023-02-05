@@ -103,6 +103,7 @@ def new_user():
 
 # Setup User Workspace Directory
 def setup_workspace():
+    global user
     user = input("Enter the username you would like to use: ")
     if not os.path.exists("/home/" + user):
         print("User does not exist. Skipping workspace setup.")
