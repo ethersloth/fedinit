@@ -111,9 +111,10 @@ def setup_workspace():
     if not os.path.exists("/home/" + user):
         print("User does not exist. Skipping workspace setup.")
     else:
-        os.system("mkdir /home/" + user + "/workspace")
-        os.system("chown " + user + ":" + user + " /home/" + user + "/workspace")
-        os.system("chmod 755 /home/" + user + "/workspace")
+        os.system("mkdir /home/" + user + "/Desktop")
+        os.system("mkdir /home/" + user + "/Desktop/workspace")
+        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace")
+        os.system("chmod 755 /home/" + user + "/Desktop/workspace")
 
 
 # Download files
@@ -162,7 +163,7 @@ def start_sddm():
 
 # Create USBEthernet NetworkManager Connection
 def create_usbethernet_connection():
-    os.system('/etc/NetworkManager/system-connections/ifcfg-USBethernet')
+    os.system('touch /etc/NetworkManager/system-connections/ifcfg-USBethernet')
     os.system('echo "[connection]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
     os.system('echo "id=USBethernet" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
     os.system(
@@ -244,10 +245,10 @@ def main():
     run_function("download_files")
     run_function("install_zsh")
     run_function("start_sddm")
-    run_function("kde_setup")
     run_function("install_nomachine")
     run_function("create_usbethernet_connection")
     run_function("avahi_setup")
+    run_function("kde_setup")
     run_function("fed_type")
 
 

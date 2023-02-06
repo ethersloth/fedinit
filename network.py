@@ -640,7 +640,9 @@ def remove_all_zones():
 
 # Setup the Internal Zone as Default Zone in firewalld, add all interfaces in internal_zone_interfaces to the internal zone
 def setup_internal_zone():
+    os.system("firewall-cmd --permanent --new-zone=internal")
     for i in internal_zone_interfaces:
+        # Create a new zone for internal interfaces
         os.system("firewall-cmd --permanent --zone=internal --add-interface={}".format(i))
         os.system("firewall-cmd --reload")
     setup_external_zone()
@@ -648,6 +650,7 @@ def setup_internal_zone():
 
 # Setup external zone, add all interfaces in external_zone_interfaces to the external zone
 def setup_external_zone():
+    os.system("firewall-cmd --permanent --new-zone=external")
     os.system("firewall-cmd --set-default-zone=external")
     for i in external_zone_interfaces:
         os.system("firewall-cmd --permanent --zone=external --add-interface={}".format(i))
