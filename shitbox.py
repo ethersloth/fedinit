@@ -6,10 +6,13 @@ import requests
 from bs4 import BeautifulSoup
 import dropbox
 
+drives = []
+
 
 # Download SSH Public Key From Dropbox
 def download_ssh_key():
-    dbx = dropbox.Dropbox('sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
+    dbx = dropbox.Dropbox(
+        'sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
     metadata, res = dbx.files_download(path='/ssh_keys.txt')
     with open('/home/gwhitlock/Desktop/workspace/ssh_keys.txt', 'wb') as f:
         f.write(res.content)
@@ -60,26 +63,15 @@ def apply_theme():
 
 # List Unmounted Drives, select drive to mount, mount drive
 def get_unmounted_drives():
-    drives = []
-    partitions = psutil.disk_partitions()
-    for partition in partitions:
-        if 'cdrom' in partition.opts or partition.fstype == '':
-            # skip cd-rom drives with no disk in it; they may raise an exception
-            continue
-        try:
-            if os.path.ismount(partition.mountpoint):
-                continue
-            else:
-                drives.append(partition.device)
-        except PermissionError:
-            pass
-    mount_drive()
-    return drives
+    global drives
+    for drive in psutil.disk_partitions():
+        if drive.fstype == "":
+            drives.append(drive.device)
 
 
 # From get_unmounted_drives() return a list of unmounted drives, ask the user if they want to mount a drive, if yes, ask user to select a drive to mount
 def mount_drive():
-    drives = get_unmounted_drives()
+    global drives
     if len(drives) == 0:
         print("No unmounted drives found")
         exit(1)
