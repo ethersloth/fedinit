@@ -251,3 +251,7 @@ def main():
     download_rocky_iso()
     download_rhel_iso()
     run_scripts()
+
+
+if __name__ == "__main__":
+    main()

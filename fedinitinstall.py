@@ -182,15 +182,15 @@ def avahi_setup():
     # Get hostname from hostnamectl
     hostname = os.popen("hostnamectl | grep hostname | awk '{print $3}'").read()
     # Set hostname in avahi-daemon.conf
-    os.system("sed -i 's/.*host-name=.*/host-name=" + hostname + "/g' /etc/avahi/avahi-daemon.conf")
+    os.system("sed -i 's/.*host-name=.*/host-name={}/g' /etc/avahi/avahi-daemon.conf".format(hostname))
     os.system("systemctl enable avahi-daemon")
     os.system("systemctl start avahi-daemon")
 
 
 def kde_setup():
     # Download Konsave knsv file
-    os.system("wget -O gwhitlock.knsv /home/" + user + "/Desktop/workspace" + "https://www.dropbox.com/s/wqii3x5dz1q4btk/gwhitlock.knsv?dl=0")
-    os.system("konsave -i /home/" + user + "/Desktop/workspace/Desktop/gwhitlock.knsv")
+    os.system("wget -O gwhitlock.knsv /home/" + user + "/Desktop/workspace" + "https://www.dropbox.com/s/wqii3x5dz1q4btk/gwhitlock.knsv?dl=1")
+    os.system("konsave -i /home/{}/Desktop/workspace/Desktop/gwhitlock.knsv".format(user))
     os.system("konsave -a gwhitlock")
     # Turn off Energy Saving> Screen Energy Saving
     os.system("kwriteconfig5 --file /home/" + user + "/.config/kscreenlockerrc --group Greeter --key IdleTime 0")
