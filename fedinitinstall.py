@@ -141,18 +141,6 @@ def install_nomachine():
     os.system("dnf -y localinstall ./nomachine_8.2.3_4_x86_64.rpm")
 
 
-# KDE Theme install and Power Management/ScreenLocking Setup
-def kde_setup():
-    os.system("qdbus org.kde.PowerDevil /org/kde/PowerDevil/Behaviour "
-              "org.kde.PowerDevil.Behaviour.SetScreenEnergySaving false")
-    os.system("qdbus org.kde.screensaver /ScreenSaver org.freedesktop.ScreenSaver.SetActive false")
-    os.system("qdbus org.kde.PowerDevil /org/kde/PowerDevil/Configuration "
-              "org.kde.PowerDevil.Configuration.ScreenLock.SetTimeout 0")
-    os.system("kde-install-theme --local Sweet-Ambar-Blue.tar.gz")
-    os.system("kconfig_set kdeglobals General ColorScheme Sweet-Ambar-Blue PlasmaStyle Sweet-Ambar-Blue "
-              "WindowDecoration Sweet-Ambar-Blue Icons candy-icons Cursors sweet-cursors SplashTheme Sweet-Ambar-Blue")
-
-
 # Start SDDM and KDE
 def start_sddm():
     os.system("systemctl enable sddm")
@@ -197,6 +185,19 @@ def avahi_setup():
     os.system("sed -i 's/.*host-name=.*/host-name=" + hostname + "/g' /etc/avahi/avahi-daemon.conf")
     os.system("systemctl enable avahi-daemon")
     os.system("systemctl start avahi-daemon")
+
+
+def kde_setup():
+    # Download Konsave knsv file
+    os.system("wget -O gwhitlock.knsv /home/" + user + "/Desktop/workspace" + "https://www.dropbox.com/s/wqii3x5dz1q4btk/gwhitlock.knsv?dl=0")
+    os.system("konsave -i /home/" + user + "/Desktop/workspace/Desktop/gwhitlock.knsv")
+    os.system("konsave -a gwhitlock")
+    # Turn off Energy Saving> Screen Energy Saving
+    os.system("kwriteconfig5 --file /home/" + user + "/.config/kscreenlockerrc --group Greeter --key IdleTime 0")
+    # Set Button Events Handling> When Power Button is Pressed to Shutdown
+    os.system("kwriteconfig5 --file /home/" + user + "/.config/kwinrc --group ModifierOnlyShortcuts --key Meta+Ctrl+Alt+Backspace 'org.kde.ksmserver /KSMServer logout 0 2 2'")
+    # Set Screen Locking> Lock Screen Automatically to Never
+    os.system("kwriteconfig5 --file /home/" + user + "/.config/kwinrc --group ModifierOnlyShortcuts --key Meta+Ctrl+Alt+L 'org.kde.ksmserver /KSMServer logout 0 2 2'")
 
 
 # Ask User how they want to set up Fedora
