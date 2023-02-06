@@ -129,3 +129,43 @@ def send_system_config_zip():
     dbx = dropbox.Dropbox('sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
     with open('/home/gwhitlock/Desktop/workspace/' + hostname + '_' + date_time + '.zip', 'rb') as f:
         dbx.files_upload(f.read(), '/' + hostname + '_' + date_time + '.zip', mode=dropbox.files.WriteMode.overwrite)
+
+
+# Run all functions
+def hostname():
+    os.system('hostname >> /home/gwhitlock/Desktop/workspace/system_config/system_config.json')
+
+
+def os_version():
+    os.system('cat /etc/os-release >> /home/gwhitlock/Desktop/workspace/system_config/system_config.json')
+
+
+def kernel_version():
+    os.system('uname -a >> /home/gwhitlock/Desktop/workspace/system_config/system_config.json')
+
+
+def main():
+    hostname()
+    os_version()
+    kernel_version()
+    cpu_info()
+    memory_info()
+    disk_info()
+    fstab()
+    running_processes()
+    system_time()
+    gps_data()
+    network_interfaces()
+    openvpn_server_configs()
+    openvpn_client_configs()
+    ipsec_configs()
+    wireguard_configs()
+    dhcpd_configs()
+    firewalld_configs()
+    zip_system_config()
+    rename_system_config_zip()
+    send_system_config_zip()
+
+
+if __name__ == '__main__':
+    main()

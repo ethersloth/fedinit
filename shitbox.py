@@ -239,3 +239,15 @@ def run_scripts():
     os.system("/bin/python3 openvpnser.py")
     os.system("/bin/python3 config_grabber.py")
 
+
+# Main function
+def main():
+    mount_drive()
+    create_iso_folder()
+    download_fed_iso()
+    download_centos_iso()
+    download_ubuntu_iso()
+    download_debian_iso()
+    download_rocky_iso()
+    download_rhel_iso()
+    run_scripts()
