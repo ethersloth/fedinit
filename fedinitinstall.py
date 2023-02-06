@@ -194,10 +194,17 @@ def kde_setup():
     os.system("konsave -a gwhitlock")
     # Turn off Energy Saving> Screen Energy Saving
     os.system("kwriteconfig5 --file /home/" + user + "/.config/kscreenlockerrc --group Greeter --key IdleTime 0")
+    # Turn off Energy Saving> Screen Energy Saving in zshrc
+    os.system("echo 'export KDE_FULL_SESSION=true' >> /home/" + user + "/.zshrc")
     # Set Button Events Handling> When Power Button is Pressed to Shutdown
-    os.system("kwriteconfig5 --file /home/" + user + "/.config/kwinrc --group ModifierOnlyShortcuts --key Meta+Ctrl+Alt+Backspace 'org.kde.ksmserver /KSMServer logout 0 2 2'")
+    os.system("kwriteconfig --file kpowersaveui5rc --group General --key PowerButtonAction 1")
+    # Set Button Events Handling> When Power Button is Pressed to Shutdown in zshrc
+    os.system("echo 'export KDE_FULL_SESSION=true' >> /home/" + user + "/.zshrc")
     # Set Screen Locking> Lock Screen Automatically to Never
-    os.system("kwriteconfig5 --file /home/" + user + "/.config/kwinrc --group ModifierOnlyShortcuts --key Meta+Ctrl+Alt+L 'org.kde.ksmserver /KSMServer logout 0 2 2'")
+    os.system("kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false")
+    # Set Screen Locking> Lock Screen Automatically to Never in zshrc
+    os.system("echo 'export KDE_FULL_SESSION=true' >> /home/" + user + "/.zshrc")
+
 
 
 # Ask User how they want to set up Fedora

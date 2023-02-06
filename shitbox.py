@@ -1,10 +1,10 @@
 #!/bin/python3
 
 import os
-import psutil
+
+import dropbox
 import requests
 from bs4 import BeautifulSoup
-import dropbox
 
 drives = []
 
@@ -62,59 +62,65 @@ def apply_theme():
 
 
 # List Unmounted Drives, select drive to mount, mount drive
+def list_unmounted_drives():
+    with open("/proc/mounts", "r") as mounts_file:
+        mounted_drives = [line.split()[0] for line in mounts_file]
+
+    unmounted_drives = []
+    for device in os.listdir("/dev"):
+        if device.startswith("sd") and not "/dev/{device}" in mounted_drives:
+            unmounted_drives.append(f"/dev/{device}")
+
+    return unmounted_drives
+
+
 def get_unmounted_drives():
-    global drives
-    for drive in psutil.disk_partitions():
-        if drive.fstype == "":
-            drives.append(drive.device)
+    unmounted_drives = list_unmounted_drives()
+    if unmounted_drives:
+        print("Unmounted drives:")
+        for drive in unmounted_drives:
+            print(drive)
+    else:
+        print("No unmounted drives found.")
 
 
 # From get_unmounted_drives() return a list of unmounted drives, ask the user if they want to mount a drive, if yes, ask user to select a drive to mount
 def mount_drive():
-    global drives
-    if len(drives) == 0:
-        print("No unmounted drives found")
-        exit(1)
-    else:
-        print("The following drives are unmounted:")
-        for i in range(len(drives)):
-            print(str(i) + ": " + drives[i])
-        choice = input("Would you like to mount a drive? (y/n): ")
-        if choice == "y":
-            drive = input("Enter the number of the drive you would like to mount: ")
-            while not drive.isdigit() or int(drive) < 0 or int(drive) > len(drives):
-                drive = input("Invalid drive number. Enter a valid drive number: ")
-                # Ask User for the mount point
-            mount_point = input("Enter the mount point: ")
-            if not os.path.exists(mount_point):
-                os.system("mkdir " + mount_point)
-                # format the drive with ext4
-                os.system("parted " + drives[int(drive)] + " mklabel msdos")
-                os.system("parted " + drives[int(drive)] + " mkpart primary ext4 0% 100%")
-                os.system("mkfs.ext4 " + drives[int(drive)] + "1")
-                # mount the drive
-                os.system("mount " + drives[int(drive)] + "1 " + mount_point)
-                # add the drive to /etc/fstab
-                os.system("echo " + drives[int(drive)] + "1 " + mount_point + " ext4 defaults 0 0 >> /etc/fstab")
+    get_unmounted_drives()
+    unmounted_drives = list_unmounted_drives()
+    if unmounted_drives:
+        print("Do you want to mount a drive? (y/n)")
+        answer = input()
+        if answer == "y":
+            print("Select a drive to mount:")
+            for drive in unmounted_drives:
+                print(drive)
+            drive = input()
+            if drive in unmounted_drives:
+                os.system("mkdir /media/" + drive)
+                os.system("mount " + drive + " /media/" + drive)
                 print("Drive mounted successfully")
                 create_iso_folder()
-                return mount_point
-
+            else:
+                print("Invalid drive")
+                mount_drive()
         else:
-            print("Mounting drive failed")
+            print("Drive not mounted")
+            create_iso_folder()
+    else:
+        print("No unmounted drives found")
+        create_iso_folder()
 
 
 # Create ISO folder in mount point
 def create_iso_folder():
-    mount_point = mount_drive()
-    os.system("mkdir " + mount_point + "/ISOs")
-    print("ISO folder created successfully")
+    os.system("mkdir /media/sdb1/ISOs")
     download_fed_iso()
 
 
 # Download ISOs
 def download_fed_iso():
-    mount_point = mount_drive()
+    # Get the HTML of the page
     url = "https://download.fedoraproject.org/pub/fedora/linux/releases"
     response = requests.get(url)
 
@@ -139,13 +145,13 @@ def download_fed_iso():
     else:
         print('Could not find the link to the latest ISO')
     # Move ISO to ISO folder
-    os.system("mv " + iso_link + " " + mount_point + "/ISOs/fedora.iso")
+    os.system("mv " + iso_link + " /media/sdb1/ISOs/fedora.iso")
     download_centos_iso()
 
 
 # Download CentOS ISO
 def download_centos_iso():
-    mount_point = mount_drive()
+    # Get the HTML of the page
     url = "https://mirrors.centos.org/mirrorlist?path=/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-dvd1.iso&redirect=1&protocol=https"
     response = requests.get(url, stream=True)
 
@@ -155,13 +161,13 @@ def download_centos_iso():
 
     print("Successfully downloaded the ISO.")
     # Move ISO to ISO folder
-    os.system("mv CentOS-Stream-9-latest-x86_64-dvd1.iso " + mount_point + "/ISOs/centos.iso")
+    os.system("mv CentOS-*-latest-x86_64-dvd1.iso /media/sdb1/ISOs/centos.iso")
     download_ubuntu_iso()
 
 
 # Download Ubuntu ISO
 def download_ubuntu_iso():
-    mount_point = mount_drive()
+    # Get the HTML of the page
     url = "https://releases.ubuntu.com/22.10/ubuntu-22.10-desktop-amd64.iso"
     response = requests.get(url, stream=True)
 
@@ -171,14 +177,13 @@ def download_ubuntu_iso():
 
     print("Successfully downloaded the ISO.")
     # Move ISO to ISO folder
-    os.system("mv ubuntu-*-desktop-amd64.iso " + mount_point + "/ISOs/ubuntu.iso")
+    os.system("mv ubuntu-*-desktop-amd64.iso /media/sdb1/ISOs/ubuntu.iso")
     download_debian_iso()
 
 
 # Download Debian ISO
 def download_debian_iso():
-    mount_point = mount_drive()
-
+    # Get the HTML of the page
     url = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.6.0-amd64-netinst.iso"
     response = requests.get(url, stream=True)
 
@@ -188,14 +193,13 @@ def download_debian_iso():
 
     print("Successfully downloaded the ISO.")
     # Move ISO to ISO folder
-    os.system("mv debian-*-amd64-netinst.iso " + mount_point + "/ISOs/debian.iso")
+    os.system("mv debian-*-amd64-netinst.iso /media/sdb1/ISOs/debian.iso")
     download_rocky_iso()
 
 
 # Download Rocky ISO
 def download_rocky_iso():
-    mount_point = mount_drive()
-
+    # Get the HTML of the page
     url = "https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.1-x86_64-minimal.iso"
     response = requests.get(url, stream=True)
 
@@ -205,14 +209,13 @@ def download_rocky_iso():
 
     print("Successfully downloaded the ISO.")
     # Move ISO to ISO folder
-    os.system("mv Rocky-*-x86_64-minimal.iso " + mount_point + "/ISOs/rocky.iso")
+    os.system("mv Rocky-*-x86_64-minimal.iso /media/sdb1/ISOs/rocky.iso")
     download_rhel_iso()
 
 
 # Download RHEL ISO
 def download_rhel_iso():
-    mount_point = mount_drive()
-
+    # Get the HTML of the page
     url = "https://developers.redhat.com/content-gateway/file/rhel/9.1/rhel-baseos-9.1-x86_64-dvd.iso"
     response = requests.get(url, stream=True)
 
@@ -222,7 +225,7 @@ def download_rhel_iso():
 
     print("Successfully downloaded the ISO.")
     # Move ISO to ISO folder
-    os.system("mv rhel-*.iso " + mount_point + "/ISOs/rhel.iso")
+    os.system("mv rhel-*-x86_64-dvd.iso /media/sdb1/ISOs/rhel.iso")
 
 
 # Run other python scripts
