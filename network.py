@@ -179,7 +179,7 @@ def ethernet_setup():
                         interface, connection_name))
                 os.system("nmcli connection modify {} autoconnect yes".format(connection_name))
                 os.system("nmcli connection up {}".format(connection_name))
-                ethernet_interfaces.remove(i)
+                ethernet_interfaces.remove(interface)
                 external_zone_interfaces.append(connection_name)
                 wifi_setup()
             except os.error:
