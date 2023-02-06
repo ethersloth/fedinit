@@ -652,6 +652,7 @@ def setup_internal_zone():
 def setup_external_zone():
     os.system("firewall-cmd --permanent --new-zone=external")
     os.system("firewall-cmd --set-default-zone=external")
+    os.system("firewall-cmd --permanent --zone=external --add-service=ssh")
     for i in external_zone_interfaces:
         os.system("firewall-cmd --permanent --zone=external --add-interface={}".format(i))
         os.system("firewall-cmd --reload")
