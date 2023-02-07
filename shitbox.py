@@ -237,14 +237,11 @@ def run_scripts():
 
 # Main function
 def main():
+    download_ssh_key()
+    apply_ssh_key()
+    set_ssh_config()
+    install_kvm()
     mount_drive()
-    create_iso_folder()
-    download_fed_iso()
-    download_centos_iso()
-    download_ubuntu_iso()
-    download_debian_iso()
-    download_rocky_iso()
-    download_rhel_iso()
     run_scripts()
 
 
