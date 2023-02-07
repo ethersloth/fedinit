@@ -206,7 +206,6 @@ def kde_setup():
     os.system("echo 'export KDE_FULL_SESSION=true' >> /home/" + user + "/.zshrc")
 
 
-
 # Ask User how they want to set up Fedora
 def fed_type():
     # Get hostname from hostnamectl
