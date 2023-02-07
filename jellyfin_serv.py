@@ -15,7 +15,9 @@ def check_root():
 
 # See if this script is running on RHEL/CentOS/Fedora/Rocky
 def check_fedora():
-    if platform.linux_distribution()[0] == 'Fedora' or platform.linux_distribution()[0] == 'Red Hat Enterprise Linux Server' or platform.linux_distribution()[0] == 'CentOS Linux' or platform.linux_distribution()[0] == 'Rocky Linux':
+    if platform.linux_distribution()[0] == 'Fedora' or platform.linux_distribution()[
+        0] == 'Red Hat Enterprise Linux Server' or platform.linux_distribution()[0] == 'CentOS Linux' or \
+            platform.linux_distribution()[0] == 'Rocky Linux':
         return True
     else:
         return False
@@ -36,17 +38,22 @@ def create_jellyfin_dir():
         os.system('systemctl enable jellyfin')
         os.system('systemctl start jellyfin')
     elif check_fedora() and not check_ubuntu():
-        os.system('dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y')
-        os.system('wget https://repo.jellyfin.org/releases/server/fedora/versions/stable/server/10.8.9/jellyfin-server-10.8.9-1.fc36.x86_64.rpm -O jellyfin.rpm')
+        os.system(
+            'dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y')
+        os.system(
+            'wget https://repo.jellyfin.org/releases/server/fedora/versions/stable/server/10.8.9/jellyfin-server-10.8.9-1.fc36.x86_64.rpm -O jellyfin.rpm')
         os.system('dnf localinstall jellyfin.rpm -y')
         os.system('rm -rf jellyfin.rpm')
-        os.system('wget https://repo.jellyfin.org/releases/server/fedora/versions/stable/web/10.8.9/jellyfin-web-10.8.9-1.fc36.noarch.rpm -O jellyfin-web.rpm')
+        os.system(
+            'wget https://repo.jellyfin.org/releases/server/fedora/versions/stable/web/10.8.9/jellyfin-web-10.8.9-1.fc36.noarch.rpm -O jellyfin-web.rpm')
         os.system('dnf localinstall jellyfin-web.rpm -y')
         os.system('rm -rf jellyfin-web.rpm')
-        os.system('wget https://repo.jellyfin.org/releases/server/centos/stable/server/jellyfin-server-10.8.9-1.el7.x86_64.rpm -O jellyfin.rpm')
+        os.system(
+            'wget https://repo.jellyfin.org/releases/server/centos/stable/server/jellyfin-server-10.8.9-1.el7.x86_64.rpm -O jellyfin.rpm')
         os.system('dnf localinstall jellyfin.rpm -y')
         os.system('rm -rf jellyfin.rpm')
-        os.system('wget https://repo.jellyfin.org/releases/server/centos/stable/web/jellyfin-web-10.8.9-1.el7.noarch.rpm -O jellyfin-web.rpm')
+        os.system(
+            'wget https://repo.jellyfin.org/releases/server/centos/stable/web/jellyfin-web-10.8.9-1.el7.noarch.rpm -O jellyfin-web.rpm')
         os.system('systemctl start jellyfin')
         os.system('systemctl enable jellyfin')
         os.system('firewall-cmd --add-service=jellyfin --permanent')

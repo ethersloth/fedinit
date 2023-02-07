@@ -68,7 +68,7 @@ def list_unmounted_drives():
 
     unmounted_drives = []
     for device in os.listdir("/dev"):
-        if device.startswith("sd") and not "/dev/{device}" in mounted_drives:
+        if device.startswith("sd") and "/dev/{device}" not in mounted_drives:
             unmounted_drives.append(f"/dev/{device}")
 
     return unmounted_drives

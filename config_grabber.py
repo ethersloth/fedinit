@@ -4,6 +4,8 @@ import dropbox
 import os
 import socket
 
+hostname = ''
+
 
 # Create a directory to store all the config files
 def create_workspace_system_config():
@@ -71,7 +73,8 @@ def network_interfaces():
     os.system('ip a >> /home/gwhitlock/Desktop/workspace/system_config/system_config.json')
     interfaces = os.listdir('/etc/NetworkManager/system-connections/')
     for interface in interfaces:
-        os.system('cp -air /etc/NetworkManager/system-connections/' + interface + ' /home/gwhitlock/Desktop/workspace/system_config/network_interfaces/' + interface)
+        os.system(
+            'cp -air /etc/NetworkManager/system-connections/' + interface + ' /home/gwhitlock/Desktop/workspace/system_config/network_interfaces/' + interface)
 
 
 # Grab All OpenVPN Server configs and copy to this directory
@@ -112,28 +115,34 @@ def firewalld_configs():
 
 # Zip All Folders and Files in the workspace/system_config directory
 def zip_system_config():
-    os.system('zip -r /home/gwhitlock/Desktop/workspace/system_config.zip /home/gwhitlock/Desktop/workspace/system_config')
+    os.system(
+        'zip -r /home/gwhitlock/Desktop/workspace/system_config.zip /home/gwhitlock/Desktop/workspace/system_config')
 
 
 # Change the name of the zip file to the hostname of the system and append the date and time
 def rename_system_config_zip():
+    global hostname
     hostname = socket.gethostname()
     date_time = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
-    os.system('mv /home/gwhitlock/Desktop/workspace/system_config.zip /home/gwhitlock/Desktop/workspace/' + hostname + '_' + date_time + '.zip')
+    os.system(
+        'mv /home/gwhitlock/Desktop/workspace/system_config.zip /home/gwhitlock/Desktop/workspace/' + hostname + '_' + date_time + '.zip')
 
 
 # Send the zip file to Dropbox
 def send_system_config_zip():
+    global hostname
     hostname = socket.gethostname()
     date_time = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
-    dbx = dropbox.Dropbox('sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
+    dbx = dropbox.Dropbox(
+        'sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
     with open('/home/gwhitlock/Desktop/workspace/' + hostname + '_' + date_time + '.zip', 'rb') as f:
         dbx.files_upload(f.read(), '/' + hostname + '_' + date_time + '.zip', mode=dropbox.files.WriteMode.overwrite)
 
 
 # Run all functions
-def hostname():
-    os.system('hostname >> /home/gwhitlock/Desktop/workspace/system_config/system_config.json')
+def get_hostname():
+    global hostname
+    os.system('{} >> /home/gwhitlock/Desktop/workspace/system_config/system_config.json'.format('hostname'))
 
 
 def os_version():
@@ -145,7 +154,7 @@ def kernel_version():
 
 
 def main():
-    hostname()
+    get_hostname()
     os_version()
     kernel_version()
     cpu_info()
