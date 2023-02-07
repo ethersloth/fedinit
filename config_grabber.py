@@ -134,7 +134,10 @@ def send_system_config_zip():
     hostname = socket.gethostname()
     date_time = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     dbx = dropbox.Dropbox(
-        'sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
+        app_key='9qx5m6wmf51e811',
+        app_secret='r4dcl1g70xg9a4i',
+        oauth2_refresh_token='0sQRFeebAW8AAAAAAAAAAcCneydNSUS4O4mednoRiB-uqQk05FJBG-zDXfAsXBB-'
+    )
     with open('/home/gwhitlock/Desktop/workspace/' + hostname + '_' + date_time + '.zip', 'rb') as f:
         dbx.files_upload(f.read(), '/' + hostname + '_' + date_time + '.zip', mode=dropbox.files.WriteMode.overwrite)
 

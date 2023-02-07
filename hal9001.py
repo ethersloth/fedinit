@@ -28,7 +28,10 @@ def get_ssh_key():
 # Upload SSH Public Key To Dropbox
 def upload_ssh_key():
     dbx = dropbox.Dropbox(
-        'sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
+        app_key='9qx5m6wmf51e811',
+        app_secret='r4dcl1g70xg9a4i',
+        oauth2_refresh_token='0sQRFeebAW8AAAAAAAAAAcCneydNSUS4O4mednoRiB-uqQk05FJBG-zDXfAsXBB-'
+    )
     with open('/home/gwhitlock/Desktop/workspace/ssh_keys.txt', 'rb') as f:
         dbx.files_upload(f.read(), '/ssh_keys.txt', mode=dropbox.files.WriteMode.overwrite)
 
@@ -37,3 +40,5 @@ def upload_ssh_key():
 def set_ssh_config():
     os.system("sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config")
     os.system("systemctl restart sshd")
+
+

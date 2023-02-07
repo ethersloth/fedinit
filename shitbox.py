@@ -12,7 +12,10 @@ drives = []
 # Download SSH Public Key From Dropbox
 def download_ssh_key():
     dbx = dropbox.Dropbox(
-        'sl.BX3VVSTTHKAg2tQvY5LLIEbgtwW29pRUaQl6KbgklwKQI98ZWt2UPXXFLhstXSPYDZJQcB0L9jHlS-FwAZk7ybl0JPeUT1w8zcKqzZAwBcf0TRtPBZcARLaVzRtwJ4HJNiMeb9g')
+        app_key='9qx5m6wmf51e811',
+        app_secret='r4dcl1g70xg9a4i',
+        oauth2_refresh_token='0sQRFeebAW8AAAAAAAAAAcCneydNSUS4O4mednoRiB-uqQk05FJBG-zDXfAsXBB-'
+    )
     metadata, res = dbx.files_download(path='/ssh_keys.txt')
     with open('/home/gwhitlock/Desktop/workspace/ssh_keys.txt', 'wb') as f:
         f.write(res.content)
