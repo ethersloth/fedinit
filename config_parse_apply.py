@@ -34,7 +34,8 @@ def view_zip_contents():
                 with open("system_config/network_interfaces/" + file, "r") as zip_network_interfaces:
                     with open("/etc/network/interfaces.d/" + file, "r") as current_network_interfaces:
                         if zip_network_interfaces.read() != current_network_interfaces.read():
-                            shutil.copyfile("system_config/network_interfaces/" + file, "/etc/network/interfaces.d/" + file)
+                            shutil.copyfile("system_config/network_interfaces/" + file,
+                                            "/etc/network/interfaces.d/" + file)
                             print(file + " has been updated")
                         else:
                             print(file + " is up to date")
@@ -103,3 +104,43 @@ def view_zip_contents():
                             print(file + " has been updated")
                         else:
                             print(file + " is up to date")
+
+        # If the system_config directory does not exist, create it
+        else:
+            os.mkdir("system_config")
+            print("system_config directory created")
+
+    # If the system_config/dhcpd directory does not exist, create it
+    if not os.path.exists("system_config/dhcpd"):
+        os.mkdir("system_config/dhcpd")
+        print("system_config/dhcpd directory created")
+
+    # If the system_config/firewalld directory does not exist, create it
+    if not os.path.exists("system_config/firewalld"):
+        os.mkdir("system_config/firewalld")
+        print("system_config/firewalld directory created")
+
+    # If the system_config/ipsec directory does not exist, create it
+    if not os.path.exists("system_config/ipsec"):
+        os.mkdir("system_config/ipsec")
+        print("system_config/ipsec directory created")
+
+    # If the system_config/network_interfaces directory does not exist, create it
+    if not os.path.exists("system_config/network_interfaces"):
+        os.mkdir("system_config/network_interfaces")
+        print("system_config/network_interfaces directory created")
+
+    # If the system_config/openvpn directory does not exist, create it
+    if not os.path.exists("system_config/openvpn"):
+        os.mkdir("system_config/openvpn")
+        print("system_config/openvpn directory created")
+
+    # If the system_config/wireguard directory does not exist, create it
+    if not os.path.exists("system_config/wireguard"):
+        os.mkdir("system_config/wireguard")
+        print("system_config/wireguard directory created")
+
+    # If the system_config/wireguard directory does not exist, create it
+    if not os.path.exists("system_config/wireguard"):
+        os.mkdir("system_config/wireguard")
+        print("system_config/wireguard directory created")

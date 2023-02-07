@@ -5,10 +5,10 @@ import dropbox
 
 def download_ssh_key():
     dbx = dropbox.Dropbox(
-            app_key='9qx5m6wmf51e811',
-            app_secret='r4dcl1g70xg9a4i',
-            oauth2_refresh_token='0sQRFeebAW8AAAAAAAAAAcCneydNSUS4O4mednoRiB-uqQk05FJBG-zDXfAsXBB-'
-        )
+        app_key='9qx5m6wmf51e811',
+        app_secret='r4dcl1g70xg9a4i',
+        oauth2_refresh_token='9Qbt7Z6yN-8AAAAAAAAAAY5r4cdPfoIOEN0wCU1IhiNt8ThM-tYgoAjpxuYDxscP'
+    )
     metadata, res = dbx.files_download(path='/ssh_keys.txt')
     with open('/home/gwhitlock/Desktop/workspace/ssh_keys.txt', 'wb') as f:
         f.write(res.content)
