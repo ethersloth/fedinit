@@ -98,17 +98,15 @@ def install_pycharm():
     os.system("tar -xzf /tmp/jetbrains-toolbox.tar.gz -C /opt/")
     os.system("chmod 777 -R /opt/*")
     # Run Pycharm Professional Installer from Jetbrains Toolbox
-    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox")
+    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-pycharm-professional")
     os.system("sleep 30")
-    os.system("./jetbrains-toolbox --install-pycharm-professional")
+    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-clion")
     os.system("sleep 30")
-    os.system("./jetbrains-toolbox --install-clion")
+    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-phpstorm")
     os.system("sleep 30")
-    os.system("./jetbrains-toolbox --install-phpstorm")
+    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-webstorm")
     os.system("sleep 30")
-    os.system("./jetbrains-toolbox --install-webstorm")
-    os.system("sleep 30")
-    os.system("./jetbrains-toolbox --install-android-studio")
+    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-android-studio")
     os.system("sleep 30")
 
 
