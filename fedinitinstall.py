@@ -1,5 +1,6 @@
 #!/bin/python3
 import os
+import subprocess
 
 user = ""
 
@@ -140,24 +141,12 @@ def setup_workspace():
     if not os.path.exists("/home/" + user):
         print("User does not exist. Skipping workspace setup.")
     else:
-        os.system("mkdir /home/" + user + "/Desktop")
-        os.system("mkdir /home/" + user + "/Desktop/workspace")
-        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace")
-        os.system("chmod 755 /home/" + user + "/Desktop/workspace")
-        # create Scripts directory
-        os.system("mkdir /home/" + user + "/Desktop/workspace/Scripts")
-        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace/Scripts")
-        os.system("chmod 755 /home/" + user + "/Desktop/workspace/Scripts")
-        # move all *.sh and *.py files to Scripts directory
-        os.system("cp -air /home/" + user + "*.sh *.py /home/" + user + "/Desktop/workspace/Scripts")
-        # create logs directory
-        os.system("mkdir /home/" + user + "/Desktop/workspace/logs")
-        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace/logs")
-        os.system("chmod 755 /home/" + user + "/Desktop/workspace/logs")
-        # create external drives directory
-        os.system("mkdir /home/" + user + "/Desktop/workspace/ExternalDrives")
-        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace/ExternalDrives")
-        os.system("chmod 755 /home/" + user + "/Desktop/workspace/ExternalDrives")
+        os.system("mkdir /home/{}/Desktop".format(user))
+        os.system("mkdir /home/{}/Desktop/workspace".format(user))
+        os.system("mkdir /home/{}/Desktop/workspace/Scripts".format(user))
+        os.system("mkdir /home/{}/Desktop/workspace/logs".format(user))
+        # Copy Scripts to User Workspace/Scripts
+        os.system("cp -air *.sh *.py /home/{}/Desktop/workspace/Scripts".format(user))
 
 
 # Download files
@@ -167,8 +156,6 @@ def download_files():
               )
     os.system("wget -O nomachine_8.2.3_4_x86_64.rpm "
               "https://download.nomachine.com/download/8.2/Linux/nomachine_8.2.3_4_x86_64.rpm")
-    os.system("wget -O Sweet-Ambar-Blue.tar.gz "
-              "https://www.dropbox.com/s/ufs6iiajdv99s6x/Sweet-Ambar-Blue.tar.xz?dl=1")
 
 
 # Install ZSH Config
@@ -189,7 +176,6 @@ def start_sddm():
     os.system("systemctl enable sddm")
     os.system("systemctl start sddm")
     os.system("systemctl set-default graphical.target")
-    os.system("systemctl enable --now dbus")
 
 
 # Create USBEthernet NetworkManager Connection
@@ -223,27 +209,44 @@ def avahi_setup():
     os.system("firewall-cmd --permanent --add-service=mdns")
     os.system("firewall-cmd --reload")
     # Get hostname from hostnamectl
-    hostname = os.popen("hostnamectl | grep hostname | awk '{print $3}'").read()
-    # Set hostname in avahi-daemon.conf
-    os.system("sed -i 's/.*host-name=.*/host-name={}/g' /etc/avahi/avahi-daemon.conf".format(hostname))
-    os.system("systemctl enable avahi-daemon")
-    os.system("systemctl start avahi-daemon")
+    hostname = subprocess.run(["hostnamectl", "status"], capture_output=True, text=True).stdout.splitlines()[1].split()[1]
+    # Delete avahi_daemon.conf
+    os.system("rm /etc/avahi/avahi-daemon.conf -rf")
+    # Create avahi_daemon.conf
+    os.system("touch /etc/avahi/avahi-daemon.conf")
+    os.system('echo "[server]" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "host-name=' + hostname + '" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "use-ipv4=yes" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "use-ipv6=yes" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "allow-interfaces=" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "ratelimit-interval-usec=1000000" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "ratelimit-burst=1000" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo /n >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "[wide-area]" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "enable-wide-area=yes" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo /n >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "[publish]" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "publish-hinfo=no" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "publish-workstation=no" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo /n >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "[rlimits]" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "rlimit-core=0" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "rlimit-data=4194304" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "rlimit-fsize=0" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "rlimit-nofile=768" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "rlimit-stack=4194304" >> /etc/avahi/avahi-daemon.conf')
+    os.system('echo "rlimit-nproc=3" >> /etc/avahi/avahi-daemon.conf')
+    os.system('systemctl enable avahi-daemon')
+    os.system('systemctl start avahi-daemon')
 
 
 def kde_setup():
-    # Download Konsave knsv file
-    os.system(
-        "wget -O {}.knsv /home/{}/Desktop/workspace/{}.knsv https://www.dropbox.com/s/wqii3x5dz1q4btk/gwhitlock.knsv?dl=1".format(
-            user, user, user))
-    os.system("konsave -w")
-    os.system("konsave -i /home/{}/Desktop/workspace/Desktop/{}.knsv".format(user, user))
-    os.system("konsave -a gwhitlock")
     # Turn off Energy Saving> Screen Energy Saving
-    os.system("kwriteconfig --file kscreenlockerrc --group Daemon --key Autolock false")
+    os.system("sudo -u {} kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false".format(user))
     # Set Button Events Handling> When Power Button is Pressed to Shutdown
-    os.system("kwriteconfig --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'")
+    os.system("sudo -u {} kwriteconfig5 --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'".format(user))
     # Set Screen Locking> Lock Screen Automatically to Never
-    os.system("kwriteconfig --file powermanagementprofilesrc --group General --key LockScreen false")
+    os.system("sudo -u {} kwriteconfig5 --file powermanagementprofilesrc --group General --key LockScreen false".format(user))
 
 
 # Ask User how they want to set up Fedora

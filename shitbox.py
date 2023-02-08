@@ -25,8 +25,9 @@ def firewall():
 # Install Barrier, pull down barrier service, enable and start service
 def install_barrier():
     os.system("dnf -y install barrier")
-    os.system("wget -N https://www.dropbox.com/s/s27nhs25i2r97pr/barrier.service?dl=1 -O barrier.service")
+    os.system("wget https://www.dropbox.com/s/s27nhs25i2r97pr/barrier.service?dl=1 -O barrier.service")
     os.system("cp barrier.service /etc/systemd/system/")
+    os.system("chown root:root /etc/systemd/system/barrier.service")
     os.system("systemctl daemon-reload")
     os.system("systemctl enable barrier.service")
     os.system("systemctl start barrier.service")
@@ -41,10 +42,11 @@ def create_vm_setup():
 def setup_wan_failover():
     from fedinitinstall import user
     input("Would you like to setup WAN Failover? (Y/N)")
-    if input == 'Y':
-        os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/wan_failover.py".format(user))
-    elif input == 'N':
+    if input == 'Y' or input == 'y':
+        os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/wan_failover_setup.py".format(user))
+    elif input == 'N' or input == 'n':
         print("Not setting up WAN Failover.")
+        exit(1)
     else:
         print("Invalid input. Not setting up WAN Failover.")
         setup_wan_failover()
@@ -54,18 +56,19 @@ def setup_wan_failover():
 def setup_vpn():
     from fedinitinstall import user
     input("Would you like to setup a VPN? (Y/N)")
-    if input == 'Y':
+    if input == 'Y' or input == 'y':
         # Ask user if they want to setup an IPSec VPN or OpenVPN
         input("Would you like to setup an IPSec VPN or OpenVPN? (I/O)")
-        if input == 'I':
+        if input == 'I' or input == 'i':
             os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/ipsec_vpn.py".format(user))
-        elif input == 'O':
-            os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/openvpnser.py".format(user))
+        elif input == 'O' or input == 'o':
+            os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/openvpnclient.py".format(user))
         else:
             print("Invalid input. Not setting up VPN.")
             setup_vpn()
-    elif input == 'N':
+    elif input == 'N' or input == 'n':
         print("Not setting up VPN.")
+        exit(1)
     else:
         print("Invalid input. Not setting up VPN.")
         setup_vpn()
