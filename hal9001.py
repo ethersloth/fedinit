@@ -51,9 +51,9 @@ def main():
     get_ssh_key()
     upload_ssh_key()
     set_ssh_config()
-    # install_barrier()
-    # download_files()
-    # apply_theme()
+    install_barrier()
+    download_files()
+    apply_theme()
 
 
 if __name__ == '__main__':
