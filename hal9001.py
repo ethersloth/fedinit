@@ -11,6 +11,7 @@ def download_files():
 # Apply Konsave Theme
 def apply_theme():
     os.system("konsave -i gwhitlock.knsv")
+    os.system("konsave -a gwhitlock")
 
 
 # Install Barrier
@@ -20,6 +21,9 @@ def install_barrier():
 
 # Get The SSH Public Key
 def get_ssh_key():
+    # Create public key file
+    os.system("ssh-keygen -t ed25519 -C 'ramboy17@hotmail.com' -f /root/.ssh/id_rsa -N ''")
+    os.system("ssh-keygen -t ed25519 -C 'ramboy17@hotmail.com' -f /home/gwhitlock/.ssh/id_rsa -N ''")
     os.system("cat /root/.ssh/id_rsa.pub >> /home/gwhitlock/Desktop/workspace/ssh_keys.txt")
     # Append gwhitlock public key to ssh_keys.txt
     os.system("cat /home/gwhitlock/.ssh/id_rsa.pub >> /home/gwhitlock/Desktop/workspace/ssh_keys.txt")
@@ -42,3 +46,15 @@ def set_ssh_config():
     os.system("systemctl restart sshd")
 
 
+# Main Function
+def main():
+    get_ssh_key()
+    upload_ssh_key()
+    set_ssh_config()
+    # install_barrier()
+    # download_files()
+    # apply_theme()
+
+
+if __name__ == '__main__':
+    main()
