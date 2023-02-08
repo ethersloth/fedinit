@@ -11,6 +11,8 @@ import dropbox
 import psutil
 from fedinitinstall import user
 
+hostname = ""
+
 # system_config_json template
 # {
 #     "system_config": {
@@ -173,6 +175,7 @@ from fedinitinstall import user
 # Create Function to get the system information
 def get_system_info():
     # Get the hostname
+    global hostname
     hostname = socket.gethostname()
     # Get the IP address
     ip = socket.gethostbyname(hostname)
@@ -315,6 +318,8 @@ def zip_logs():
     os.system("zip -r /home/{}/Desktop/workspace/system_config.zip /home/{}/Desktop/workspace/logs".format(user, user))
     # add system_info.json to the zip file
     os.system("zip -ur /home/{}/Desktop/workspace/system_config.zip /home/{}/Desktop/workspace/system_info.json".format(user, user))
+    # append hostname to the zip file name
+    os.system("mv /home/{}/Desktop/workspace/system_config.zip /home/{}/Desktop/workspace/system_config_{}.zip".format(user, user, hostname))
 
 
 # Create Function to send the zip file to dropbox
@@ -325,8 +330,8 @@ def send_to_dropbox():
         oauth2_refresh_token='9Qbt7Z6yN-8AAAAAAAAAAY5r4cdPfoIOEN0wCU1IhiNt8ThM-tYgoAjpxuYDxscP'
     )
     # Upload the zip file to dropbox
-    with open("/home/{}/Desktop/workspace/system_config.zip".format(user), "rb") as f:
-        dbx.files_upload(f.read(), "/system_config.zip", mute=True)
+    with open("/home/{}/Desktop/workspace/system_config_{}.zip".format(user, hostname), "rb") as f:
+        dbx.files_upload(f.read(), "/system_config_{}.zip".format(hostname), mute=True)
 
 
 # Create main function
