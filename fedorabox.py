@@ -1,29 +1,78 @@
 #!/bin/python3
 
 import os
-import dropbox
+
+from fedinitinstall import user
+
+disk_name = ''
 
 
-# Download SSH Public Key From Dropbox
-def download_ssh_key():
-    dbx = dropbox.Dropbox(
-        app_key='9qx5m6wmf51e811',
-        app_secret='r4dcl1g70xg9a4i',
-        oauth2_refresh_token='9Qbt7Z6yN-8AAAAAAAAAAY5r4cdPfoIOEN0wCU1IhiNt8ThM-tYgoAjpxuYDxscP'
-    )
-    metadata, res = dbx.files_download(path='/ssh_keys.txt')
-    with open('/home/gwhitlock/Desktop/workspace/ssh_keys.txt', 'wb') as f:
-        f.write(res.content)
-
-
-# Apply HAL9001 Public Key to authorized_keys
+# Run Apply_hal9k1_ssh_key.py
 def apply_ssh_key():
-    os.system("cat /home/gwhitlock/Desktop/workspace/ssh_keys.txt >> /home/gwhitlock/.ssh/authorized_keys")
-    os.system("cat /home/gwhitlock/Desktop/workspace/ssh_keys.txt >> /root/.ssh/authorized_keys")
-    os.system("rm -rf /home/gwhitlock/Desktop/workspace/ssh_keys.txt")
+    os.system("python3 /home/{}/Dekstop/workspace/Scripts/apply_hal9k1_ssh_key.py".format(user))
 
 
-# Set SSH to only allow key based authentication
-def set_ssh_config():
-    os.system("sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config")
-    os.system("systemctl restart sshd")
+# Run Konsave.py
+def konsave():
+    os.system("python3 /home/{}/Dekstop/workspace/Scripts/konsave.py".format(user))
+
+
+# Run External_Drive.py
+def external_drive():
+    os.system("python3 /home/{}/Dekstop/workspace/Scripts/external_drive.py".format(user))
+
+
+# Run Firewall.py
+def firewall():
+    os.system("python3 /home/{}/Dekstop/workspace/Scripts/firewall_setup.py".format(user))
+
+
+# Ask user if they want to setup VPN (IPSec or OpenVPN)
+def setup_vpn():
+    input("Would you like to setup a VPN? (Y/N)")
+    if input == 'Y':
+        # Ask user if they want to setup an IPSec VPN or OpenVPN
+        input("Would you like to setup an IPSec VPN or OpenVPN? (I/O)")
+        if input == 'I':
+            os.system("python3 /home/{}/Dekstop/workspace/Scripts/ipsec_vpn.py".format(user))
+        elif input == 'O':
+            os.system("python3 /home/{}/Dekstop/workspace/Scripts/openvpnclient.py".format(user))
+        else:
+            print("Invalid input. Not setting up VPN.")
+            setup_vpn()
+    elif input == 'N':
+        print("Not setting up VPN.")
+    else:
+        print("Invalid input. Not setting up VPN.")
+        setup_vpn()
+
+
+# Ask user if they want to setup WAN Failover
+def setup_wan_failover():
+    from fedinitinstall import user
+    input("Would you like to setup WAN Failover? (Y/N)")
+    if input == 'Y':
+        os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/wan_failover.py".format(user))
+    elif input == 'N':
+        print("Not setting up WAN Failover.")
+    else:
+        print("Invalid input. Not setting up WAN Failover.")
+        setup_wan_failover()
+
+
+# Run Config Parser
+def run_config_parser():
+    # Run Config Parser
+    os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/config_parser.py".format(user))
+
+
+# Create the main function
+def main():
+    # Run the functions
+    apply_ssh_key()
+    konsave()
+    external_drive()
+    firewall()
+    setup_vpn()
+    setup_wan_failover()
+    run_config_parser()

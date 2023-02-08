@@ -29,30 +29,50 @@ def install_packages():
     os.system("dnf -y install NetworkManager-config-connectivity-fedora bluedevil breeze-gtk breeze-icon-theme bzip2 ")
     os.system("dnf -y install cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks ")
     os.system("dnf -y install gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager ")
-    os.system("dnf -y install kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd ")
-    os.system("dnf -y install kernel-devel kf5-akonadi-server kf5-akonadi-server-mysql kf5-baloo-file kf5-kipi-plugins khotkeys ")
-    os.system("dnf -y install kmenuedit konsole5 kscreen kscreenlocker ksshaskpass ksysguard kwalletmanager5 kwebkitpart kwin make ")
-    os.system("dnf -y install pam-kwallet phonon-qt5-backend-gstreamer pinentry-qt plasma-breeze plasma-desktop plasma-desktop-doc ")
-    os.system("dnf -y install plasma-drkonqi plasma-nm plasma-nm-l2tp plasma-nm-openconnect plasma-nm-openswan plasma-nm-openvpn ")
+    os.system(
+        "dnf -y install kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd ")
+    os.system(
+        "dnf -y install kernel-devel kf5-akonadi-server kf5-akonadi-server-mysql kf5-baloo-file kf5-kipi-plugins khotkeys ")
+    os.system(
+        "dnf -y install kmenuedit konsole5 kscreen kscreenlocker ksshaskpass ksysguard kwalletmanager5 kwebkitpart kwin make ")
+    os.system(
+        "dnf -y install pam-kwallet phonon-qt5-backend-gstreamer pinentry-qt plasma-breeze plasma-desktop plasma-desktop-doc ")
+    os.system(
+        "dnf -y install plasma-drkonqi plasma-nm plasma-nm-l2tp plasma-nm-openconnect plasma-nm-openswan plasma-nm-openvpn ")
     os.system("dnf -y install plasma-nm-pptp plasma-nm-vpnc plasma-pa plasma-user-manager plasma-workspace ")
-    os.system("dnf -y install plasma-workspace-geolocation polkit-kde qt5-qtbase-gui qt5-qtdeclarative sddm sddm-breeze sddm-kcm ")
-    os.system("dnf -y install sni-qt xorg-x11-drv-libinput setroubleshoot kfind plasma-discover kfind firewall-config kgpg kate ark ")
-    os.system("dnf -y install kget kcalc gwenview spectacle fedora-workstation-repositories dhcp-server usbutils util-linux-user ")
-    os.system("dnf -y install pciutils htop wget zsh vim-enhanced jre NetworkManager NetworkManager-adsl NetworkManager-bluetooth ")
-    os.system("dnf -y install NetworkManager-cloud-setup NetworkManager-config-connectivity-fedora NetworkManager-config-server ")
-    os.system("dnf -y install NetworkManager-dispatcher-routing-rules NetworkManager-fortisslvpn NetworkManager-initscripts-ifcfg-rh ")
-    os.system("dnf -y install NetworkManager-initscripts-updown NetworkManager-iodine NetworkManager-l2tp NetworkManager-libnm ")
-    os.system("dnf -y install NetworkManager-libnm-devel NetworkManager-libreswan NetworkManager-openconnect NetworkManager-openvpn ")
-    os.system("dnf -y install NetworkManager-ovs NetworkManager-ppp NetworkManager-pptp NetworkManager-ssh NetworkManager-sstp ")
+    os.system(
+        "dnf -y install plasma-workspace-geolocation polkit-kde qt5-qtbase-gui qt5-qtdeclarative sddm sddm-breeze sddm-kcm ")
+    os.system(
+        "dnf -y install sni-qt xorg-x11-drv-libinput setroubleshoot kfind plasma-discover kfind firewall-config kgpg kate ark ")
+    os.system(
+        "dnf -y install kget kcalc gwenview spectacle fedora-workstation-repositories dhcp-server usbutils util-linux-user ")
+    os.system(
+        "dnf -y install pciutils htop wget zsh vim-enhanced jre NetworkManager NetworkManager-adsl NetworkManager-bluetooth ")
+    os.system(
+        "dnf -y install NetworkManager-cloud-setup NetworkManager-config-connectivity-fedora NetworkManager-config-server ")
+    os.system(
+        "dnf -y install NetworkManager-dispatcher-routing-rules NetworkManager-fortisslvpn NetworkManager-initscripts-ifcfg-rh ")
+    os.system(
+        "dnf -y install NetworkManager-initscripts-updown NetworkManager-iodine NetworkManager-l2tp NetworkManager-libnm ")
+    os.system(
+        "dnf -y install NetworkManager-libnm-devel NetworkManager-libreswan NetworkManager-openconnect NetworkManager-openvpn ")
+    os.system(
+        "dnf -y install NetworkManager-ovs NetworkManager-ppp NetworkManager-pptp NetworkManager-ssh NetworkManager-sstp ")
     os.system("dnf -y install NetworkManager-strongswan NetworkManager-team NetworkManager-tui NetworkManager-vpnc ")
     os.system("dnf -y install NetworkManager-wifi NetworkManager-wwan cockpit-networkmanager kf5-networkmanager-qt ")
     os.system("dnf -y install kf5-networkmanager-qt-devel libproxy-networkmanager ModemManager tar xz unzip zip ")
-    os.system("dnf -y install modem-manager-gui-cm-NetworkManager netplan-default-backend-NetworkManager python-networkmanager-doc ")
-    os.system("dnf -y install python3-networkmanager libnma libnma-devel libnma-gtk4 libnma-gtk4-devel network-manager-applet ")
+    os.system(
+        "dnf -y install modem-manager-gui-cm-NetworkManager netplan-default-backend-NetworkManager python-networkmanager-doc ")
+    os.system(
+        "dnf -y install python3-networkmanager libnma libnma-devel libnma-gtk4 libnma-gtk4-devel network-manager-applet ")
     os.system("dnf -y install nm-connection-editor shorewall-init.noarch strongswan-charon-nm nmap tcpdump xfsprogs ")
-    os.system("dnf -y install wpa_supplicant vim-enhanced speedtest-cli remmina openvpn easy-rsa lrzsz python3-netifaces neofetch  ")
-    os.system("dnf -y install python3-requests python3-libvirt libvirt bridge-utils qemu-kvm virt-install virt-manager virt-viewer python3-dropbox ")
-    os.system("dnf -y install strongswan avahi nextcloud-client python3-pip python3-pyOpenSSL python3-beautifulsoup4 python3-psutil  ")
+    os.system(
+        "dnf -y install wpa_supplicant vim-enhanced speedtest-cli remmina openvpn easy-rsa lrzsz python3-netifaces neofetch  ")
+    os.system(
+        "dnf -y install python3-requests python3-libvirt libvirt bridge-utils qemu-kvm virt-install virt-manager virt-viewer python3-dropbox ")
+    os.system(
+        "dnf -y install strongswan avahi nextcloud-client python3-pip python3-pyOpenSSL python3-beautifulsoup4 python3-psutil  ")
+    os.system("dnf -y install kf5-kconfig kf5-kconfig-core kf5-kconfig-devel kf5-kconfig-gui kf5-kconfig-doc")
 
 
 # Install PyPi Packages
@@ -74,11 +94,23 @@ def install_chrome():
 
 # Install Pycharm Professional
 def install_pycharm():
-    os.system("dnf -y copr enable haemka/pycharm-professional")
-    os.system("dnf -y install pycharm-professional")
-    os.system("wget https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-1.27.2.13801.tar.gz -O /tmp/jetbrains-toolbox.tar.gz")
+    os.system(
+        "wget https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-1.27.2.13801.tar.gz -O /tmp/jetbrains-toolbox.tar.gz")
     os.system("tar -xzf /tmp/jetbrains-toolbox.tar.gz -C /opt/")
     os.system("chmod 777 -R /opt/*")
+    # Run Pycharm Professional Installer from Jetbrains Toolbox
+    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox")
+    os.system("sleep 30")
+    os.system("./jetbrains-toolbox --install-pycharm-professional")
+    os.system("sleep 30")
+    os.system("./jetbrains-toolbox --install-clion")
+    os.system("sleep 30")
+    os.system("./jetbrains-toolbox --install-phpstorm")
+    os.system("sleep 30")
+    os.system("./jetbrains-toolbox --install-webstorm")
+    os.system("sleep 30")
+    os.system("./jetbrains-toolbox --install-android-studio")
+    os.system("sleep 30")
 
 
 # Install Visual Studio Code
@@ -115,6 +147,20 @@ def setup_workspace():
         os.system("mkdir /home/" + user + "/Desktop/workspace")
         os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace")
         os.system("chmod 755 /home/" + user + "/Desktop/workspace")
+        # create Scripts directory
+        os.system("mkdir /home/" + user + "/Desktop/workspace/Scripts")
+        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace/Scripts")
+        os.system("chmod 755 /home/" + user + "/Desktop/workspace/Scripts")
+        # move all *.sh and *.py files to Scripts directory
+        os.system("cp -air /home/" + user + "*.sh *.py /home/" + user + "/Desktop/workspace/Scripts")
+        # create logs directory
+        os.system("mkdir /home/" + user + "/Desktop/workspace/logs")
+        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace/logs")
+        os.system("chmod 755 /home/" + user + "/Desktop/workspace/logs")
+        # create external drives directory
+        os.system("mkdir /home/" + user + "/Desktop/workspace/ExternalDrives")
+        os.system("chown " + user + ":" + user + " /home/" + user + "/Desktop/workspace/ExternalDrives")
+        os.system("chmod 755 /home/" + user + "/Desktop/workspace/ExternalDrives")
 
 
 # Download files
@@ -189,21 +235,18 @@ def avahi_setup():
 
 def kde_setup():
     # Download Konsave knsv file
-    os.system("wget -O gwhitlock.knsv /home/" + user + "/Desktop/workspace" + "https://www.dropbox.com/s/wqii3x5dz1q4btk/gwhitlock.knsv?dl=1")
-    os.system("konsave -i /home/{}/Desktop/workspace/Desktop/gwhitlock.knsv".format(user))
+    os.system(
+        "wget -O {}.knsv /home/{}/Desktop/workspace/{}.knsv https://www.dropbox.com/s/wqii3x5dz1q4btk/gwhitlock.knsv?dl=1".format(
+            user, user, user))
+    os.system("konsave -w")
+    os.system("konsave -i /home/{}/Desktop/workspace/Desktop/{}.knsv".format(user, user))
     os.system("konsave -a gwhitlock")
     # Turn off Energy Saving> Screen Energy Saving
-    os.system("kwriteconfig5 --file /home/" + user + "/.config/kscreenlockerrc --group Greeter --key IdleTime 0")
-    # Turn off Energy Saving> Screen Energy Saving in zshrc
-    os.system("echo 'export KDE_FULL_SESSION=true' >> /home/" + user + "/.zshrc")
+    os.system("kwriteconfig --file kscreenlockerrc --group Daemon --key Autolock false")
     # Set Button Events Handling> When Power Button is Pressed to Shutdown
-    os.system("kwriteconfig --file kpowersaveui5rc --group General --key PowerButtonAction 1")
-    # Set Button Events Handling> When Power Button is Pressed to Shutdown in zshrc
-    os.system("echo 'export KDE_FULL_SESSION=true' >> /home/" + user + "/.zshrc")
+    os.system("kwriteconfig --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'")
     # Set Screen Locking> Lock Screen Automatically to Never
-    os.system("kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false")
-    # Set Screen Locking> Lock Screen Automatically to Never in zshrc
-    os.system("echo 'export KDE_FULL_SESSION=true' >> /home/" + user + "/.zshrc")
+    os.system("kwriteconfig --file powermanagementprofilesrc --group General --key LockScreen false")
 
 
 # Ask User how they want to set up Fedora

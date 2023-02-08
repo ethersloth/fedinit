@@ -1,17 +1,12 @@
 #!/bin/python3
 import os
-import dropbox
+
+from fedinitinstall import user
 
 
-# Download files
-def download_files():
-    os.system("wget -N https://www.dropbox.com/s/wqii3x5dz1q4btk/gwhitlock.knsv?dl=1 -O gwhitlock.knsv")
-
-
-# Apply Konsave Theme
+# Run konsave.py
 def apply_theme():
-    os.system("konsave -i gwhitlock.knsv")
-    os.system("konsave -a gwhitlock")
+    os.system("python3 /home/{}/Dekstop/workspace/Scripts/konsave.py".format(user))
 
 
 # Install Barrier
@@ -19,41 +14,54 @@ def install_barrier():
     os.system("dnf -y install barrier")
 
 
-# Get The SSH Public Key
+# appy_hal9k1_ssh_key.py
 def get_ssh_key():
-    # Create public key file
-    os.system("ssh-keygen -t ed25519 -C 'ramboy17@hotmail.com' -f /root/.ssh/id_rsa -N ''")
-    os.system("ssh-keygen -t ed25519 -C 'ramboy17@hotmail.com' -f /home/gwhitlock/.ssh/id_rsa -N ''")
-    os.system("cat /root/.ssh/id_rsa.pub >> /home/gwhitlock/Desktop/workspace/ssh_keys.txt")
-    # Append gwhitlock public key to ssh_keys.txt
-    os.system("cat /home/gwhitlock/.ssh/id_rsa.pub >> /home/gwhitlock/Desktop/workspace/ssh_keys.txt")
+    os.system("/bin/python3 /home/{}/Dekstop/workspace/Scripts/appy_hal9k1_ssh_key.py".format(user))
 
 
-# Upload SSH Public Key To Dropbox
-def upload_ssh_key():
-    dbx = dropbox.Dropbox(
-        app_key='9qx5m6wmf51e811',
-        app_secret='r4dcl1g70xg9a4i',
-        oauth2_refresh_token='9Qbt7Z6yN-8AAAAAAAAAAY5r4cdPfoIOEN0wCU1IhiNt8ThM-tYgoAjpxuYDxscP'
-    )
-    with open('/home/gwhitlock/Desktop/workspace/ssh_keys.txt', 'rb') as f:
-        dbx.files_upload(f.read(), '/ssh_keys.txt', mode=dropbox.files.WriteMode.overwrite)
+# External Drive
+def mount_external_drive():
+    os.system("/bin/python3 /home/{}/Dekstop/workspace/Scripts/external_drive.py".format(user))
 
 
-# Set SSH to only allow key based authentication
-def set_ssh_config():
-    os.system("sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config")
-    os.system("systemctl restart sshd")
+# Setup Firewall
+def setup_firewall():
+    os.system("/bin/python3 /home/{}/Dekstop/workspace/Scripts/firewall_setup.py".format(user))
+
+
+def setup_vpn():
+    input("Would you like to setup a VPN? (Y/N)")
+    if input == 'Y':
+        # Ask user if they want to setup an IPSec VPN or OpenVPN
+        input("Would you like to setup an IPSec VPN or OpenVPN? (I/O)")
+        if input == 'I':
+            os.system("python3 /home/{}/Dekstop/workspace/Scripts/ipsec_vpn.py".format(user))
+        elif input == 'O':
+            os.system("python3 /home/{}/Dekstop/workspace/Scripts/openvpnclient.py".format(user))
+        else:
+            print("Invalid input. Not setting up VPN.")
+            setup_vpn()
+    elif input == 'N':
+        print("Not setting up VPN.")
+    else:
+        print("Invalid input. Not setting up VPN.")
+        setup_vpn()
+
+
+# Wan Failover
+def setup_wan_failover():
+    os.system("python3 /home/{}/Dekstop/workspace/Scripts/wan_failover.py".format(user))
 
 
 # Main Function
 def main():
-    get_ssh_key()
-    upload_ssh_key()
-    set_ssh_config()
-    install_barrier()
-    download_files()
     apply_theme()
+    install_barrier()
+    get_ssh_key()
+    mount_external_drive()
+    setup_firewall()
+    setup_vpn()
+    setup_wan_failover()
 
 
 if __name__ == '__main__':

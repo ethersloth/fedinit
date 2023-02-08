@@ -1,7 +1,7 @@
 #!/bin/python3
 
 # This script is to be run from a systemd timer to check the status of the WAN connection
-# Using the failover_priority list from the network.py file, the script will setup all interfaces as wan in order of priority
+# Using the failover_priority list, the script will setup all interfaces as wan in order of priority
 # If the interface is not connected, the script will move on to the next interface in the list, while keeping the previous interface up to continue the ping test
 # If the interface is connected, the script will set the interface as the default route and continue the ping test on the old interface
 # If the ping test starts to succeed for the old interface, the script will set the old interface as the default route and set the new interface as backup
@@ -16,7 +16,7 @@
 import subprocess
 import os
 import time
-from network import failover_priority
+from wan_failover_setup import failover_priority
 
 failed_interfaces = []
 wan_interface = []
