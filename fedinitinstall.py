@@ -78,7 +78,6 @@ def install_packages():
 # Install PyPi Packages
 def install_pip_packages():
     os.system("pip3 install --upgrade pip")
-    os.system("pip3 install --upgrade setuptools")
     os.system("pip3 install --upgrade wheel")
     os.system("python -m pip install konsave")
     os.system("python -m pip install bs4")
