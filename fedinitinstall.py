@@ -144,6 +144,7 @@ def new_user():
 # Setup User Workspace Directory
 def setup_workspace():
     global user
+    hostname = subprocess.run(["hostname"], capture_output=True, text=True).stdout
     user = input("Enter the username you would like to use: ")
     if not os.path.exists("/home/" + user):
         print("User does not exist. Skipping workspace setup.")
@@ -151,7 +152,9 @@ def setup_workspace():
         os.system("mkdir /home/{}/Desktop".format(user))
         os.system("mkdir /home/{}/Desktop/workspace".format(user))
         os.system("mkdir /home/{}/Desktop/workspace/Scripts".format(user))
-        os.system("mkdir /home/{}/Desktop/workspace/logs".format(user))
+        os.system("mkdir /home/{}/Desktop/workspace/{}config".format(user, hostname))
+        os.system("mkdir /home/{}/Desktop/workspace/{}config/logs".format(user, hostname))
+        os.system("mkdir /home/{}/Desktop/workspace/{}config/installscripts".format(user, hostname))
         # Copy Scripts to User Workspace/Scripts
         os.system("cp -air *.sh *.py /home/{}/Desktop/workspace/Scripts".format(user))
 
@@ -317,6 +320,7 @@ def main():
     run_function("install_groups")
     run_function("install_packages")
     run_function("install_pip_packages")
+    run_function("configure_applications")
     run_function("install_chrome")
     run_function("install_pycharm")
     run_function("install_vscode")

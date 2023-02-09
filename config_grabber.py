@@ -844,16 +844,7 @@ def get_system_info():
 # Zip up the logs folder and system_info.json file and put in /workspace folder
 def zip_logs():
     hostname = get_hostname()
-    os.system("zip -r /home/{}/Desktop/workspace/system_config.zip /home/{}/Desktop/workspace/logs".format(user, user))
-    # add system_info.json to the zip file
-    os.system(
-        "zip -ur /home/{}/Desktop/workspace/system_config.zip /home/{}/Desktop/workspace/system_info.json".format(user,
-                                                                                                                  user))
-    # append hostname to the zip file name
-    os.system(
-        "mv /home/{}/Desktop/workspace/system_config.zip /home/{}/Desktop/workspace/system_config_{}.zip".format(user,
-                                                                                                                 user,
-                                                                                                                 hostname))
+    os.system("zip -r /home/{}/Desktop/workspace/{}system_config.zip /home/{}/Desktop/workspace{}config/*.*".format(user, hostname, user, hostname))
 
 
 # Create Function to send the zip file to dropbox
@@ -871,14 +862,29 @@ def send_to_dropbox():
 
 # Create main function
 def create_logs_folder():
+    hostname = get_hostname()
     # Create the logs folder
-    os.system("mkdir /home/{}/Desktop/workspace/logs".format(user))
+    os.system("mkdir /home/{}/Desktop/workspace/{}config/logs".format(user, hostname))
+
+
+def create_scripts_folder():
+    hostname = get_hostname()
+    # Create the scripts folder
+    os.system("mkdir /home/{}/Desktop/workspace/{}config/scripts".format(user, hostname))
 
 
 def create_system_info_file():
+    hostname = get_hostname()
     # Create the system_info.json file
     with open("/home/{}/Desktop/workspace/system_info.json".format(user), "w") as f:
         json.dump(get_system_info(), f, indent=4)
+
+    # Move the system_info.json file to the {}config folder
+    os.system("mv /home/{}/Desktop/workspace/system_info.json /home/{}/Desktop/workspace/{}config/system_info.json".format(user, user, hostname))
+    # If system_info.json does not exist in /home/{}/ copy system_info.json to /home/{}/system_info.json
+    # This will be the initial system_info.json file that config_parse_apply.py will use to compare against
+    if not os.path.exists("/home/{}/system_info.json".format(user)):
+        os.system("cp /home/{}/Desktop/workspace/{}config/system_info.json /home/{}/system_info.json".format(user, hostname, user))
 
 
 def main():

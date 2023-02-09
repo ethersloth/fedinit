@@ -1,146 +1,175 @@
 #!/bin/python3
+import dropbox
+import json
+
 
 # This script is for parsing the system_config zip file and applying any changes to the system
+from config_grabber import *
 
-import os
-import zipfile
-import shutil
+# This function is for applying the changes to the system
 
 
-# View the contents of the zip file
-def view_zip_contents():
-    with zipfile.ZipFile("system_config.zip", 'r') as zip_ref:
-        zip_ref.printdir()
+# Get zip file from Dropbox
+def get_zip():
+    # Get zip file from Dropbox
+    hostname = get_hostname()
+    dbx = dropbox.Dropbox(
+        app_key='9qx5m6wmf51e811',
+        app_secret='r4dcl1g70xg9a4i',
+        oauth2_refresh_token='9Qbt7Z6yN-8AAAAAAAAAAY5r4cdPfoIOEN0wCU1IhiNt8ThM-tYgoAjpxuYDxscP'
+    )
+    # Upload the zip file to dropbox
+    with open("/home/{}/Desktop/workspace/system_config_{}.zip".format(user, hostname), "rb") as f:
+        dbx.files_download("/system_config_{}.zip".format(hostname))
+        print("Downloaded zip file from Dropbox")
 
-        # If fstab.txt exists, compare the contents of the file to the current fstab file
-        # If the contents are different, overwrite the current fstab file with the contents of the zip file
-        # If the contents are the same, do nothing
-        if os.path.exists("system_config/fstab/fstab.txt"):
-            with open("system_config/fstab/fstab.txt", "r") as zip_fstab:
-                with open("/etc/fstab", "r") as current_fstab:
-                    if zip_fstab.read() != current_fstab.read():
-                        shutil.copyfile("system_config/fstab/fstab.txt", "/etc/fstab")
-                        print("fstab.txt has been updated")
-                    else:
-                        print("fstab.txt is up to date")
-        else:
-            print("fstab.txt does not exist")
 
-        # If there are any file in the system_config/network_interfaces directory, compare the contents of the files to the current network interfaces files
-        # If the contents are different, overwrite the current network interfaces files with the contents of the zip files
-        # If the contents are the same, do nothing
-        if os.path.exists("system_config/network_interfaces"):
-            for file in os.listdir("system_config/network_interfaces"):
-                with open("system_config/network_interfaces/" + file, "r") as zip_network_interfaces:
-                    with open("/etc/network/interfaces.d/" + file, "r") as current_network_interfaces:
-                        if zip_network_interfaces.read() != current_network_interfaces.read():
-                            shutil.copyfile("system_config/network_interfaces/" + file,
-                                            "/etc/network/interfaces.d/" + file)
-                            print(file + " has been updated")
-                        else:
-                            print(file + " is up to date")
+# Unzip the file
+def unzip():
+    # Unzip the file
+    hostname = get_hostname()
+    os.system("unzip /home/{}/Desktop/workspace/system_config_{}.zip".format(user, hostname))
+    print("Unzipped file")
 
-        # If there are any file in the system_config/openvpn directory, compare the contents of the files to the current openvpn files
-        # If the contents are different, overwrite the current openvpn files with the contents of the zip files
-        # If the contents are the same, do nothing
-        if os.path.exists("system_config/openvpn"):
-            for file in os.listdir("system_config/openvpn"):
-                with open("system_config/openvpn/" + file, "r") as zip_openvpn:
-                    with open("/etc/openvpn/" + file, "r") as current_openvpn:
-                        if zip_openvpn.read() != current_openvpn.read():
-                            shutil.copyfile("system_config/openvpn/" + file, "/etc/openvpn/" + file)
-                            print(file + " has been updated")
-                        else:
-                            print(file + " is up to date")
 
-        # If there are any files in the system_config/ipsec directory, compare the contents of the files to the current ipsec files
-        # If the contents are different, overwrite the current ipsec files with the contents of the zip files
-        # If the contents are the same, do nothing
-        if os.path.exists("system_config/ipsec"):
-            for file in os.listdir("system_config/ipsec"):
-                with open("system_config/ipsec/" + file, "r") as zip_ipsec:
-                    with open("/etc/ipsec.d/" + file, "r") as current_ipsec:
-                        if zip_ipsec.read() != current_ipsec.read():
-                            shutil.copyfile("system_config/ipsec/" + file, "/etc/ipsec.d/" + file)
-                            print(file + " has been updated")
-                        else:
-                            print(file + " is up to date")
+# Apply the changes
+def apply_changes():
+    # Look in system_config{} folder for system_info.json
+    hostname = get_hostname()
+    with open("/home/{}/Desktop/workspace/system_config_{}/system_info.json".format(user, hostname), "r") as f:
+        system_info = json.load(f)
+        print("Loaded system_info.json")
+    # Compare /home/{}/system_info.json to /home/{}/Desktop/workspace/system_config_{}/system_info.json
+    with open("/home/{}/system_info.json".format(user), "r") as current_f:
+        system_info = json.load(f)
+        print("Loaded current system_info.json")
 
-        # If there are any files in the system_config/wireguard directory, compare the contents of the files to the current wireguard files
-        # If the contents are different, overwrite the current wireguard files with the contents of the zip files
-        # If the contents are the same, do nothing
-        if os.path.exists("system_config/wireguard"):
-            for file in os.listdir("system_config/wireguard"):
-                with open("system_config/wireguard/" + file, "r") as zip_wireguard:
-                    with open("/etc/wireguard/" + file, "r") as current_wireguard:
-                        if zip_wireguard.read() != current_wireguard.read():
-                            shutil.copyfile("system_config/wireguard/" + file, "/etc/wireguard/" + file)
-                            print(file + " has been updated")
-                        else:
-                            print(file + " is up to date")
+    with open("/home/{}/Desktop/workspace/system_config_{}/system_info.json".format(user, hostname), "r") as new_f:
+        new_system_info = json.load(f)
+        print("Loaded new system_info.json")
+    if system_info == new_system_info:
+        print("No changes to apply")
+    else:
+        make_system_changes()
 
-        # If there are any files in the system_config/dhcpd directory, compare the contents of the files to the current dhcpd files
-        # If the contents are different, overwrite the current dhcpd files with the contents of the zip files
-        # If the contents are the same, do nothing
-        if os.path.exists("system_config/dhcpd"):
-            for file in os.listdir("system_config/dhcpd"):
-                with open("system_config/dhcpd/" + file, "r") as zip_dhcpd:
-                    with open("/etc/dhcpd/" + file, "r") as current_dhcpd:
-                        if zip_dhcpd.read() != current_dhcpd.read():
-                            shutil.copyfile("system_config/dhcpd/" + file, "/etc/dhcpd/" + file)
-                            print(file + " has been updated")
-                        else:
-                            print(file + " is up to date")
 
-        # If there are any files in the system_config/firewalld directory, compare the contents of the files to the current firewalld files
-        # If the contents are different, overwrite the current firewalld files with the contents of the zip files
-        # If the contents are the same, do nothing
-        if os.path.exists("system_config/firewalld"):
-            for file in os.listdir("system_config/firewalld"):
-                with open("system_config/firewalld/" + file, "r") as zip_firewalld:
-                    with open("/etc/firewalld/" + file, "r") as current_firewalld:
-                        if zip_firewalld.read() != current_firewalld.read():
-                            shutil.copyfile("system_config/firewalld/" + file, "/etc/firewalld/" + file)
-                            print(file + " has been updated")
-                        else:
-                            print(file + " is up to date")
+# Make the changes to the system
+def change_hostname():
+    hostname = get_hostname()
+    os.system("hostnamectl set-hostname {}".format(hostname))
 
-        # If the system_config directory does not exist, create it
-        else:
-            os.mkdir("system_config")
-            print("system_config directory created")
 
-    # If the system_config/dhcpd directory does not exist, create it
-    if not os.path.exists("system_config/dhcpd"):
-        os.mkdir("system_config/dhcpd")
-        print("system_config/dhcpd directory created")
+def change_interfaces_info():
+    pass
 
-    # If the system_config/firewalld directory does not exist, create it
-    if not os.path.exists("system_config/firewalld"):
-        os.mkdir("system_config/firewalld")
-        print("system_config/firewalld directory created")
 
-    # If the system_config/ipsec directory does not exist, create it
-    if not os.path.exists("system_config/ipsec"):
-        os.mkdir("system_config/ipsec")
-        print("system_config/ipsec directory created")
+def change_routes_info():
+    pass
 
-    # If the system_config/network_interfaces directory does not exist, create it
-    if not os.path.exists("system_config/network_interfaces"):
-        os.mkdir("system_config/network_interfaces")
-        print("system_config/network_interfaces directory created")
 
-    # If the system_config/openvpn directory does not exist, create it
-    if not os.path.exists("system_config/openvpn"):
-        os.mkdir("system_config/openvpn")
-        print("system_config/openvpn directory created")
+def change_dhcpd_info():
+    pass
 
-    # If the system_config/wireguard directory does not exist, create it
-    if not os.path.exists("system_config/wireguard"):
-        os.mkdir("system_config/wireguard")
-        print("system_config/wireguard directory created")
 
-    # If the system_config/wireguard directory does not exist, create it
-    if not os.path.exists("system_config/wireguard"):
-        os.mkdir("system_config/wireguard")
-        print("system_config/wireguard directory created")
+def change_arp_info():
+    pass
+
+
+def change_system_users_info():
+    pass
+
+
+def change_system_services_info():
+    pass
+
+
+def change_system_packages_info():
+    pass
+
+
+def change_system_firewall_info():
+    pass
+
+
+def change_system_fstab_info():
+    pass
+
+
+def change_system_disks_info():
+    pass
+
+
+def change_system_theme_info():
+    hostname = get_hostname()
+    #   "theme_application_style": "application_style",
+    #   "theme_plasma_style": "plasma_style",
+    #   "theme_color_scheme": "color_scheme",
+    #   "theme_window_decoration": "window_decoration",
+    #   "theme_font": "font",
+    #   "theme_icons": "icons",
+    #   "theme_cursor": "cursor",
+    #   "theme_wallpaper": "wallpaper"
+    #   "theme_splash_screen": "splash_screen"
+    #   "theme_login_screen": "login_screen"
+    #   "theme_lock_screen": "lock_screen"
+    #   "theme_global_theme": "global_theme"
+    with open("/home/{}/Desktop/workspace/system_config_{}/system_info.json".format(user, hostname), "r") as f:
+        system_info = json.load(f)
+        print("Loaded system_info.json")
+        if f
+    application_style = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_application_style"]))
+    plasma_style = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_plasma_style"]))
+    color_scheme = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_color_scheme"]))
+    window_decoration = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_window_decoration"]))
+    font = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_font"]))
+    icons = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_icons"]))
+    cursor = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_cursor"]))
+    wallpaper = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_wallpaper"]))
+    splash_screen = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_splash_screen"]))
+    login_screen = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_login_screen"]))
+    lock_screen = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_lock_screen"]))
+    global_theme = os.system("kwriteconfig5 --file kdeglobals --group General --key widgetStyle {}".format(
+        system_info["theme_global_theme"]))
+
+
+
+
+def change_system_ipsec_vpn_info():
+    pass
+
+
+def change_system_openvpn_client_info():
+    pass
+
+
+def change_system_openvpn_server_info():
+    pass
+
+
+def make_system_changes():
+    hostname = change_hostname()
+    ifcs = change_interfaces_info()
+    routes = change_routes_info()
+    arp = change_arp_info()
+    dhcpd = change_dhcpd_info()
+    system_users = change_system_users_info()
+    system_services = change_system_services_info()
+    system_packages = change_system_packages_info()
+    system_firewall = change_system_firewall_info()
+    system_fstab = change_system_fstab_info()
+    system_disks = change_system_disks_info()
+    system_theme = change_system_theme_info()
+    system_ipsec_vpn = change_system_ipsec_vpn_info()
+    system_openvpn_client = change_system_openvpn_client_info()
+    system_openvpn_server = change_system_openvpn_server_info()
