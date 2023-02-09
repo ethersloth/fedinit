@@ -3,6 +3,7 @@
 # Import modules
 import os
 import dropbox
+from fedinitinstall import user
 
 
 def download_ssh_key():
@@ -18,9 +19,19 @@ def download_ssh_key():
 
 # Apply HAL9001 Public Key to authorized_keys
 def apply_ssh_key():
+    # Create .ssh directory if it doesn't exist
+    os.system("mkdir -p /home/{}/.ssh".format(user))
+    os.system("mkdir -p /root/.ssh")
+    # Create authorized_keys file if it doesn't exist
+    os.system("touch /home/{}/.ssh/authorized_keys".format(user))
+    os.system("touch /root/.ssh/authorized_keys")
+    # Append HAL9001 Public Key to authorized_keys
     os.system("cat /home/gwhitlock/Desktop/workspace/ssh_keys.txt >> /home/gwhitlock/.ssh/authorized_keys")
     os.system("cat /home/gwhitlock/Desktop/workspace/ssh_keys.txt >> /root/.ssh/authorized_keys")
     os.system("rm -rf /home/gwhitlock/Desktop/workspace/ssh_keys.txt")
+    # Set permissions on authorized_keys
+    os.system("chmod 600 /home/{}/.ssh/authorized_keys".format(user))
+    os.system("chmod 600 /root/.ssh/authorized_keys")
 
 
 # Set SSH to only allow key based authentication

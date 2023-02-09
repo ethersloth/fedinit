@@ -19,7 +19,7 @@ def external_drive():
 
 # Run Firewall.py
 def firewall():
-    os.system("python3 /home/{}/Desktop/workspace/Scripts/firewall.py".format(user))
+    os.system("python3 /home/{}/Desktop/workspace/Scripts/firewall_setup.py".format(user))
 
 
 # Install Barrier, pull down barrier service, enable and start service
