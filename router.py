@@ -1,6 +1,5 @@
 #!/bin/python3
 import os
-import subprocess
 
 # variables
 disk_name = ''
@@ -9,10 +8,7 @@ user = ''
 # Pull user variable from user.txt
 def get_user():
     global user
-    hostname = subprocess.run(["hostname"], capture_output=True, text=True).stdout
-    with open("/home/{}/Desktop/workspace/{}config/user.txt".format(user, hostname)) as f:
-        user = f.read()
-        print("User: {}".format(user))
+    user = os.environ['user']
 
 
 # Apply HAL9001 Public Key to authorized_keys

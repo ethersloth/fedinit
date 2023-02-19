@@ -146,6 +146,7 @@ def setup_workspace():
     global user
     hostname = subprocess.run(["hostname"], capture_output=True, text=True).stdout
     user = input("Enter the username you would like to use: ")
+    os.environ["user"] = user
     if not os.path.exists("/home/" + user):
         print("User does not exist. Skipping workspace setup.")
     else:
@@ -157,8 +158,6 @@ def setup_workspace():
         os.system("mkdir /home/{}/Desktop/workspace/{}config/installscripts".format(user, hostname))
         # Copy Scripts to User Workspace/Scripts
         os.system("cp -air *.sh *.py /home/{}/Desktop/workspace/Scripts".format(user))
-        # Copy User to user.txt for use in other scripts
-        os.system("echo {} > /home/{}/Desktop/workspace/{}config/user.txt".format(user, user, hostname))
 
 
 # Download files

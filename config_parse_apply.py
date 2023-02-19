@@ -1,12 +1,11 @@
 #!/bin/python3
-import dropbox
-import json
 import json_delta
 
 # This script is for parsing the system_config zip file and applying any changes to the system
 from config_grabber import *
-# from fedinitinstall import user
 
+# from fedinitinstall import user
+user = os.environ['user']
 
 # This function is for applying the changes to the system
 
@@ -23,8 +22,8 @@ def get_zip():
     )
     # Upload the zip file to dropbox
     with open("/home/{}/Desktop/workspace/./config/system_config_{}.zip".format(user, hostname), "rb") as f:
-        dbx.files_download("/system_config_{}.zip".format(hostname))
-        print("Downloaded zip file from Dropbox")
+        dbx.files_upload(f.read(), "/system_config_{}.zip".format(hostname), mode=dropbox.files.WriteMode.overwrite)
+    print("Uploaded zip file to Dropbox")
 
 
 # Unzip the file
@@ -51,7 +50,7 @@ def compare_files():
     print(delta)
     if delta:
         print("Changes detected")
-        apply_changes(delta)
+        apply_changes()
 
 
-def apply_changes(delta):
+def apply_changes():
