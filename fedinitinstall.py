@@ -28,9 +28,9 @@ def install_groups():
 # Install Necessary Packages
 def install_packages():
     os.system("dnf config-manager --add-repo https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo")
-    os.system("dnf -y install NetworkManager-config-connectivity-fedora bluedevil breeze-gtk breeze-icon-theme bzip2 zsh-completions")
-    os.system("dnf -y install cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks ")
-    os.system("dnf -y install gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager ")
+    os.system("dnf -y install NetworkManager-config-connectivity-fedora bluedevil breeze-gtk breeze-icon-theme bzip2 zsh-completions lsb")
+    os.system("dnf -y install cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks python3-netifaces")
+    os.system("dnf -y install gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager python3-psutil")
     os.system(
         "dnf -y install kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd ")
     os.system(
@@ -75,7 +75,7 @@ def install_packages():
     os.system(
         "dnf -y install strongswan avahi nextcloud-client python3-pip python3-pyOpenSSL python3-beautifulsoup4 python3-psutil  ")
     os.system("dnf -y install kf5-kconfig kf5-kconfig-core kf5-kconfig-devel kf5-kconfig-gui kf5-kconfig-doc kcharselect ")
-    os.system("dnf -y install dnf-plugins-core aircrack-ng bind bind-utils iperf3 sshpass rsync mlocate vnstat lm_sensors ")
+    os.system("dnf -y install dnf-plugins-core aircrack-ng bind bind-utils iperf3 sshpass rsync mlocate vnstat lm_sensors mtd-utils ")
 
 
 # Install PyPi Packages
@@ -89,7 +89,7 @@ def install_pip_packages():
 
 # Configure applications
 def configure_applications():
-    os.system("yes "" | sensors-detect")
+    os.system("sensors-detect --auto")
 
 
 # Install Google Chrome
@@ -178,7 +178,8 @@ def install_zsh():
 
 # Install NoMachine
 def install_nomachine():
-    os.system("dnf -y localinstall ./nomachine_8.2.3_4_x86_64.rpm")
+    os.system("mv nomachine*.rpm nomachine.rpm")
+    os.system("dnf -y localinstall ./nomachine.rpm")
 
 
 # Start SDDM and KDE
@@ -252,11 +253,11 @@ def avahi_setup():
 
 def kde_setup():
     # Turn off Energy Saving> Screen Energy Saving
-    os.system("sudo -u {} kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false".format(user))
+    os.system("kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false".format(user))
     # Set Button Events Handling> When Power Button is Pressed to Shutdown
-    os.system("sudo -u {} kwriteconfig5 --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'".format(user))
+    os.system("kwriteconfig5 --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'".format(user))
     # Set Screen Locking> Lock Screen Automatically to Never
-    os.system("sudo -u {} kwriteconfig5 --file powermanagementprofilesrc --group General --key LockScreen false".format(user))
+    os.system("kwriteconfig5 --file powermanagementprofilesrc --group General --key LockScreen false".format(user))
 
 
 # Setup VNStat
@@ -266,20 +267,7 @@ def vnstat_setup():
         os.system("vnstat -u -i " + interface.split()[0])
     os.system("systemctl enable vnstat")
     os.system("systemctl start vnstat")
-    os.system("firewall-cmd --permanent --add-service=vnstat")
-    os.system("firewall-cmd --reload")
 
-
-# Fix NetworkManager
-def nm_fix():
-    os.system("rm /etc/NetworkManager/conf.d/10-globally-managed-devices.conf -rf")
-    os.system("rm /lib/NetworkManager/conf.d/10-globally-managed-devices.conf -rf")
-    os.system("rm /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf -rf")
-    os.system("touch /etc/NetworkManager/conf.d/10-globally-managed-devices.conf")
-    os.system('/sbin/restorecon /etc/NetworkManager/conf.d/10-globally-managed-devices.conf')
-    os.system("ausearch -c 'NetworkManager' --raw | audit2allow -M my-networkmanager")
-    os.system("semodule -X 300 -i my-networkmanager.pp")
-    os.system("systemctl restart NetworkManager")
 
 
 # Ask User how they want to set up Fedora
@@ -333,7 +321,6 @@ def main():
     run_function("create_usbethernet_connection")
     run_function("avahi_setup")
     run_function("vnstat_setup")
-    run_function("nm_fix")
     run_function("kde_setup")
     run_function("fed_type")
 

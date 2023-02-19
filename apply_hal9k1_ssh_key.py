@@ -26,9 +26,9 @@ def apply_ssh_key():
     os.system("touch /home/{}/.ssh/authorized_keys".format(user))
     os.system("touch /root/.ssh/authorized_keys")
     # Append HAL9001 Public Key to authorized_keys
-    os.system("cat /home/gwhitlock/Desktop/workspace/ssh_keys.txt >> /home/gwhitlock/.ssh/authorized_keys")
-    os.system("cat /home/gwhitlock/Desktop/workspace/ssh_keys.txt >> /root/.ssh/authorized_keys")
-    os.system("rm -rf /home/gwhitlock/Desktop/workspace/ssh_keys.txt")
+    os.system("cat /home/{}/Desktop/workspace/ssh_keys.txt >> /home/{}/.ssh/authorized_keys".format(user, user))
+    os.system("cat /home/{}/Desktop/workspace/ssh_keys.txt >> /root/.ssh/authorized_keys".format(user))
+    os.system("rm -rf /home/{}/Desktop/workspace/ssh_keys.txt".format(user))
     # Set permissions on authorized_keys
     os.system("chmod 600 /home/{}/.ssh/authorized_keys".format(user))
     os.system("chmod 600 /root/.ssh/authorized_keys")

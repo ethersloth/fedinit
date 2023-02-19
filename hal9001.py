@@ -1,6 +1,6 @@
 #!/bin/python3
 import os
-
+import dropbox
 from fedinitinstall import user
 
 
@@ -14,9 +14,29 @@ def install_barrier():
     os.system("dnf -y install barrier")
 
 
-# appy_hal9k1_ssh_key.py
-def get_ssh_key():
-    os.system("/bin/python3 /home/{}/Dekstop/workspace/Scripts/appy_hal9k1_ssh_key.py".format(user))
+# Create SSH Private/Public Key Pair
+def create_ssh_key():
+    os.system("ssh-keygen -t rsa -b 4096 -C 'ramboy17@hotmail.com' -f /home/{}/.ssh/id_rsa -N ''".format(user))
+    os.system("systemctl restart sshd")
+
+
+# Create ssh_keys.txt file from /root/.ssh/id_rsa.pub and /home/{}/.ssh/id_rsa.pub.format(user)
+def create_ssh_keys_txt():
+    os.system("touch /home/{}/Dekstop/workspace/ssh_keys.txt".format(user))
+    os.system("cat /root/.ssh/id_rsa.pub >> /home/{}/Dekstop/workspace/ssh_keys.txt".format(user))
+    os.system("cat /home/{}/.ssh/id_rsa.pub >> /home/{}/Dekstop/workspace/ssh_keys.txt".format(user, user))
+    os.system("chmod 600 /home/{}/Dekstop/workspace/ssh_keys.txt".format(user))
+
+
+# Upload ssh_keys.txt to Dropbox
+def upload_ssh_keys_txt():
+    with open('/home/{}/Dekstop/workspace/ssh_keys.txt'.format(user), 'rb') as f:
+        data = f.read()
+    dbx = dropbox.Dropbox(
+        app_key='9qx5m6wmf51e811',
+        app_secret='r4dcl1g70xg9a4i',
+        oauth2_refresh_token='9Qbt7Z6yN-8AAAAAAAAAAY5r4cdPfoIOEN0wCU1IhiNt8ThM-tYgoAjpxuYDxscP')
+    dbx.files_upload(data, '/ssh_keys.txt', mode=dropbox.files.WriteMode.overwrite)
 
 
 # External Drive
@@ -68,7 +88,6 @@ def setup_vpn():
 def main():
     apply_theme()
     install_barrier()
-    get_ssh_key()
     mount_external_drive()
     setup_firewall()
     setup_vpn()
