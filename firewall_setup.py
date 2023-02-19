@@ -3,6 +3,9 @@
 # Import modules
 import os
 import ipaddress
+
+import netifaces
+
 from fedinitinstall import user
 
 # Run cellular.py, ethernet.py, wifi.py, and bridge.py
@@ -18,6 +21,31 @@ internal_ip_subnets = []
 external_zone_interfaces = []
 external_ip_subnets = []
 
+# Get Hostname
+def get_hostname():
+    hostname = input("Enter the hostname: ")
+    return hostname
+
+# If hostname contains router run router_setup() else run firewall_setup()
+def router_or_firewall():
+    hostname = get_hostname()
+    if "router" in hostname:
+        router_setup()
+    else:
+        host_setup()
+
+def router_setup():
+    enable_ip_forwarding()
+    setup_masquerade()
+    setup_named_conf()
+    setup_dhcp_server()
+    setup_firewall()
+
+def host_setup():
+    # set all interfaces as external
+    for interface in netifaces.interfaces():
+        external_zone_interfaces.append(interface)
+    setup_firewall()
 
 # Enable IP Forwarding
 def enable_ip_forwarding():
@@ -116,16 +144,8 @@ def setup_firewall():
 
 # Main Function
 def main():
-    # Setup Firewall
-    setup_firewall()
-    # Enable IP Forwarding
-    enable_ip_forwarding()
-    # Setup MASQUERADE and Filter Forwarding
-    setup_masquerade()
-    # Setup named.conf
-    setup_named_conf()
-    # Setup DHCP Server
-    setup_dhcp_server()
+    router_or_firewall()
+
 
 
 # Run Main Function
