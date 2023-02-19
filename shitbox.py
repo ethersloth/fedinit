@@ -46,7 +46,7 @@ def setup_wan_failover():
         os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/wan_failover_setup.py".format(user))
     elif input == 'N' or input == 'n':
         print("Not setting up WAN Failover.")
-        exit(1)
+        pass
     else:
         print("Invalid input. Not setting up WAN Failover.")
         setup_wan_failover()
@@ -77,7 +77,7 @@ def setup_vpn():
 # Run Config Parser
 def run_config_parser():
     # Run Config Parser
-    os.system("/bin/python3 /home/gwhitlock/Desktop/workspace/Scripts/config_parser.py")
+    os.system("/bin/python3 /home/{}/Desktop/workspace/Scripts/config_parser.py".format(user))
 
 
 # Main function
