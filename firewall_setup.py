@@ -3,10 +3,20 @@
 # Import modules
 import os
 import ipaddress
+import subprocess
 
 import netifaces
 
-from fedinitinstall import user
+user = ''
+
+# Pull user variable from user.txt
+def get_user():
+    global user
+    hostname = subprocess.run(["hostname"], capture_output=True, text=True).stdout
+    with open("/home/{}/Desktop/workspace/{}config/user.txt".format(user, hostname)) as f:
+        user = f.read()
+        print("User: {}".format(user))
+
 
 # Run cellular.py, ethernet.py, wifi.py, and bridge.py
 os.system("python3 /home/{}/Desktop/workspace/Scripts/cellular.py".format(user))
@@ -144,6 +154,7 @@ def setup_firewall():
 
 # Main Function
 def main():
+    get_user()
     router_or_firewall()
 
 

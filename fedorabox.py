@@ -1,10 +1,18 @@
 #!/bin/python3
 
 import os
-
-from fedinitinstall import user
-
+import subprocess
 disk_name = ''
+user = ''
+
+
+# Pull user variable from user.txt
+def get_user():
+    global user
+    hostname = subprocess.run(["hostname"], capture_output=True, text=True).stdout
+    with open("/home/{}/Desktop/workspace/{}config/user.txt".format(user, hostname)) as f:
+        user = f.read()
+        print("User: {}".format(user))
 
 
 # Run Apply_hal9k1_ssh_key.py
@@ -71,6 +79,7 @@ def run_config_parser():
 # Create the main function
 def main():
     # Run the functions
+    get_user()
     apply_ssh_key()
     konsave()
     external_drive()

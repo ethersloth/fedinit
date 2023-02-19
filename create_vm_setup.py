@@ -4,8 +4,17 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-from fedinitinstall import user
 from external_drive import disk_name
+import subprocess
+user = ''
+
+# Pull user variable from user.txt
+def get_user():
+    global user
+    hostname = subprocess.run(["hostname"], capture_output=True, text=True).stdout
+    with open("/home/{}/Desktop/workspace/{}config/user.txt".format(user, hostname)) as f:
+        user = f.read()
+        print("User: {}".format(user))
 
 
 # Create ISO folder in mount point
@@ -158,6 +167,8 @@ def create_vms():
 
 # Main Function
 def main():
+    # Get user
+    get_user()
     # Create VMs Folder
     create_vms()
     # Download Fedora ISO

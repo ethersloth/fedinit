@@ -1,9 +1,18 @@
 #!/bin/python3
 import os
-from fedinitinstall import user
+import subprocess
 
 # variables
 disk_name = ''
+user = ''
+
+# Pull user variable from user.txt
+def get_user():
+    global user
+    hostname = subprocess.run(["hostname"], capture_output=True, text=True).stdout
+    with open("/home/{}/Desktop/workspace/{}config/user.txt".format(user, hostname)) as f:
+        user = f.read()
+        print("User: {}".format(user))
 
 
 # Apply HAL9001 Public Key to authorized_keys
@@ -84,6 +93,7 @@ def run_nextcloud_installer():
 
 # Main function
 def main():
+    get_user()
     apply_ssh_key()
     setup_external_disk()
     setup_firewall()

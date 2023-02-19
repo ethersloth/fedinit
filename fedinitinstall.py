@@ -157,6 +157,8 @@ def setup_workspace():
         os.system("mkdir /home/{}/Desktop/workspace/{}config/installscripts".format(user, hostname))
         # Copy Scripts to User Workspace/Scripts
         os.system("cp -air *.sh *.py /home/{}/Desktop/workspace/Scripts".format(user))
+        # Copy User to user.txt for use in other scripts
+        os.system("echo {} > /home/{}/Desktop/workspace/{}config/user.txt".format(user, user, hostname))
 
 
 # Download files
@@ -305,6 +307,7 @@ def fed_type():
 
 # Main Function
 def main():
+
     run_function("install_groups")
     run_function("install_packages")
     run_function("install_pip_packages")
