@@ -279,34 +279,28 @@ def fed_type():
         os.system("wget -O fedboxmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedboxmotd.txt")
         os.system("echo fedboxmotd.txt >> /etc/motd")
-        os.system("python3 fedorabox.py")
     elif "hal9001" in hostname:
         os.system("wget -O hal9001motd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedhal9k1motd.txt")
         os.system("echo hal9001motd.txt >> /etc/motd")
-        os.system("python3 hal9001.py")
     elif "laptop" in hostname:
         os.system("wget -O laptopmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedlaptopmotd.txt")
         os.system("echo laptopmotd.txt >> /etc/motd")
-        os.system("python3 laptop.py")
     elif "router" in hostname:
         os.system("wget -O routermotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedroutermotd.txt")
         os.system("echo routermotd.txt >> /etc/motd")
-        os.system("python3 router.py")
     elif "shitbox" in hostname:
         os.system("wget -O shitboxmotd.txt "
                   "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/shitboxmotd.txt")
         os.system("echo shitboxmotd.txt >> /etc/motd")
-        os.system("python3 shitbox.py")
     else:
         print("Invalid Input")
 
 
 # Main Function
 def main():
-
     run_function("install_groups")
     run_function("install_packages")
     run_function("install_pip_packages")
