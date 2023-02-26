@@ -27,56 +27,18 @@ def install_groups():
 
 # Install Necessary Packages
 def install_packages():
-    os.system("dnf config-manager --add-repo https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo")
-    os.system("dnf -y install NetworkManager-config-connectivity-fedora bluedevil breeze-gtk breeze-icon-theme bzip2 zsh-completions lsb")
-    os.system("dnf -y install cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks python3-netifaces")
-    os.system("dnf -y install gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager python3-psutil")
-    os.system(
-        "dnf -y install kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd ")
-    os.system(
-        "dnf -y install kernel-devel kf5-akonadi-server kf5-akonadi-server-mysql kf5-baloo-file kf5-kipi-plugins khotkeys ")
-    os.system(
-        "dnf -y install kmenuedit konsole5 kscreen kscreenlocker ksshaskpass ksysguard kwalletmanager5 kwebkitpart kwin make ")
-    os.system(
-        "dnf -y install pam-kwallet phonon-qt5-backend-gstreamer pinentry-qt plasma-breeze plasma-desktop plasma-desktop-doc ")
-    os.system(
-        "dnf -y install plasma-drkonqi plasma-nm plasma-nm-l2tp plasma-nm-openconnect plasma-nm-openswan plasma-nm-openvpn ")
-    os.system("dnf -y install plasma-nm-pptp plasma-nm-vpnc plasma-pa plasma-user-manager plasma-workspace net-tools")
-    os.system(
-        "dnf -y install plasma-workspace-geolocation polkit-kde qt5-qtbase-gui qt5-qtdeclarative sddm sddm-breeze sddm-kcm ")
-    os.system(
-        "dnf -y install sni-qt xorg-x11-drv-libinput setroubleshoot kfind plasma-discover kfind firewall-config kgpg kate ark ")
-    os.system(
-        "dnf -y install kget kcalc gwenview spectacle fedora-workstation-repositories dhcp-server usbutils util-linux-user ")
-    os.system(
-        "dnf -y install pciutils htop wget zsh jre NetworkManager NetworkManager-adsl NetworkManager-bluetooth plasma-pk-updates ")
-    os.system(
-        "dnf -y install NetworkManager-cloud-setup NetworkManager-config-connectivity-fedora NetworkManager-config-server ")
-    os.system(
-        "dnf -y install NetworkManager-dispatcher-routing-rules NetworkManager-fortisslvpn NetworkManager-initscripts-ifcfg-rh ")
-    os.system(
-        "dnf -y install NetworkManager-initscripts-updown NetworkManager-iodine NetworkManager-l2tp NetworkManager-libnm ")
-    os.system(
-        "dnf -y install NetworkManager-libnm-devel NetworkManager-libreswan NetworkManager-openconnect NetworkManager-openvpn ")
-    os.system(
-        "dnf -y install NetworkManager-ovs NetworkManager-ppp NetworkManager-pptp NetworkManager-ssh NetworkManager-sstp ")
-    os.system("dnf -y install NetworkManager-strongswan NetworkManager-team NetworkManager-tui NetworkManager-vpnc ")
-    os.system("dnf -y install NetworkManager-wifi NetworkManager-wwan cockpit-networkmanager kf5-networkmanager-qt ")
-    os.system("dnf -y install kf5-networkmanager-qt-devel libproxy-networkmanager ModemManager tar xz unzip zip ")
-    os.system(
-        "dnf -y install modem-manager-gui-cm-NetworkManager netplan-default-backend-NetworkManager python-networkmanager-doc ")
-    os.system(
-        "dnf -y install python3-networkmanager libnma libnma-devel libnma-gtk4 libnma-gtk4-devel network-manager-applet ")
-    os.system("dnf -y install nm-connection-editor shorewall-init.noarch strongswan-charon-nm nmap tcpdump xfsprogs kmousetool ")
-    os.system(
-        "dnf -y install wpa_supplicant vim-enhanced speedtest-cli remmina openvpn easy-rsa lrzsz python3-netifaces neofetch  ")
-    os.system(
-        "dnf -y install python3-requests python3-libvirt libvirt bridge-utils qemu-kvm virt-install virt-manager virt-viewer python3-dropbox ")
-    os.system(
-        "dnf -y install strongswan avahi nextcloud-client python3-pip python3-pyOpenSSL python3-beautifulsoup4 python3-psutil  ")
-    os.system("dnf -y install kf5-kconfig kf5-kconfig-core kf5-kconfig-devel kf5-kconfig-gui kf5-kconfig-doc kcharselect ")
-    os.system("dnf -y install dnf-plugins-core aircrack-ng bind bind-utils iperf3 sshpass rsync mlocate vnstat lm_sensors mtd-utils ")
+    try:
+        os.system("dnf config-manager --add-repo https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo")
+        os.system("dnf -y install python3-requests python3-libvirt libvirt bridge-utils python3-dropbox vim-enhanced speedtest-cli remmina lrzsz python3-netifaces neofetch nmap tcpdump xfsprogs kmousetool libnma libnma-devel libnma-gtk4 libnma-gtk4-devel tar xz unzip zip pciutils htop wget zsh jre plasma-pk-updates kget kcalc gwenview spectacle fedora-workstation-repositories dhcp-server usbutils util-linux-user sni-qt xorg-x11-drv-libinput setroubleshoot kfind plasma-discover kfind firewall-config kgpg kate ark plasma-drkonqi bluedevil breeze-gtk breeze-icon-theme bzip2 zsh-completions lsb cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks python3-netifaces gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager python3-psutil kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd kernel-devel kf5-akonadi-server kf5-akonadi-server-mysql kf5-baloo-file kf5-kipi-plugins khotkeys kmenuedit konsole5 kscreen kscreenlocker ksshaskpass ksysguard kwalletmanager5 kwebkitpart kwin make pam-kwallet phonon-qt5-backend-gstreamer pinentry-qt plasma-breeze plasma-desktop plasma-desktop-doc plasma-workspace-geolocation polkit-kde qt5-qtbase-gui qt5-qtdeclarative sddm sddm-breeze sddm-kcm plasma-pa plasma-user-manager plasma-workspace net-tools dnf-plugins-core iperf3 sshpass mlocate vnstat lm_sensors mtd-utils kf5-kconfig kf5-kconfig-core kf5-kconfig-devel kf5-kconfig-gui kf5-kconfig-doc kcharselect nextcloud-client python3-pip python3-pyOpenSSL python3-beautifulsoup4 python3-psutil ")
+    except os.error as e:
+        print(e)
 
+# Install network packages
+def install_network_packages():
+    try:
+        os.system("dnf -y install NetworkManager-config-connectivity-fedora plasma-nm plasma-nm-l2tp plasma-nm-openconnect plasma-nm-openswan plasma-nm-openvpn plasma-nm-pptp plasma-nm-vpnc NetworkManager NetworkManager-adsl NetworkManager-bluetooth NetworkManager-config-connectivity-fedora NetworkManager-config-server NetworkManager-dispatcher-routing-rules NetworkManager-fortisslvpn NetworkManager-l2tp NetworkManager-libnm NetworkManager-libnm-devel NetworkManager-libreswan NetworkManager-openconnect NetworkManager-openvpn NetworkManager-ovs NetworkManager-ppp NetworkManager-pptp NetworkManager-ssh NetworkManager-sstp NetworkManager-strongswan NetworkManager-vpnc NetworkManager-wifi NetworkManager-wwan kf5-networkmanager-qt kf5-networkmanager-qt-devel libproxy-networkmanager ModemManager modem-manager-gui-cm-NetworkManager python3-networkmanager network-manager-applet nm-connection-editor wpa_supplicant openvpn easy-rsa strongswan avahi aircrack-ng bind bind-utils rsync")
+    except os.error as e:
+        print(e)
 
 # Install PyPi Packages
 def install_pip_packages():
@@ -303,6 +265,7 @@ def fed_type():
 def main():
     run_function("install_groups")
     run_function("install_packages")
+    run_function("install_network_packages")
     run_function("install_pip_packages")
     run_function("configure_applications")
     run_function("install_chrome")
