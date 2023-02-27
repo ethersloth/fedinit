@@ -50,15 +50,13 @@ def install_groups():
                 "Input Methods",
                 "Multimedia",
                 "Development Libraries"]
-    # Join the list of packages into a single string, separated by spaces
-    package_list = ' '.join(groups)
 
     # Install the packages
     for group in groups:
         try:
             # Open a file for logging
             log_file = open("output.log", "w")
-            os.system("dnf groupinstall -y {} >> output.log 2>&1".format(group + '\n'))
+            os.system("dnf groupinstall -y '{}' >> output.log 2>&1".format(group + '\n'))
             # Write repo to repo install log file
             os.system("touch group_install_log.txt >> output.log 2>&1")
             log_file.close()
