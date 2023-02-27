@@ -393,6 +393,8 @@ def setup_workspace():
 
 
 # Install Pycharm Professional
+
+
 def install_pycharm():
     import requests
     global user
@@ -405,10 +407,16 @@ def install_pycharm():
     url = response.url
 
     # Extract the version number from the URL using the provided pattern
-    version = re.findall(version_pattern, url)[0]
-    print("Version: " + version)
+    version = re.findall(version_pattern, url)
 
     # Check if the version number matches the current version
+    if not version:
+        print("Error: No version number found in download URL")
+        return
+
+    version = version[0]
+    print("Version: " + version)
+
     if version == current_version:
         print("The file is already up to date.")
         return
@@ -433,6 +441,7 @@ def install_pycharm():
     # add jetbrains-toolbox to path
     os.system("ln -s /opt/jetbrains-toolbox/jetbrains-toolbox /usr/bin/jetbrains-toolbox >> output.log 2>&1")
     log_file.close()
+
 
 
 # Download files
