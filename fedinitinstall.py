@@ -44,14 +44,14 @@ def add_repos():
 
 # Install Necessary Groups
 def install_groups():
-    groups = ["Development Tools"
-                "Hardware Support"
-                "base-x"
-                "Fonts"
-                "Common NetworkManager Submodules"
-                "Printing Support"
-                "Input Methods"
-                "Multimedia"
+    groups = ["Development Tools",
+                "Hardware Support",
+                "base-x",
+                "Fonts",
+                "Common NetworkManager Submodules",
+                "Printing Support",
+                "Input Methods",
+                "Multimedia",
                 "Development Libraries"]
     for group in groups:
         try:
@@ -71,133 +71,134 @@ def install_groups():
 
 # Install Necessary Packages
 def install_packages():
-    packages = ["util-linux-user"
-                "python3-requests"
-                "python3-libvirt"
-                "libvirt"
-                "bridge-utils"
-                "python3-dropbox"
-                "vim-enhanced"
-                "speedtest-cli"
-                "remmina"
-                "lrzsz"
-                "python3-netifaces"
-                "neofetch"
-                "nmap"
-                "tcpdump"
-                "xfsprogs"
-                "kmousetool"
-                "libnma"
-                "libnma-devel"
-                "libnma-gtk4"
-                "libnma-gtk4-devel"
-                "tar"
-                "xz"
-                "unzip"
-                "zip"
-                "pciutils"
-                "htop"
-                "wget"
-                "zsh"
-                "jre"
-                "plasma-pk-updates"
-                "kget"
-                "kcalc"
-                "gwenview"
-                "spectacle"
-                "fedora-workstation-repositories"
-                "dhcp-server"
-                "usbutils"
-                "util-linux-user"
-                "sni-qt"
-                "xorg-x11-drv-libinput"
-                "setroubleshoot"
-                "kfind"
-                "plasma-discover"
-                "kfind"
-                "firewall-config"
-                "kgpg"
-                "kate"
-                "ark"
-                "plasma-drkonqi"
-                "bluedevil"
-                "breeze-gtk"
-                "breeze-icon-theme"
-                "bzip2"
-                "zsh-completions"
-                "lsb"
-                "cagibi"
-                "colord-kde"
-                "cups-pk-helper"
-                "curl"
-                "dolphin"
-                "dkms"
-                "gcc"
-                "glibc-all-langpacks"
-                "python3-netifaces"
-                "gnome-keyring-pam"
-                "kcm_systemd"
-                "kde-gtk-config"
-                "kde-partitionmanager"
-                "kde-print-manager"
-                "python3-psutil"
-                "kde-settings-pulseaudio"
-                "kde-style-breeze"
-                "kdegraphics-thumbnailers"
-                "kdeplasma-addons  "
-                "kdialog"
-                "kdnssd"
-                "kernel-devel"
-                "kf5-akonadi-server"
-                "kf5-akonadi-server-mysql"
-                "kf5-baloo-file"
-                "kf5-kipi-plugins"
-                "khotkeys"
-                "kmenuedit"
-                "konsole5"
-                "kscreen"
-                "kscreenlocker"
-                "ksshaskpass"
-                "ksysguard"
-                "kwalletmanager5"
-                "kwebkitpart"
-                "kwin"
-                "make"
-                "pam-kwallet"
-                "phonon-qt5-backend-gstreamer"
-                "pinentry-qt"
-                "plasma-breeze"
-                "plasma-desktop"
-                "plasma-desktop-doc"
-                "plasma-workspace-geolocation"
-                "polkit-kde"
-                "qt5-qtbase-gui"
-                "qt5-qtdeclarative"
-                "sddm"
-                "sddm-breeze"
-                "sddm-kcm"
-                "plasma-pa"
-                "plasma-user-manager"
-                "plasma-workspace"
-                "net-tools"
-                "dnf-plugins-core"
-                "iperf3"
-                "sshpass"
-                "mlocate"
-                "vnstat"
-                "lm_sensors"
-                "mtd-utils"
-                "kf5-kconfig"
-                "kf5-kconfig-core"
-                "kf5-kconfig-devel"
-                "kf5-kconfig-gui"
-                "kf5-kconfig-doc"
-                "kcharselect"
-                "nextcloud-client"
+    packages = ["util-linux-user",
+                "python3-requests",
+                "python3-libvirt",
+                "libvirt",
+                "bridge-utils",
+                "python3-dropbox",
+                "vim-enhanced",
+                "speedtest-cli",
+                "remmina",
+                "lrzsz",
+                "python3-netifaces",
+                "neofetch",
+                "nmap",
+                "tcpdump",
+                "xfsprogs",
+                "kmousetool",
+                "libnma",
+                "libnma-devel",
+                "libnma-gtk4",
+                "libnma-gtk4-devel",
+                "tar",
+                "xz",
+                "unzip",
+                "zip",
+                "pciutils",
+                "htop",
+                "wget",
+                "zsh",
+                "jre",
+                "plasma-pk-updates",
+                "kget",
+                "kcalc",
+                "gwenview",
+                "spectacle",
+                "fedora-workstation-repositories",
+                "dhcp-server",
+                "usbutils",
+                "util-linux-user",
+                "sni-qt",
+                "xorg-x11-drv-libinput",
+                "setroubleshoot",
+                "kfind",
+                "plasma-discover",
+                "kfind",
+                "firewall-config",
+                "kgpg",
+                "kate",
+                "ark",
+                "plasma-drkonqi",
+                "bluedevil",
+                "breeze-gtk",
+                "breeze-icon-theme",
+                "bzip2",
+                "zsh-completions",
+                "lsb",
+                "cagibi",
+                "colord-kde",
+                "cups-pk-helper",
+                "curl",
+                "dolphin",
+                "dkms",
+                "gcc",
+                "glibc-all-langpacks",
+                "python3-netifaces",
+                "gnome-keyring-pam",
+                "kcm_systemd",
+                "kde-gtk-config",
+                "kde-partitionmanager",
+                "kde-print-manager",
+                "python3-psutil",
+                "kde-settings-pulseaudio",
+                "kde-style-breeze",
+                "kdegraphics-thumbnailers",
+                "kdeplasma-addons",
+                "kdialog",
+                "kdnssd",
+                "kernel-devel",
+                "kf5-akonadi-server",
+                "kf5-akonadi-server-mysql",
+                "kf5-baloo-file",
+                "kf5-kipi-plugins",
+                "khotkeys",
+                "kmenuedit",
+                "konsole5",
+                "kscreen",
+                "kscreenlocker",
+                "ksshaskpass",
+                "ksysguard",
+                "kwalletmanager5",
+                "kwebkitpart",
+                "kwin",
+                "make",
+                "pam-kwallet",
+                "phonon-qt5-backend-gstreamer",
+                "pinentry-qt",
+                "plasma-breeze",
+                "plasma-desktop",
+                "plasma-desktop-doc",
+                "plasma-workspace-geolocation",
+                "polkit-kde",
+                "qt5-qtbase-gui",
+                "qt5-qtdeclarative",
+                "sddm",
+                "sddm-breeze",
+                "sddm-kcm",
+                "plasma-pa",
+                "plasma-user-manager",
+                "plasma-workspace",
+                "net-tools",
+                "dnf-plugins-core",
+                "iperf3",
+                "sshpass",
+                "mlocate",
+                "vnstat",
+                "lm_sensors",
+                "mtd-utils",
+                "kf5-kconfig",
+                "kf5-kconfig-core",
+                "kf5-kconfig-devel",
+                "kf5-kconfig-gui",
+                "kf5-kconfig-doc",
+                "kcharselect",
+                "nextcloud-client",
+                "python3-pip",
+                "python3-pyOpenSSL",
+                "python3-beautifulsoup4",
+                "python3-psutil",
                 "python3-pip"
-                "python3-pyOpenSSL"
-                "python3-beautifulsoup4" 
-                "python3-psutil"
     ]
     for package in packages:
         try:
@@ -217,52 +218,52 @@ def install_packages():
 
 # Install network packages
 def install_network_packages():
-    network_packages = ["NetworkManager-config-connectivity-fedora"
-                        "plasma-nm plasma-nm-l2tp"
-                        "plasma-nm-openconnect" 
-                        "plasma-nm-openswan"
-                        "plasma-nm-openvpn"
-                        "plasma-nm-pptp"
-                        "plasma-nm-vpnc"
-                        "NetworkManager"
-                        "NetworkManager-adsl"
-                        "NetworkManager-bluetooth"
-                        "NetworkManager-config-server"
-                        "NetworkManager-dispatcher-routing-rules"
-                        "NetworkManager-fortisslvpn"
-                        "NetworkManager-l2tp"
-                        "NetworkManager-libnm"
-                        "NetworkManager-libnm-devel"
-                        "NetworkManager-libreswan"
-                        "NetworkManager-openconnect"
-                        "NetworkManager-openvpn"
-                        "NetworkManager-ovs"
-                        "NetworkManager-ppp"
-                        "NetworkManager-pptp"
-                        "NetworkManager-ssh"
-                        "NetworkManager-sstp"
-                        "NetworkManager-strongswan"
-                        "NetworkManager-vpnc"
-                        "NetworkManager-wifi"
-                        "NetworkManager-wwan"
-                        "kf5-networkmanager-qt"
-                        "kf5-networkmanager-qt-devel"
-                        "libproxy-networkmanager"
-                        "ModemManager"
-                        "modem-manager-gui-cm-NetworkManager"
-                        "python3-networkmanager"
-                        "network-manager-applet"
-                        "nm-connection-editor"
-                        "wpa_supplicant"
-                        "openvpn"
-                        "easy-rsa"
-                        "strongswan"
-                        "avahi"
-                        "aircrack-ng"
-                        "bind"
-                        "bind-utils"
-                        "rsync"
-                        "nmap"
+    network_packages = ["NetworkManager-config-connectivity-fedora",
+                        "plasma-nm plasma-nm-l2tp",
+                        "plasma-nm-openconnect",
+                        "plasma-nm-openswan",
+                        "plasma-nm-openvpn",
+                        "plasma-nm-pptp",
+                        "plasma-nm-vpnc",
+                        "NetworkManager",
+                        "NetworkManager-adsl",
+                        "NetworkManager-bluetooth",
+                        "NetworkManager-config-server",
+                        "NetworkManager-dispatcher-routing-rules",
+                        "NetworkManager-fortisslvpn",
+                        "NetworkManager-l2tp",
+                        "NetworkManager-libnm",
+                        "NetworkManager-libnm-devel",
+                        "NetworkManager-libreswan",
+                        "NetworkManager-openconnect",
+                        "NetworkManager-openvpn",
+                        "NetworkManager-ovs",
+                        "NetworkManager-ppp",
+                        "NetworkManager-pptp",
+                        "NetworkManager-ssh",
+                        "NetworkManager-sstp",
+                        "NetworkManager-strongswan",
+                        "NetworkManager-vpnc",
+                        "NetworkManager-wifi",
+                        "NetworkManager-wwan",
+                        "kf5-networkmanager-qt",
+                        "kf5-networkmanager-qt-devel",
+                        "libproxy-networkmanager",
+                        "ModemManager",
+                        "modem-manager-gui-cm-NetworkManager",
+                        "python3-networkmanager",
+                        "network-manager-applet",
+                        "nm-connection-editor",
+                        "wpa_supplicant",
+                        "openvpn",
+                        "easy-rsa",
+                        "strongswan",
+                        "avahi",
+                        "aircrack-ng",
+                        "bind",
+                        "bind-utils",
+                        "rsync",
+                        "nmap",
                         "wireshark"
                         ]
     for package in network_packages:
@@ -568,8 +569,8 @@ def avahi_setup():
 
 def kde_setup():
     # Turn off Energy Saving> Screen Energy Saving
-    kde_setup_commands = ["kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false"
-                          "kwriteconfig5 --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'"
+    kde_setup_commands = ["kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false",
+                          "kwriteconfig5 --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'",
                           "kwriteconfig5 --file powermanagementprofilesrc --group General --key LockScreen false"]
     try:
         for kde_setup_command in kde_setup_commands:
