@@ -3,7 +3,7 @@ import os
 import re
 import subprocess
 
-import requests
+
 
 user = ""
 
@@ -27,9 +27,12 @@ def add_repos():
     repos = ["https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo"]
     for repo in repos:
         try:
-            os.system("dnf config-manager --add-repo {}".format(repo + '\n'))
+            # Open a file for logging
+            log_file = open("output.log", "w")
+            os.system("dnf config-manager --add-repo {} >> output.log 2>&1".format(repo + '\n'))
             # Write repo to repo install log file
-            os.system("touch repo_install_log.txt")
+            os.system("touch repo_install_log.txt >> output.log 2>&1")
+            log_file.close()
             with open('repo_install_log.txt', 'a') as f:
                 f.write(repo + '\n')
                 f.close()
@@ -52,9 +55,12 @@ def install_groups():
                 "Development Libraries"]
     for group in groups:
         try:
-            os.system("dnf groupinstall -y '{}'".format(group + '\n'))
+            # Open a file for logging
+            log_file = open("output.log", "w")
+            os.system("dnf groupinstall -y '{}' >> output.log 2>&1".format(group + '\n'))
             # Write group to group install log file
-            os.system("touch group_install_log.txt")
+            os.system("touch group_install_log.txt >> output.log 2>&1")
+            log_file.close()
             with open('group_install_log.txt', 'a') as f:
                 f.write(group + '\n')
                 f.close()
@@ -195,9 +201,12 @@ def install_packages():
     ]
     for package in packages:
         try:
-            os.system("dnf install -y {}".format(package + '\n'))
+            # Open a file for logging
+            log_file = open("output.log", "w")
+            os.system("dnf install -y {} >> output.log 2>&1".format(package + '\n'))
             # Write package to package install log file
-            os.system("touch package_install_log.txt")
+            os.system("touch package_install_log.txt >> output.log 2>&1")
+            log_file.close()
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
@@ -258,9 +267,12 @@ def install_network_packages():
                         ]
     for package in network_packages:
         try:
-            os.system("dnf install -y {}".format(package + '\n'))
+            # Open a file for logging
+            log_file = open("output.log", "w")
+            os.system("dnf install -y {} >> output.log 2>&1".format(package + '\n'))
             # Write package to package install log file
-            os.system("touch package_install_log.txt")
+            os.system("touch package_install_log.txt >> output.log 2>&1")
+            log_file.close()
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
@@ -271,14 +283,20 @@ def install_network_packages():
 
 # Install PyPi Packages
 def install_pip_packages():
-    os.system("pip3 install --upgrade pip")
-    os.system("pip3 install --upgrade wheel")
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system("pip3 install --upgrade pip >> output.log 2>&1")
+    os.system("pip3 install --upgrade wheel >> output.log 2>&1")
+    log_file.close()
     pip_packages = ["konsave", "bs4", "pyOpenSSL"]
     for package in pip_packages:
         try:
-            os.system("pip3 install {}".format(package + '\n'))
+            # Open a file for logging
+            log_file = open("output.log", "w")
+            os.system("pip3 install {} >> output.log 2>&1".format(package + '\n'))
             # Write package to package install log file
-            os.system("touch package_install_log.txt")
+            os.system("touch package_install_log.txt >> output.log 2>&1")
+            log_file.close()
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
@@ -290,12 +308,18 @@ def install_pip_packages():
 
 # Configure applications
 def configure_applications():
-    conf_app_commands = ["sensors-detect --auto"]
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    conf_app_commands = ["sensors-detect --auto >> output.log 2>&1"]
+    log_file.close()
     for conf_app_command in conf_app_commands:
         try:
+            # Open a file for logging
+            log_file = open("output.log", "w")
             os.system(conf_app_command + '\n')
             # Write conf_app_command to conf_app_command log file
-            os.system("touch conf_app_command_log.txt")
+            os.system("touch conf_app_command_log.txt >> output.log 2>&1")
+            log_file.close()
             with open('conf_app_command_log.txt', 'a') as f:
                 f.write(conf_app_command + '\n')
                 f.close()
@@ -307,28 +331,37 @@ def configure_applications():
 
 # Install Google Chrome
 def install_chrome():
-    os.system("dnf -y install fedora-workstation-repositories")
-    os.system("dnf config-manager --set-enabled google-chrome")
-    os.system("dnf -y install google-chrome-stable")
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system("dnf -y install fedora-workstation-repositories >> output.log 2>&1")
+    os.system("dnf config-manager --set-enabled google-chrome >> output.log 2>&1")
+    os.system("dnf -y install google-chrome-stable >> output.log 2>&1")
+    log_file.close()
 
 
 # Install Visual Studio Code
 def install_vscode():
-    os.system("rpm --import https://packages.microsoft.com/keys/microsoft.asc")
-    command = "echo -e '[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc' > /etc/yum.repos.d/vscode.repo"
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system("rpm --import https://packages.microsoft.com/keys/microsoft.asc >> output.log 2>&1")
+    command = "echo -e '[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc' > /etc/yum.repos.d/vscode.repo >> output.log 2>&1"
     os.system(command)
-    os.system("dnf -y check-update")
-    os.system("dnf -y install code")
+    os.system("dnf -y check-update >> output.log 2>&1")
+    os.system("dnf -y install code  >> output.log 2>&1")
+    log_file.close()
 
 
 # Ask User if they want to set up a new user
 def new_user():
     newuser = input("Would you like to set up a new user? [y/n]: ")
     if newuser == "y":
+        # Open a file for logging
+        log_file = open("output.log", "w")
         new_username = input("Enter the username you would like to use: ")
-        os.system("useradd -m -G wheel -s /bin/zsh " + new_username)
-        os.system("passwd " + new_username)
-        os.system("su - " + new_username)
+        os.system("useradd -m -G wheel -s /bin/zsh " + new_username + " >> output.log 2>&1")
+        os.system("passwd " + new_username + " >> output.log 2>&1")
+        os.system("su - " + new_username + " >> output.log 2>&1")
+        log_file.close()
     elif newuser == "n":
         print("Skipping user creation.")
     else:
@@ -344,18 +377,23 @@ def setup_workspace():
     if not os.path.exists("/home/" + user):
         print("User does not exist. Skipping workspace setup.")
     else:
-        os.system("mkdir /home/{}/Desktop".format(user))
-        os.system("mkdir /home/{}/Desktop/workspace".format(user))
-        os.system("mkdir /home/{}/Desktop/workspace/Scripts".format(user))
-        os.system("mkdir /home/{}/Desktop/workspace/{}config".format(user, hostname))
-        os.system("mkdir /home/{}/Desktop/workspace/{}config/logs".format(user, hostname))
-        os.system("mkdir /home/{}/Desktop/workspace/{}config/installscripts".format(user, hostname))
+        # Open a file for logging
+        log_file = open("output.log", "w")
+        os.system("mkdir /home/{}/Desktop >> output.log 2>&1".format(user))
+        os.system("mkdir /home/{}/Desktop/workspace >> output.log 2>&1".format(user))
+        os.system("mkdir /home/{}/Desktop/workspace/Scripts >> output.log 2>&1".format(user))
+        os.system("mkdir /home/{}/Desktop/workspace/{}config >> output.log 2>&1".format(user, hostname))
+        os.system("mkdir /home/{}/Desktop/workspace/{}config/logs >> output.log 2>&1".format(user, hostname))
+        os.system("mkdir /home/{}/Desktop/workspace/{}config/installscripts >> output.log 2>&1".format(user, hostname))
         # Copy Scripts to User Workspace/Scripts
-        os.system("cp -air *.sh *.py /home/{}/Desktop/workspace/Scripts".format(user))
+        os.system("cp -air *.sh *.py /home/{}/Desktop/workspace/Scripts >> output.log 2>&1".format(user))
+        os.system("chown -R {}:{} /home/{}/ >> output.log 2>&1".format(user, user, user))
+        log_file.close()
 
 
 # Install Pycharm Professional
 def install_pycharm():
+    import requests
     global user
     current_version = "1.27.2.13801"
     download_url = "https://download.jetbrains.com/toolbox/jetbrains-toolbox-latest.tar.gz"
@@ -376,30 +414,37 @@ def install_pycharm():
     # Download the file
     with open(f"jetbrains-toolbox-{version}.tar.gz", "wb") as f:
         f.write(response.content)
+        f.close()
     print(f"File {version} downloaded successfully.")
     # Remove the version number from the file name
-    os.rename(f"jetbrains-toolbox-{version}.tar.gz", "jetbrains-toolbox.tar.gz")
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.rename(f"jetbrains-toolbox-{version}.tar.gz", "jetbrains-toolbox.tar.gz >> output.log 2>&1")
     # Extract the tar file
-    os.system("tar -xzf jetbrains-toolbox.tar.gz -C /opt")
-    os.system("rm jetbrains-toolbox.tar.gz")
-    os.system("mv /opt/jetbrains-toolbox-* /opt/jetbrains-toolbox")
+    os.system("tar -xzf jetbrains-toolbox.tar.gz -C /opt >> output.log 2>&1")
+    os.system("rm jetbrains-toolbox.tar.gz >> output.log 2>&1")
+    os.system("mv /opt/jetbrains-toolbox-* /opt/jetbrains-toolbox >> output.log 2>&1")
     # make jetbrains-toolbox executable
-    os.system("chmod +x /opt/jetbrains-toolbox/jetbrains-toolbox")
+    os.system("chmod +x /opt/jetbrains-toolbox/jetbrains-toolbox >> output.log 2>&1")
     # let the user run jetbrains-toolbox without sudo
-    os.system(f"echo '{user} ALL=(ALL) NOPASSWD: /opt/jetbrains-toolbox/jetbrains-toolbox' >> /etc/sudoers")
+    os.system(f"echo '{user} ALL=(ALL) NOPASSWD: /opt/jetbrains-toolbox/jetbrains-toolbox' >> /etc/sudoers >> output.log 2>&1")
     # add jetbrains-toolbox to path
-    os.system("ln -s /opt/jetbrains-toolbox/jetbrains-toolbox /usr/bin/jetbrains-toolbox")
+    os.system("ln -s /opt/jetbrains-toolbox/jetbrains-toolbox /usr/bin/jetbrains-toolbox >> output.log 2>&1")
+    log_file.close()
 
 
 # Download files
 def download_files():
-    os.system("wget -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1")
-    os.system("wget -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1"
-              )
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system("wget -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1 >> output.log 2>&1")
+    os.system("wget -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1 >> output.log 2>&1")
+    log_file.close()
 
 
 # Download and Install NoMachine
 def download_nomachine():
+    import requests
     global user
     current_version = "6.12.2_1"
     download_url = "https://download.nomachine.com/download/6.12/Linux/nomachine_6.12.2_1_x86_64.rpm"
@@ -420,88 +465,105 @@ def download_nomachine():
     # Download the file
     with open(f"nomachine_{version}_x86_64.rpm", "wb") as f:
         f.write(response.content)
+        f.close()
     print(f"File {version} downloaded successfully.")
     # Remove the version number from the file name
-    os.rename(f"nomachine_{version}_x86_64.rpm", "nomachine.rpm")
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.rename(f"nomachine_{version}_x86_64.rpm", "nomachine.rpm >> output.log 2>&1")
     # local install nomachine
-    os.system("dnf -y localinstall nomachine.rpm")
+    os.system("dnf -y localinstall nomachine.rpm >> output.log 2>&1")
+    log_file.close()
 
 
 # Install ZSH Config
 def install_zsh():
-    os.system("cp .zshrc /home/" + user + "/.zshrc")
-    os.system("cp .zshrc-root /root/.zshrc")
-    os.system("chsh -s /bin/zsh " + user)
-    os.system("chsh -s /bin/zsh root")
+    global user
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system("cp .zshrc /home/" + user + "/.zshrc >> output.log 2>&1")
+    os.system("cp .zshrc-root /root/.zshrc >> output.log 2>&1")
+    os.system("chsh -s /bin/zsh " + user + " >> output.log 2>&1")
+    os.system("chsh -s /bin/zsh root >> output.log 2>&1")
+    log_file.close()
 
 
 # Start SDDM and KDE
 def start_sddm():
-    os.system("systemctl enable sddm")
-    os.system("systemctl set-default graphical.target")
-    os.system("systemctl start sddm")
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system("systemctl enable sddm >> output.log 2>&1")
+    os.system("systemctl set-default graphical.target >> output.log 2>&1")
+    os.system("systemctl start sddm >> output.log 2>&1")
+    log_file.close()
 
 
 # Create USBEthernet NetworkManager Connection
 def create_usbethernet_connection():
-    os.system('touch /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "[connection]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "id=USBethernet" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system('touch /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "[connection]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "id=USBethernet" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
     os.system(
-        'echo "uuid=aa92cd5a-296b-3392-b500-2272a787d5c5" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "type=ethernet" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "autoconnect-priority=-100" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "zone=internal" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "[ethernet]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "mac-address=A0:CE:C8:03:D4:62" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "[ipv4]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "method=manual" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "addresses1=192.168.111.1/24" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "method=manual" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "[ipv6]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "method=disabled" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('echo "[proxy]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet')
-    os.system('systemctl restart NetworkManager')
+        'echo "uuid=aa92cd5a-296b-3392-b500-2272a787d5c5" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "type=ethernet" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "autoconnect-priority=-100" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "zone=internal" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "[ethernet]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "mac-address=A0:CE:C8:03:D4:62" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "[ipv4]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "method=manual" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "addresses1=192.168.111.1/24" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "method=manual" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "[ipv6]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "method=disabled" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('echo "[proxy]" >> /etc/NetworkManager/system-connections/ifcfg-USBethernet >> output.log 2>&1')
+    os.system('systemctl restart NetworkManager >> output.log 2>&1')
+    log_file.close()
 
 
 # Setup  Avahi/mDNS
 def avahi_setup():
-    os.system("firewall-cmd --permanent --add-service=mdns")
-    os.system("firewall-cmd --reload")
+    # Open a file for logging
+    log_file = open("output.log", "w")
+    os.system("firewall-cmd --permanent --add-service=mdns >> output.log 2>&1")
+    os.system("firewall-cmd --reload >> output.log 2>&1")
     # Get hostname from hostnamectl
     hostname = subprocess.run(["hostnamectl", "status"], capture_output=True, text=True).stdout.splitlines()[1].split()[1]
     # Delete avahi_daemon.conf
-    os.system("rm /etc/avahi/avahi-daemon.conf -rf")
+    os.system("rm /etc/avahi/avahi-daemon.conf -rf >> output.log 2>&1")
     # Create avahi_daemon.conf
-    os.system("touch /etc/avahi/avahi-daemon.conf")
-    os.system('echo "[server]" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "host-name=' + hostname + '" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "use-ipv4=yes" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "use-ipv6=yes" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "allow-interfaces=" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "ratelimit-interval-usec=1000000" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "ratelimit-burst=1000" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo /n >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "[wide-area]" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "enable-wide-area=yes" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo /n >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "[publish]" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "publish-hinfo=no" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "publish-workstation=no" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo /n >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "[rlimits]" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "rlimit-core=0" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "rlimit-data=4194304" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "rlimit-fsize=0" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "rlimit-nofile=768" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "rlimit-stack=4194304" >> /etc/avahi/avahi-daemon.conf')
-    os.system('echo "rlimit-nproc=3" >> /etc/avahi/avahi-daemon.conf')
-    os.system('systemctl enable avahi-daemon')
-    os.system('systemctl start avahi-daemon')
+    os.system("touch /etc/avahi/avahi-daemon.conf >> output.log 2>&1")
+    os.system('echo "[server]" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "host-name=' + hostname + '" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "use-ipv4=yes" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "use-ipv6=yes" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "allow-interfaces=" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "ratelimit-interval-usec=1000000" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "ratelimit-burst=1000" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo /n >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "[wide-area]" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "enable-wide-area=yes" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo /n >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "[publish]" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "publish-hinfo=no" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "publish-workstation=no" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo /n >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "[rlimits]" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "rlimit-core=0" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "rlimit-data=4194304" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "rlimit-fsize=0" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "rlimit-nofile=768" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "rlimit-stack=4194304" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('echo "rlimit-nproc=3" >> /etc/avahi/avahi-daemon.conf >> output.log 2>&1')
+    os.system('systemctl enable avahi-daemon >> output.log 2>&1')
+    os.system('systemctl start avahi-daemon >> output.log 2>&1')
+    log_file.close()
 
 
 def kde_setup():
@@ -511,9 +573,12 @@ def kde_setup():
                           "kwriteconfig5 --file powermanagementprofilesrc --group General --key LockScreen false"]
     try:
         for kde_setup_command in kde_setup_commands:
-            os.system(kde_setup_command.format(user))
+            # Open a file for logging
+            log_file = open("output.log", "w")
+            os.system(kde_setup_command + " >> output.log 2>&1".format(user))
             # write kde_setup_command to log file
-            os.system("touch kde_setup_command.log")
+            os.system("touch kde_setup_command.log >> output.log 2>&1")
+            log_file.close()
             with open("kde_setup_command.log", "a") as log_file:
                 log_file.write(kde_setup_command + "run successfully")
                 log_file.close()
@@ -525,9 +590,12 @@ def kde_setup():
 def vnstat_setup():
     interfaces = subprocess.run(["nmcli", "device", "status"], capture_output=True, text=True).stdout.splitlines()
     for interface in interfaces:
-        os.system("vnstat -u -i " + interface.split()[0])
-    os.system("systemctl enable vnstat")
-    os.system("systemctl start vnstat")
+        # Open a file for logging
+        log_file = open("output.log", "w")
+        os.system("vnstat -u -i " + interface.split()[0]+" >> output.log 2>&1")
+    os.system("systemctl enable vnstat >> output.log 2>&1")
+    os.system("systemctl start vnstat >> output.log 2>&1")
+    log_file.close()
 
 
 
@@ -535,28 +603,36 @@ def vnstat_setup():
 def fed_type():
     # Get hostname from hostnamectl
     hostname = os.popen("hostnamectl | grep hostname | awk '{print $3}'").read()
+    # Open a file for logging
+    log_file = open("output.log", "w")
     if "fedorabox" in hostname:
         os.system("wget -O fedboxmotd.txt "
-                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedboxmotd.txt")
-        os.system("echo fedboxmotd.txt >> /etc/motd")
+                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedboxmotd.txt >> output.log 2>&1")
+        os.system("echo fedboxmotd.txt >> /etc/motd >> output.log 2>&1")
+        log_file.close()
     elif "hal9001" in hostname:
         os.system("wget -O hal9001motd.txt "
-                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedhal9k1motd.txt")
-        os.system("echo hal9001motd.txt >> /etc/motd")
+                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedhal9k1motd.txt >> output.log 2>&1")
+        os.system("echo hal9001motd.txt >> /etc/motd >> output.log 2>&1")
+        log_file.close()
     elif "laptop" in hostname:
         os.system("wget -O laptopmotd.txt "
-                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedlaptopmotd.txt")
-        os.system("echo laptopmotd.txt >> /etc/motd")
+                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedlaptopmotd.txt >> output.log 2>&1")
+        os.system("echo laptopmotd.txt >> /etc/motd >> output.log 2>&1")
+        log_file.close()
     elif "router" in hostname:
         os.system("wget -O routermotd.txt "
-                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedroutermotd.txt")
-        os.system("echo routermotd.txt >> /etc/motd")
+                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/fedroutermotd.txt >> output.log 2>&1")
+        os.system("echo routermotd.txt >> /etc/motd >> output.log 2>&1")
+        log_file.close()
     elif "shitbox" in hostname:
         os.system("wget -O shitboxmotd.txt "
-                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/shitboxmotd.txt")
-        os.system("echo shitboxmotd.txt >> /etc/motd")
+                  "https://raw.githubusercontent.com/gregredliontest/fedinstallscripts/main/shitboxmotd.txt >> output.log 2>&1")
+        os.system("echo shitboxmotd.txt >> /etc/motd >> output.log 2>&1")
+        log_file.close()
     else:
         print("Invalid Input")
+        log_file.close()
 
 
 # Main Function
