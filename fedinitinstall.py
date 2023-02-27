@@ -459,32 +459,41 @@ def download_nomachine():
     global user
     current_version = "6.12.2_1"
     download_url = "https://download.nomachine.com/download/6.12/Linux/nomachine_6.12.2_1_x86_64.rpm"
-    version_pattern = r"nomachine_(\d+\.\d+\.\d+_\d+)_x86_64\.rpm"
+    version_pattern = r"nomachine_(\d+\.\d+\.\d+_\d+)\.rpm"
     response = requests.get(download_url)
 
     # Extract the URL of the latest version of the tar file from the response
     url = response.url
 
     # Extract the version number from the URL using the provided pattern
-    version = re.search(version_pattern, url).group(1)
+    version = re.findall(version_pattern, url)
 
     # Check if the version number matches the current version
+    if not version:
+        print("Error: No version number found in download URL")
+        return
+
+    version = version[0]
+    print("Version: " + version)
+
     if version == current_version:
         print("The file is already up to date.")
         return
 
     # Download the file
-    with open(f"nomachine_{version}_x86_64.rpm", "wb") as f:
+    with open(f"nomachine_{version}.rpm", "wb") as f:
         f.write(response.content)
         f.close()
     print(f"File {version} downloaded successfully.")
     # Remove the version number from the file name
     # Open a file for logging
     log_file = open("output.log", "w")
-    os.rename(f"nomachine_{version}_x86_64.rpm", "nomachine.rpm >> output.log 2>&1")
-    # local install nomachine
-    os.system("dnf -y localinstall nomachine.rpm >> output.log 2>&1")
+    os.rename(f"nomachine_{version}.rpm", "nomachine.rpm >> output.log 2>&1")
+    # Extract the tar file
+    os.system("rpm -i nomachine.rpm >> output.log 2>&1")
+    os.system("rm nomachine.rpm >> output.log 2>&1")
     log_file.close()
+
 
 
 # Install ZSH Config
