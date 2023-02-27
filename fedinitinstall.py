@@ -19,44 +19,287 @@ def run_function(function_name):
         f.write(function_name + '\n')
 
 
+# Add Repos
+def add_repos():
+    repos = ["https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo"]
+    for repo in repos:
+        try:
+            os.system("dnf config-manager --add-repo {}".format(repo))
+            # Write repo to repo install log file
+            os.system("touch repo_install_log.txt")
+            with open('repo_install_log.txt', 'a') as f:
+                f.write(repo + '\n')
+                f.close()
+        except os.error:
+            print("Error adding repo: {}".format(repo))
+            print("Continuing with installation...")
+            continue
+
+
 # Install Necessary Groups
 def install_groups():
-    os.system(
-        "dnf groupinstall -y 'Development Tools' 'Hardware Support' 'base-x' 'Fonts' 'Common NetworkManager Submodules' 'Printing Support' 'Input Methods' 'Multimedia' 'Development Libraries'")
-
+    groups = ["Development Tools"
+                "Hardware Support"
+                "base-x"
+                "Fonts"
+                "Common NetworkManager Submodules"
+                "Printing Support"
+                "Input Methods"
+                "Multimedia"
+                "Development Libraries"]
+    for group in groups:
+        try:
+            os.system("dnf groupinstall -y {}".format(group))
+            # Write group to group install log file
+            os.system("touch group_install_log.txt")
+            with open('group_install_log.txt', 'a') as f:
+                f.write(group + '\n')
+                f.close()
+        except os.error:
+            print("Error installing group: {}".format(group))
+            print("Continuing with installation...")
+            continue
 
 # Install Necessary Packages
 def install_packages():
-    try:
-        os.system("dnf config-manager --add-repo https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo")
-    except os.error as e:
-        print(e)
+    packages = ["util-linux-user"
+                "python3-requests"
+                "python3-libvirt"
+                "libvirt"
+                "bridge-utils"
+                "python3-dropbox"
+                "vim-enhanced"
+                "speedtest-cli"
+                "remmina"
+                "lrzsz"
+                "python3-netifaces"
+                "neofetch"
+                "nmap"
+                "tcpdump"
+                "xfsprogs"
+                "kmousetool"
+                "libnma"
+                "libnma-devel"
+                "libnma-gtk4"
+                "libnma-gtk4-devel"
+                "tar"
+                "xz"
+                "unzip"
+                "zip"
+                "pciutils"
+                "htop"
+                "wget"
+                "zsh"
+                "jre"
+                "plasma-pk-updates"
+                "kget"
+                "kcalc"
+                "gwenview"
+                "spectacle"
+                "fedora-workstation-repositories"
+                "dhcp-server"
+                "usbutils"
+                "util-linux-user"
+                "sni-qt"
+                "xorg-x11-drv-libinput"
+                "setroubleshoot"
+                "kfind"
+                "plasma-discover"
+                "kfind"
+                "firewall-config"
+                "kgpg"
+                "kate"
+                "ark"
+                "plasma-drkonqi"
+                "bluedevil"
+                "breeze-gtk"
+                "breeze-icon-theme"
+                "bzip2"
+                "zsh-completions"
+                "lsb"
+                "cagibi"
+                "colord-kde"
+                "cups-pk-helper"
+                "curl"
+                "dolphin"
+                "dkms"
+                "gcc"
+                "glibc-all-langpacks"
+                "python3-netifaces"
+                "gnome-keyring-pam"
+                "kcm_systemd"
+                "kde-gtk-config"
+                "kde-partitionmanager"
+                "kde-print-manager"
+                "python3-psutil"
+                "kde-settings-pulseaudio"
+                "kde-style-breeze"
+                "kdegraphics-thumbnailers"
+                "kdeplasma-addons  "
+                "kdialog"
+                "kdnssd"
+                "kernel-devel"
+                "kf5-akonadi-server"
+                "kf5-akonadi-server-mysql"
+                "kf5-baloo-file"
+                "kf5-kipi-plugins"
+                "khotkeys"
+                "kmenuedit"
+                "konsole5"
+                "kscreen"
+                "kscreenlocker"
+                "ksshaskpass"
+                "ksysguard"
+                "kwalletmanager5"
+                "kwebkitpart"
+                "kwin"
+                "make"
+                "pam-kwallet"
+                "phonon-qt5-backend-gstreamer"
+                "pinentry-qt"
+                "plasma-breeze"
+                "plasma-desktop"
+                "plasma-desktop-doc"
+                "plasma-workspace-geolocation"
+                "polkit-kde"
+                "qt5-qtbase-gui"
+                "qt5-qtdeclarative"
+                "sddm"
+                "sddm-breeze"
+                "sddm-kcm"
+                "plasma-pa"
+                "plasma-user-manager"
+                "plasma-workspace"
+                "net-tools"
+                "dnf-plugins-core"
+                "iperf3"
+                "sshpass"
+                "mlocate"
+                "vnstat"
+                "lm_sensors"
+                "mtd-utils"
+                "kf5-kconfig"
+                "kf5-kconfig-core"
+                "kf5-kconfig-devel"
+                "kf5-kconfig-gui"
+                "kf5-kconfig-doc"
+                "kcharselect"
+                "nextcloud-client"
+                "python3-pip"
+                "python3-pyOpenSSL"
+                "python3-beautifulsoup4" 
+                "python3-psutil"
+    ]
+    for package in packages:
+        try:
+            os.system("dnf install -y {}".format(package))
+            # Write package to package install log file
+            os.system("touch package_install_log.txt")
+            with open('package_install_log.txt', 'a') as f:
+                f.write(package + '\n')
+                f.close()
+        except os.error:
+            print("Error installing package: {}".format(package))
+            print("Continuing with installation...")
+            continue
 
 # Install network packages
 def install_network_packages():
-    try:
-        os.system("dnf -y install NetworkManager-config-connectivity-fedora plasma-nm plasma-nm-l2tp plasma-nm-openconnect plasma-nm-openswan plasma-nm-openvpn plasma-nm-pptp plasma-nm-vpnc NetworkManager NetworkManager-adsl NetworkManager-bluetooth NetworkManager-config-connectivity-fedora NetworkManager-config-server NetworkManager-dispatcher-routing-rules NetworkManager-fortisslvpn NetworkManager-l2tp NetworkManager-libnm NetworkManager-libnm-devel NetworkManager-libreswan NetworkManager-openconnect NetworkManager-openvpn NetworkManager-ovs NetworkManager-ppp NetworkManager-pptp NetworkManager-ssh NetworkManager-sstp NetworkManager-strongswan NetworkManager-vpnc NetworkManager-wifi NetworkManager-wwan kf5-networkmanager-qt kf5-networkmanager-qt-devel libproxy-networkmanager ModemManager modem-manager-gui-cm-NetworkManager python3-networkmanager network-manager-applet nm-connection-editor wpa_supplicant openvpn easy-rsa strongswan avahi aircrack-ng bind bind-utils rsync")
-    except os.error as e:
-        print(e)
-
-    try:
-        os.system(
-            "dnf -y install util-linux-user python3-requests python3-libvirt libvirt bridge-utils python3-dropbox vim-enhanced speedtest-cli remmina lrzsz python3-netifaces neofetch nmap tcpdump xfsprogs kmousetool libnma libnma-devel libnma-gtk4 libnma-gtk4-devel tar xz unzip zip pciutils htop wget zsh jre plasma-pk-updates kget kcalc gwenview spectacle fedora-workstation-repositories dhcp-server usbutils util-linux-user sni-qt xorg-x11-drv-libinput setroubleshoot kfind plasma-discover kfind firewall-config kgpg kate ark plasma-drkonqi bluedevil breeze-gtk breeze-icon-theme bzip2 zsh-completions lsb cagibi colord-kde cups-pk-helper curl dhcp-server dolphin dkms gcc glibc-all-langpacks python3-netifaces gnome-keyring-pam kcm_systemd kde-gtk-config kde-partitionmanager kde-print-manager python3-psutil kde-settings-pulseaudio kde-style-breeze kdegraphics-thumbnailers kdeplasma-addons kdialog kdnssd kernel-devel kf5-akonadi-server kf5-akonadi-server-mysql kf5-baloo-file kf5-kipi-plugins khotkeys kmenuedit konsole5 kscreen kscreenlocker ksshaskpass ksysguard kwalletmanager5 kwebkitpart kwin make pam-kwallet phonon-qt5-backend-gstreamer pinentry-qt plasma-breeze plasma-desktop plasma-desktop-doc plasma-workspace-geolocation polkit-kde qt5-qtbase-gui qt5-qtdeclarative sddm sddm-breeze sddm-kcm plasma-pa plasma-user-manager plasma-workspace net-tools dnf-plugins-core iperf3 sshpass mlocate vnstat lm_sensors mtd-utils kf5-kconfig kf5-kconfig-core kf5-kconfig-devel kf5-kconfig-gui kf5-kconfig-doc kcharselect nextcloud-client python3-pip python3-pyOpenSSL python3-beautifulsoup4 python3-psutil")
-    except os.error as e:
-        print(e)
+    network_packages = ["NetworkManager-config-connectivity-fedora"
+                        "plasma-nm plasma-nm-l2tp"
+                        "plasma-nm-openconnect" 
+                        "plasma-nm-openswan"
+                        "plasma-nm-openvpn"
+                        "plasma-nm-pptp"
+                        "plasma-nm-vpnc"
+                        "NetworkManager"
+                        "NetworkManager-adsl"
+                        "NetworkManager-bluetooth"
+                        "NetworkManager-config-server"
+                        "NetworkManager-dispatcher-routing-rules"
+                        "NetworkManager-fortisslvpn"
+                        "NetworkManager-l2tp"
+                        "NetworkManager-libnm"
+                        "NetworkManager-libnm-devel"
+                        "NetworkManager-libreswan"
+                        "NetworkManager-openconnect"
+                        "NetworkManager-openvpn"
+                        "NetworkManager-ovs"
+                        "NetworkManager-ppp"
+                        "NetworkManager-pptp"
+                        "NetworkManager-ssh"
+                        "NetworkManager-sstp"
+                        "NetworkManager-strongswan"
+                        "NetworkManager-vpnc"
+                        "NetworkManager-wifi"
+                        "NetworkManager-wwan"
+                        "kf5-networkmanager-qt"
+                        "kf5-networkmanager-qt-devel"
+                        "libproxy-networkmanager"
+                        "ModemManager"
+                        "modem-manager-gui-cm-NetworkManager"
+                        "python3-networkmanager"
+                        "network-manager-applet"
+                        "nm-connection-editor"
+                        "wpa_supplicant"
+                        "openvpn"
+                        "easy-rsa"
+                        "strongswan"
+                        "avahi"
+                        "aircrack-ng"
+                        "bind"
+                        "bind-utils"
+                        "rsync"
+                        "nmap"
+                        "wireshark"
+                        ]
+    for package in network_packages:
+        try:
+            os.system("dnf install -y {}".format(package))
+            # Write package to package install log file
+            os.system("touch package_install_log.txt")
+            with open('package_install_log.txt', 'a') as f:
+                f.write(package + '\n')
+                f.close()
+        except os.error:
+            print("Error installing package: {}".format(package))
+            print("Continuing with installation...")
+            continue
 
 # Install PyPi Packages
 def install_pip_packages():
     os.system("pip3 install --upgrade pip")
     os.system("pip3 install --upgrade wheel")
-    os.system("python -m pip install konsave")
-    os.system("python -m pip install bs4")
-    os.system("python -m pip install pyOpenSSL")
+    pip_packages = ["konsave", "bs4", "pyOpenSSL"]
+    for package in pip_packages:
+        try:
+            os.system("pip3 install {}".format(package))
+            # Write package to package install log file
+            os.system("touch package_install_log.txt")
+            with open('package_install_log.txt', 'a') as f:
+                f.write(package + '\n')
+                f.close()
+        except os.error:
+            print("Error installing package: {}".format(package))
+            print("Continuing with installation...")
+            continue
 
 
 # Configure applications
 def configure_applications():
-    os.system("sensors-detect --auto")
+    conf_app_commands = ["sensors-detect --auto"]
+    for conf_app_command in conf_app_commands:
+        try:
+            os.system(conf_app_command)
+            # Write conf_app_command to conf_app_command log file
+            os.system("touch conf_app_command_log.txt")
+            with open('conf_app_command_log.txt', 'a') as f:
+                f.write(conf_app_command + '\n')
+                f.close()
+        except os.error:
+            print("Error configuring application: {}".format(conf_app_command))
+            print("Continuing with installation...")
+            continue
 
 
 # Install Google Chrome
@@ -73,16 +316,19 @@ def install_pycharm():
     os.system("tar -xzf /tmp/jetbrains-toolbox.tar.gz -C /opt/")
     os.system("chmod 777 -R /opt/*")
     # Run Pycharm Professional Installer from Jetbrains Toolbox
-    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-pycharm-professional")
-    os.system("sleep 30")
-    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-clion")
-    os.system("sleep 30")
-    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-phpstorm")
-    os.system("sleep 30")
-    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-webstorm")
-    os.system("sleep 30")
-    os.system("/opt/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox --install-android-studio")
-    os.system("sleep 30")
+    jetbrains_programs = ["pycharm-professional", "clion", "phpstorm", "webstorm", "android-studio"]
+    for jetbrains_program in jetbrains_programs:
+        try:
+            os.system("./jetbrains-toolbox --install {}".format(jetbrains_program))
+            # Write jetbrains_program to jetbrains_program install log file
+            os.system("touch jetbrains_program_install_log.txt")
+            with open('jetbrains_program_install_log.txt', 'a') as f:
+                f.write(jetbrains_program + '\n')
+                f.close()
+        except os.error:
+            print("Error installing program: {}".format(jetbrains_program))
+            print("Continuing with installation...")
+            continue
 
 
 # Install Visual Studio Code
@@ -147,7 +393,7 @@ def install_zsh():
 # Install NoMachine
 def install_nomachine():
     os.system("mv nomachine*.rpm nomachine.rpm")
-    os.system("dnf -y localinstall ./nomachine.rpm")
+    os.system("dnf -y localinstall nomachine.rpm")
 
 
 # Start SDDM and KDE
@@ -268,6 +514,7 @@ def fed_type():
 
 # Main Function
 def main():
+    run_function("add_repos")
     run_function("install_groups")
     run_function("install_packages")
     run_function("install_network_packages")
