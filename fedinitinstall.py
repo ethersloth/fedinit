@@ -267,22 +267,22 @@ def install_network_packages():
                         "nmap",
                         "wireshark"
                         ]
-    # Join the list of packages into a single string, separated by spaces
-    package_list = ''.join(network_packages)
+    # Join the list of packages into a single string I.E "dnf -y install package1 package2 package3"
+    network_package_list = ' '.join(network_packages)
 
     try:
         # Open a file for logging
         log_file = open("output.log", "w")
         # Use the joined package list in the dnf install command
-        os.system("dnf -y install {} >> output.log 2>&1".format(package_list))
+        os.system("dnf -y install {} >> output.log 2>&1".format(network_package_list))
         # Write package list to package install log file
-        with open('package_install_log.txt', 'w') as f:
-            f.write(package_list)
+        with open('package_install_log.txt', 'a') as f:
+            f.write(network_package_list)
             f.close()
         # Close the log file
         log_file.close()
     except os.error:
-        print("Error installing packages: {}".format(package_list))
+        print("Error installing packages: {}".format(network_package_list))
         print("Continuing with installation...")
 
 # Install PyPi Packages
@@ -397,47 +397,20 @@ def setup_workspace():
 
 # Install Pycharm Professional
 def install_pycharm():
-    import requests
-    global user
+    # Open a file for logging
     log_file = open("output.log", "w")
+    # Download Pycharm
+    os.system('wget -O jetbrains-toolbox.tar.gz --cut-dirs=2 -A "*.tar.gz" "https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-*.tar.gz' + '" >> output.log 2>&1')
+    # Extract Pycharm
+    os.system("tar -xvf jetbrains-toolbox.tar.gz >> output.log 2>&1")
+    # Install Pycharm
+    os.system("./jetbrains-toolbox-*/jetbrains-toolbox >> output.log 2>&1")
 
-    # Get the latest version of Pycharm and its download URL from the JetBrains API
-    response = requests.get("https://data.services.jetbrains.com/products/releases?code=PCP&latest=true&type=release")
-    if not response.ok:
-        print("Error: Could not get latest Pycharm version from JetBrains API")
-        return
-    data = response.json()
-    version = data[0]['version']
-    download_url = data[0]['downloads']['linux']['link']
-
-    # Check if the version number matches the current version
-    if version == "2021.3.4":
-        print("Pycharm is already up to date")
-        return
-
-    # Download the latest version of Pycharm
-    os.system("wget -O pycharm.tar.gz " + download_url + " >> output.log 2>&1")
-
-    # Extract the tar file
-    os.system("tar -xvf pycharm.tar.gz >> output.log 2>&1")
-
-    # Move the extracted folder to the user's home directory
-    os.system("mv jetbrains-toolbox-* /home/{}/Desktop/workspace/Scripts >> output.log 2>&1".format(user))
-
-    # Remove the tar file
-    os.system("rm pycharm.tar.gz >> output.log 2>&1")
-
-    # Change the ownership of the extracted folder to the user
-    os.system(
-        "chown -R {}:{} /home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-* >> output.log 2>&1".format(user, user,
-                                                                                                          user))
-
-    # Run the Pycharm installer
-    os.system(
-        "su - {} -c '/home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-*/jetbrains-toolbox' >> output.log 2>&1".format(
-            user, user))
-
-    # Close the log file
+    # Install Pycharm Professional
+    os.system('wget -O pycharm-professional.tar.gz --cut-dirs=2 -A "*.tar.gz" "https://download-cdn.jetbrains.com/python/pycharm-professional-*.tar.gz" >> output.log 2>&1')
+    os.system("tar -xvf pycharm-professional.tar.gz >> output.log 2>&1")
+    os.system("mv pycharm-* /opt/pycharm-professional >> output.log 2>&1")
+    os.system("ln -s /opt/pycharm-professional/bin/pycharm.sh /usr/local/bin/pycharm >> output.log 2>&1")
     log_file.close()
 
 
