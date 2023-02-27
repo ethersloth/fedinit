@@ -24,14 +24,14 @@ def add_repos():
     repos = ["https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo"]
     for repo in repos:
         try:
-            os.system("dnf config-manager --add-repo {}".format(repo))
+            os.system("dnf config-manager --add-repo {}".format( repo ))
             # Write repo to repo install log file
             os.system("touch repo_install_log.txt")
             with open('repo_install_log.txt', 'a') as f:
                 f.write(repo + '\n')
                 f.close()
         except os.error:
-            print("Error adding repo: {}".format(repo))
+            print("Error adding repo: {}".format( repo ))
             print("Continuing with installation...")
             continue
 
@@ -49,14 +49,14 @@ def install_groups():
                 "Development Libraries"]
     for group in groups:
         try:
-            os.system("dnf groupinstall -y {}".format(group))
+            os.system("dnf groupinstall -y '{}'".format( group ))
             # Write group to group install log file
             os.system("touch group_install_log.txt")
             with open('group_install_log.txt', 'a') as f:
                 f.write(group + '\n')
                 f.close()
         except os.error:
-            print("Error installing group: {}".format(group))
+            print("Error installing group: {}".format( group ))
             print("Continuing with installation...")
             continue
 
@@ -192,14 +192,14 @@ def install_packages():
     ]
     for package in packages:
         try:
-            os.system("dnf install -y {}".format(package))
+            os.system("dnf install -y {}".format( package ))
             # Write package to package install log file
             os.system("touch package_install_log.txt")
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
         except os.error:
-            print("Error installing package: {}".format(package))
+            print("Error installing package: {}".format( package ))
             print("Continuing with installation...")
             continue
 
@@ -255,14 +255,14 @@ def install_network_packages():
                         ]
     for package in network_packages:
         try:
-            os.system("dnf install -y {}".format(package))
+            os.system("dnf install -y {}".format( package ))
             # Write package to package install log file
             os.system("touch package_install_log.txt")
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
         except os.error:
-            print("Error installing package: {}".format(package))
+            print("Error installing package: {}".format( package ))
             print("Continuing with installation...")
             continue
 
@@ -273,14 +273,14 @@ def install_pip_packages():
     pip_packages = ["konsave", "bs4", "pyOpenSSL"]
     for package in pip_packages:
         try:
-            os.system("pip3 install {}".format(package))
+            os.system("pip3 install {}".format( package ))
             # Write package to package install log file
             os.system("touch package_install_log.txt")
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
         except os.error:
-            print("Error installing package: {}".format(package))
+            print("Error installing package: {}".format( package ))
             print("Continuing with installation...")
             continue
 
@@ -297,7 +297,7 @@ def configure_applications():
                 f.write(conf_app_command + '\n')
                 f.close()
         except os.error:
-            print("Error configuring application: {}".format(conf_app_command))
+            print("Error configuring application: {}".format( conf_app_command ))
             print("Continuing with installation...")
             continue
 
@@ -319,14 +319,14 @@ def install_pycharm():
     jetbrains_programs = ["pycharm-professional", "clion", "phpstorm", "webstorm", "android-studio"]
     for jetbrains_program in jetbrains_programs:
         try:
-            os.system("./jetbrains-toolbox --install {}".format(jetbrains_program))
+            os.system("./jetbrains-toolbox --install {}".format( jetbrains_program ))
             # Write jetbrains_program to jetbrains_program install log file
             os.system("touch jetbrains_program_install_log.txt")
             with open('jetbrains_program_install_log.txt', 'a') as f:
                 f.write(jetbrains_program + '\n')
                 f.close()
         except os.error:
-            print("Error installing program: {}".format(jetbrains_program))
+            print("Error installing program: {}".format( jetbrains_program ))
             print("Continuing with installation...")
             continue
 
