@@ -405,7 +405,8 @@ def install_pycharm():
     url = response.url
 
     # Extract the version number from the URL using the provided pattern
-    version = re.search(version_pattern, url).group(1)
+    version = re.findall(version_pattern, url)[0]
+    print("Version: " + version)
 
     # Check if the version number matches the current version
     if version == current_version:
