@@ -53,21 +53,23 @@ def install_groups():
                 "Input Methods",
                 "Multimedia",
                 "Development Libraries"]
-    for group in groups:
-        try:
-            # Open a file for logging
-            log_file = open("output.log", "w")
-            os.system("dnf groupinstall -y '{}' >> output.log 2>&1".format(group + '\n'))
-            # Write group to group install log file
-            os.system("touch group_install_log.txt >> output.log 2>&1")
-            log_file.close()
-            with open('group_install_log.txt', 'a') as f:
-                f.write(group + '\n')
-                f.close()
-        except os.error:
-            print("Error installing group: {}".format(group + '\n'))
-            print("Continuing with installation...")
-            continue
+    # Join the list of packages into a single string, separated by spaces
+    package_list = ' '.join(groups)
+
+    try:
+        # Open a file for logging
+        log_file = open("output.log", "w")
+        os.system("dnf groupinstall -y {} >> output.log 2>&1".format(package_list))
+        # Write packages to package install log file
+        os.system("touch package_install_log.txt >> output.log 2>&1")
+        log_file.close()
+        with open('package_install_log.txt', 'a') as f:
+            f.write(package_list + '\n')
+            f.close()
+    except os.error:
+        print("Error installing packages: {}".format(package_list + '\n'))
+        print("Continuing with installation...")
+        return
 
 # Install Necessary Packages
 def install_packages():
@@ -200,21 +202,23 @@ def install_packages():
                 "python3-psutil",
                 "python3-pip"
     ]
-    for package in packages:
-        try:
-            # Open a file for logging
-            log_file = open("output.log", "w")
-            os.system("dnf install -y {} >> output.log 2>&1".format(package + '\n'))
-            # Write package to package install log file
-            os.system("touch package_install_log.txt >> output.log 2>&1")
-            log_file.close()
-            with open('package_install_log.txt', 'a') as f:
-                f.write(package + '\n')
-                f.close()
-        except os.error:
-            print("Error installing package: {}".format(package + '\n'))
-            print("Continuing with installation...")
-            continue
+    # Join the list of packages into a single string, separated by spaces
+    package_list = ' '.join(packages)
+
+    try:
+        # Open a file for logging
+        log_file = open("output.log", "w")
+        # Use the joined package list in the dnf install command
+        os.system("dnf -y install {} >> output.log 2>&1".format(package_list))
+        # Write package list to package install log file
+        with open('package_install_log.txt', 'w') as f:
+            f.write(package_list)
+            f.close()
+        # Close the log file
+        log_file.close()
+    except os.error:
+        print("Error installing packages: {}".format(package_list))
+        print("Continuing with installation...")
 
 # Install network packages
 def install_network_packages():
@@ -266,21 +270,23 @@ def install_network_packages():
                         "nmap",
                         "wireshark"
                         ]
-    for package in network_packages:
-        try:
-            # Open a file for logging
-            log_file = open("output.log", "w")
-            os.system("dnf install -y {} >> output.log 2>&1".format(package + '\n'))
-            # Write package to package install log file
-            os.system("touch package_install_log.txt >> output.log 2>&1")
-            log_file.close()
-            with open('package_install_log.txt', 'a') as f:
-                f.write(package + '\n')
-                f.close()
-        except os.error:
-            print("Error installing package: {}".format(package + '\n'))
-            print("Continuing with installation...")
-            continue
+    # Join the list of packages into a single string, separated by spaces
+    package_list = ' '.join(network_packages)
+
+    try:
+        # Open a file for logging
+        log_file = open("output.log", "w")
+        # Use the joined package list in the dnf install command
+        os.system("dnf -y install {} >> output.log 2>&1".format(package_list))
+        # Write package list to package install log file
+        with open('package_install_log.txt', 'w') as f:
+            f.write(package_list)
+            f.close()
+        # Close the log file
+        log_file.close()
+    except os.error:
+        print("Error installing packages: {}".format(package_list))
+        print("Continuing with installation...")
 
 # Install PyPi Packages
 def install_pip_packages():
