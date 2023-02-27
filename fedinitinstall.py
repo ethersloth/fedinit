@@ -1,6 +1,9 @@
 #!/bin/python3
 import os
+import re
 import subprocess
+
+import requests
 
 user = ""
 
@@ -24,14 +27,14 @@ def add_repos():
     repos = ["https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_36/shells:zsh-users:zsh-completions.repo"]
     for repo in repos:
         try:
-            os.system("dnf config-manager --add-repo {}".format( repo ))
+            os.system("dnf config-manager --add-repo {}".format(repo + '\n'))
             # Write repo to repo install log file
             os.system("touch repo_install_log.txt")
             with open('repo_install_log.txt', 'a') as f:
                 f.write(repo + '\n')
                 f.close()
         except os.error:
-            print("Error adding repo: {}".format( repo ))
+            print("Error adding repo: {}".format(repo + '\n'))
             print("Continuing with installation...")
             continue
 
@@ -49,14 +52,14 @@ def install_groups():
                 "Development Libraries"]
     for group in groups:
         try:
-            os.system("dnf groupinstall -y '{}'".format( group ))
+            os.system("dnf groupinstall -y '{}'".format(group + '\n'))
             # Write group to group install log file
             os.system("touch group_install_log.txt")
             with open('group_install_log.txt', 'a') as f:
                 f.write(group + '\n')
                 f.close()
         except os.error:
-            print("Error installing group: {}".format( group ))
+            print("Error installing group: {}".format(group + '\n'))
             print("Continuing with installation...")
             continue
 
@@ -192,14 +195,14 @@ def install_packages():
     ]
     for package in packages:
         try:
-            os.system("dnf install -y {}".format( package ))
+            os.system("dnf install -y {}".format(package + '\n'))
             # Write package to package install log file
             os.system("touch package_install_log.txt")
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
         except os.error:
-            print("Error installing package: {}".format( package ))
+            print("Error installing package: {}".format(package + '\n'))
             print("Continuing with installation...")
             continue
 
@@ -255,14 +258,14 @@ def install_network_packages():
                         ]
     for package in network_packages:
         try:
-            os.system("dnf install -y {}".format( package ))
+            os.system("dnf install -y {}".format(package + '\n'))
             # Write package to package install log file
             os.system("touch package_install_log.txt")
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
         except os.error:
-            print("Error installing package: {}".format( package ))
+            print("Error installing package: {}".format(package + '\n'))
             print("Continuing with installation...")
             continue
 
@@ -273,14 +276,14 @@ def install_pip_packages():
     pip_packages = ["konsave", "bs4", "pyOpenSSL"]
     for package in pip_packages:
         try:
-            os.system("pip3 install {}".format( package ))
+            os.system("pip3 install {}".format(package + '\n'))
             # Write package to package install log file
             os.system("touch package_install_log.txt")
             with open('package_install_log.txt', 'a') as f:
                 f.write(package + '\n')
                 f.close()
         except os.error:
-            print("Error installing package: {}".format( package ))
+            print("Error installing package: {}".format(package + '\n'))
             print("Continuing with installation...")
             continue
 
@@ -290,14 +293,14 @@ def configure_applications():
     conf_app_commands = ["sensors-detect --auto"]
     for conf_app_command in conf_app_commands:
         try:
-            os.system(conf_app_command)
+            os.system(conf_app_command + '\n')
             # Write conf_app_command to conf_app_command log file
             os.system("touch conf_app_command_log.txt")
             with open('conf_app_command_log.txt', 'a') as f:
                 f.write(conf_app_command + '\n')
                 f.close()
         except os.error:
-            print("Error configuring application: {}".format( conf_app_command ))
+            print("Error configuring application: {}".format(conf_app_command + '\n'))
             print("Continuing with installation...")
             continue
 
@@ -307,28 +310,6 @@ def install_chrome():
     os.system("dnf -y install fedora-workstation-repositories")
     os.system("dnf config-manager --set-enabled google-chrome")
     os.system("dnf -y install google-chrome-stable")
-
-
-# Install Pycharm Professional
-def install_pycharm():
-    os.system(
-        "wget https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-1.27.2.13801.tar.gz -O /tmp/jetbrains-toolbox.tar.gz")
-    os.system("tar -xzf /tmp/jetbrains-toolbox.tar.gz -C /opt/")
-    os.system("chmod 777 -R /opt/*")
-    # Run Pycharm Professional Installer from Jetbrains Toolbox
-    jetbrains_programs = ["pycharm-professional", "clion", "phpstorm", "webstorm", "android-studio"]
-    for jetbrains_program in jetbrains_programs:
-        try:
-            os.system("./jetbrains-toolbox --install {}".format( jetbrains_program ))
-            # Write jetbrains_program to jetbrains_program install log file
-            os.system("touch jetbrains_program_install_log.txt")
-            with open('jetbrains_program_install_log.txt', 'a') as f:
-                f.write(jetbrains_program + '\n')
-                f.close()
-        except os.error:
-            print("Error installing program: {}".format( jetbrains_program ))
-            print("Continuing with installation...")
-            continue
 
 
 # Install Visual Studio Code
@@ -373,13 +354,77 @@ def setup_workspace():
         os.system("cp -air *.sh *.py /home/{}/Desktop/workspace/Scripts".format(user))
 
 
+# Install Pycharm Professional
+def install_pycharm():
+    global user
+    current_version = "1.27.2.13801"
+    download_url = "https://download.jetbrains.com/toolbox/jetbrains-toolbox-latest.tar.gz"
+    version_pattern = r"toolbox-(\d+\.\d+\.\d+\.\d+)\.tar\.gz"
+    response = requests.get(download_url)
+
+    # Extract the URL of the latest version of the tar file from the response
+    url = response.url
+
+    # Extract the version number from the URL using the provided pattern
+    version = re.search(version_pattern, url).group(1)
+
+    # Check if the version number matches the current version
+    if version == current_version:
+        print("The file is already up to date.")
+        return
+
+    # Download the file
+    with open(f"jetbrains-toolbox-{version}.tar.gz", "wb") as f:
+        f.write(response.content)
+    print(f"File {version} downloaded successfully.")
+    # Remove the version number from the file name
+    os.rename(f"jetbrains-toolbox-{version}.tar.gz", "jetbrains-toolbox.tar.gz")
+    # Extract the tar file
+    os.system("tar -xzf jetbrains-toolbox.tar.gz -C /opt")
+    os.system("rm jetbrains-toolbox.tar.gz")
+    os.system("mv /opt/jetbrains-toolbox-* /opt/jetbrains-toolbox")
+    # make jetbrains-toolbox executable
+    os.system("chmod +x /opt/jetbrains-toolbox/jetbrains-toolbox")
+    # let the user run jetbrains-toolbox without sudo
+    os.system(f"echo '{user} ALL=(ALL) NOPASSWD: /opt/jetbrains-toolbox/jetbrains-toolbox' >> /etc/sudoers")
+    # add jetbrains-toolbox to path
+    os.system("ln -s /opt/jetbrains-toolbox/jetbrains-toolbox /usr/bin/jetbrains-toolbox")
+
+
 # Download files
 def download_files():
     os.system("wget -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1")
     os.system("wget -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1"
               )
-    os.system("wget -O nomachine_8.2.3_4_x86_64.rpm "
-              "https://download.nomachine.com/download/8.2/Linux/nomachine_8.2.3_4_x86_64.rpm")
+
+
+# Download and Install NoMachine
+def download_nomachine():
+    global user
+    current_version = "6.12.2_1"
+    download_url = "https://download.nomachine.com/download/6.12/Linux/nomachine_6.12.2_1_x86_64.rpm"
+    version_pattern = r"nomachine_(\d+\.\d+\.\d+_\d+)_x86_64\.rpm"
+    response = requests.get(download_url)
+
+    # Extract the URL of the latest version of the tar file from the response
+    url = response.url
+
+    # Extract the version number from the URL using the provided pattern
+    version = re.search(version_pattern, url).group(1)
+
+    # Check if the version number matches the current version
+    if version == current_version:
+        print("The file is already up to date.")
+        return
+
+    # Download the file
+    with open(f"nomachine_{version}_x86_64.rpm", "wb") as f:
+        f.write(response.content)
+    print(f"File {version} downloaded successfully.")
+    # Remove the version number from the file name
+    os.rename(f"nomachine_{version}_x86_64.rpm", "nomachine.rpm")
+    # local install nomachine
+    os.system("dnf -y localinstall nomachine.rpm")
 
 
 # Install ZSH Config
@@ -388,12 +433,6 @@ def install_zsh():
     os.system("cp .zshrc-root /root/.zshrc")
     os.system("chsh -s /bin/zsh " + user)
     os.system("chsh -s /bin/zsh root")
-
-
-# Install NoMachine
-def install_nomachine():
-    os.system("mv nomachine*.rpm nomachine.rpm")
-    os.system("dnf -y localinstall nomachine.rpm")
 
 
 # Start SDDM and KDE
@@ -467,11 +506,19 @@ def avahi_setup():
 
 def kde_setup():
     # Turn off Energy Saving> Screen Energy Saving
-    os.system("kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false".format(user))
-    # Set Button Events Handling> When Power Button is Pressed to Shutdown
-    os.system("kwriteconfig5 --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'".format(user))
-    # Set Screen Locking> Lock Screen Automatically to Never
-    os.system("kwriteconfig5 --file powermanagementprofilesrc --group General --key LockScreen false".format(user))
+    kde_setup_commands = ["kwriteconfig5 --file kscreenlockerrc --group Daemon --key Autolock false"
+                          "kwriteconfig5 --file powermanagementprofilesrc --group General --key ButtonPower 'shutdown'"
+                          "kwriteconfig5 --file powermanagementprofilesrc --group General --key LockScreen false"]
+    try:
+        for kde_setup_command in kde_setup_commands:
+            os.system(kde_setup_command.format(user))
+            # write kde_setup_command to log file
+            os.system("touch kde_setup_command.log")
+            with open("kde_setup_command.log", "a") as log_file:
+                log_file.write(kde_setup_command + "run successfully")
+                log_file.close()
+    except os.error:
+        print("Error setting up " + kde_setup_command)
 
 
 # Setup VNStat
@@ -521,12 +568,12 @@ def main():
     run_function("install_pip_packages")
     run_function("configure_applications")
     run_function("install_chrome")
-    run_function("install_pycharm")
     run_function("install_vscode")
     run_function("new_user")
     run_function("setup_workspace")
+    run_function("install_pycharm")
     run_function("download_files")
-    run_function("install_zsh")
+    run_function("download_nomachine")
     run_function("start_sddm")
     run_function("install_nomachine")
     run_function("create_usbethernet_connection")
