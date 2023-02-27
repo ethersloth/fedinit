@@ -399,7 +399,7 @@ def install_pycharm():
     import requests
     global user
     current_version = "1.27.2.13801"
-    download_url = "https://download.jetbrains.com/toolbox/jetbrains-toolbox-latest.tar.gz"
+    download_url = "https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-1.27.2.13801.tar.gz"
     version_pattern = r"toolbox-(\d+\.\d+\.\d+\.\d+)\.tar\.gz"
     response = requests.get(download_url)
 
@@ -415,32 +415,35 @@ def install_pycharm():
         return
 
     version = version[0]
-    print("Version: " + version)
-
     if version == current_version:
-        print("The file is already up to date.")
+        print("Pycharm is already up to date")
         return
 
-    # Download the file
-    with open(f"jetbrains-toolbox-{version}.tar.gz", "wb") as f:
-        f.write(response.content)
-        f.close()
-    print(f"File {version} downloaded successfully.")
-    # Remove the version number from the file name
     # Open a file for logging
     log_file = open("output.log", "w")
-    os.rename(f"jetbrains-toolbox-{version}.tar.gz", "jetbrains-toolbox.tar.gz >> output.log 2>&1")
+
+    # Download the latest version of Pycharm
+    os.system("wget -O pycharm.tar.gz " + download_url + " >> output.log 2>&1")
+
     # Extract the tar file
-    os.system("tar -xzf jetbrains-toolbox.tar.gz -C /opt >> output.log 2>&1")
-    os.system("rm jetbrains-toolbox.tar.gz >> output.log 2>&1")
-    os.system("mv /opt/jetbrains-toolbox-* /opt/jetbrains-toolbox >> output.log 2>&1")
-    # make jetbrains-toolbox executable
-    os.system("chmod +x /opt/jetbrains-toolbox/jetbrains-toolbox >> output.log 2>&1")
-    # let the user run jetbrains-toolbox without sudo
-    os.system(f"echo '{user} ALL=(ALL) NOPASSWD: /opt/jetbrains-toolbox/jetbrains-toolbox' >> /etc/sudoers >> output.log 2>&1")
-    # add jetbrains-toolbox to path
-    os.system("ln -s /opt/jetbrains-toolbox/jetbrains-toolbox /usr/bin/jetbrains-toolbox >> output.log 2>&1")
+    os.system("tar -xvf pycharm.tar.gz >> output.log 2>&1")
+
+    # Move the extracted folder to the user's home directory
+    os.system("mv jetbrains-toolbox-1.27.2.13801 /home/{}/Desktop/workspace/Scripts >> output.log 2>&1".format(user))
+
+    # Remove the tar file
+    os.system("rm pycharm.tar.gz >> output.log 2>&1")
+
+    # Change the ownership of the extracted folder to the user
+    os.system("chown -R {}:{} /home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-1.27.2.13801 >> output.log 2>&1".format(user, user, user))
+
+    # Run the Pycharm installer
+    os.system("su - {} -c '/home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox' >> output.log 2>&1".format(user, user))
+
+    # Close the log file
     log_file.close()
+
+
 
 
 
@@ -458,7 +461,7 @@ def download_nomachine():
     import requests
     global user
     current_version = "6.12.2_1"
-    download_url = "https://download.nomachine.com/download/6.12/Linux/nomachine_6.12.2_1_x86_64.rpm"
+    download_url = "https://download.nomachine.com/download/8.4/Linux/nomachine_8.4.2_1_x86_64.rpm"
     version_pattern = r"nomachine_(\d+\.\d+\.\d+_\d+)\.rpm"
     response = requests.get(download_url)
 
@@ -474,24 +477,23 @@ def download_nomachine():
         return
 
     version = version[0]
-    print("Version: " + version)
-
     if version == current_version:
-        print("The file is already up to date.")
+        print("NoMachine is already up to date")
         return
 
-    # Download the file
-    with open(f"nomachine_{version}.rpm", "wb") as f:
-        f.write(response.content)
-        f.close()
-    print(f"File {version} downloaded successfully.")
-    # Remove the version number from the file name
     # Open a file for logging
     log_file = open("output.log", "w")
-    os.rename(f"nomachine_{version}.rpm", "nomachine.rpm >> output.log 2>&1")
-    # Extract the tar file
-    os.system("rpm -i nomachine.rpm >> output.log 2>&1")
+
+    # Download the latest version of NoMachine
+    os.system("wget -O nomachine.rpm " + download_url + " >> output.log 2>&1")
+
+    # Install NoMachine
+    os.system("rpm -Uvh nomachine.rpm >> output.log 2>&1")
+
+    # Remove the rpm file
     os.system("rm nomachine.rpm >> output.log 2>&1")
+
+    # Close the log file
     log_file.close()
 
 
