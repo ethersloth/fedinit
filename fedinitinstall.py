@@ -413,11 +413,8 @@ def install_pycharm():
 
 # Download files
 def download_files():
-    # Open a file for logging
-    log_file = open("output.log", "w")
-    os.system("wget -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1 >> output.log 2>&1")
-    os.system("wget -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1 >> output.log 2>&1")
-    log_file.close()
+    os.system("wget -O .zshrc https://www.dropbox.com/s/y6zleax42iow846/.zshrc?dl=1")
+    os.system("wget -O .zshrc-root https://www.dropbox.com/s/afc0vm9dpde519c/.zshrc-root?dl=1")
 
 
 # Download and Install NoMachine
@@ -425,7 +422,7 @@ def download_nomachine():
     # Open a file for logging
     log_file = open("output.log", "w")
     os.system("wget -O nomachine.rpm --cut-dirs=2 -A '*x86_64.rpm' 'https://download.nomachine.com/download/*/Linux/nomachine_*_x86_64.rpm' >> output.log 2>&1")
-    os.system("rpm -i nomachine.rpm >> output.log 2>&1")
+    os.system("dnf -y install nomachine.rpm >> output.log 2>&1")
     log_file.close()
 
 
@@ -435,7 +432,7 @@ def install_zsh():
     global user
     # Open a file for logging
     log_file = open("output.log", "w")
-    os.system("cp .zshrc /home/" + user + "/.zshrc >> output.log 2>&1")
+    os.system("cp .zshrc /home/ {} /.zshrc >> output.log 2>&1".format(user))
     os.system("cp .zshrc-root /root/.zshrc >> output.log 2>&1")
     os.system("chsh -s /bin/zsh " + user + " >> output.log 2>&1")
     os.system("chsh -s /bin/zsh root >> output.log 2>&1")
