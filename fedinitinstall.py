@@ -673,7 +673,6 @@ def main():
     run_function("download_files")
     run_function("download_nomachine")
     run_function("start_sddm")
-    run_function("install_nomachine")
     run_function("create_usbethernet_connection")
     run_function("avahi_setup")
     run_function("vnstat_setup")
