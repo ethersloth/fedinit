@@ -393,34 +393,24 @@ def setup_workspace():
 
 
 # Install Pycharm Professional
-
-
 def install_pycharm():
     import requests
     global user
-    current_version = "1.27.2.13801"
-    download_url = "https://download-cdn.jetbrains.com/toolbox/jetbrains-toolbox-1.27.2.13801.tar.gz"
-    version_pattern = r"toolbox-(\d+\.\d+\.\d+\.\d+)\.tar\.gz"
-    response = requests.get(download_url)
+    log_file = open("output.log", "w")
 
-    # Extract the URL of the latest version of the tar file from the response
-    url = response.url
-
-    # Extract the version number from the URL using the provided pattern
-    version = re.findall(version_pattern, url)
+    # Get the latest version of Pycharm and its download URL from the JetBrains API
+    response = requests.get("https://data.services.jetbrains.com/products/releases?code=PCP&latest=true&type=release")
+    if not response.ok:
+        print("Error: Could not get latest Pycharm version from JetBrains API")
+        return
+    data = response.json()
+    version = data[0]['version']
+    download_url = data[0]['downloads']['linux']['link']
 
     # Check if the version number matches the current version
-    if not version:
-        print("Error: No version number found in download URL")
-        return
-
-    version = version[0]
-    if version == current_version:
+    if version == "2021.3.4":
         print("Pycharm is already up to date")
         return
-
-    # Open a file for logging
-    log_file = open("output.log", "w")
 
     # Download the latest version of Pycharm
     os.system("wget -O pycharm.tar.gz " + download_url + " >> output.log 2>&1")
@@ -429,22 +419,23 @@ def install_pycharm():
     os.system("tar -xvf pycharm.tar.gz >> output.log 2>&1")
 
     # Move the extracted folder to the user's home directory
-    os.system("mv jetbrains-toolbox-1.27.2.13801 /home/{}/Desktop/workspace/Scripts >> output.log 2>&1".format(user))
+    os.system("mv jetbrains-toolbox-* /home/{}/Desktop/workspace/Scripts >> output.log 2>&1".format(user))
 
     # Remove the tar file
     os.system("rm pycharm.tar.gz >> output.log 2>&1")
 
     # Change the ownership of the extracted folder to the user
-    os.system("chown -R {}:{} /home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-1.27.2.13801 >> output.log 2>&1".format(user, user, user))
+    os.system(
+        "chown -R {}:{} /home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-* >> output.log 2>&1".format(user, user,
+                                                                                                          user))
 
     # Run the Pycharm installer
-    os.system("su - {} -c '/home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-1.27.2.13801/jetbrains-toolbox' >> output.log 2>&1".format(user, user))
+    os.system(
+        "su - {} -c '/home/{}/Desktop/workspace/Scripts/jetbrains-toolbox-*/jetbrains-toolbox' >> output.log 2>&1".format(
+            user, user))
 
     # Close the log file
     log_file.close()
-
-
-
 
 
 # Download files
@@ -462,7 +453,7 @@ def download_nomachine():
     global user
     current_version = "6.12.2_1"
     download_url = "https://download.nomachine.com/download/8.4/Linux/nomachine_8.4.2_1_x86_64.rpm"
-    version_pattern = r"nomachine_(\d+\.\d+\.\d+_\d+)\.rpm"
+    version_pattern = r"nomachine_(\d+\.\d+\.\d+_\d+)"
     response = requests.get(download_url)
 
     # Extract the URL of the latest version of the tar file from the response
