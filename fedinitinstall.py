@@ -1,9 +1,6 @@
 #!/bin/python3
 import os
-import re
 import subprocess
-
-
 
 user = ""
 
@@ -271,7 +268,7 @@ def install_network_packages():
                         "wireshark"
                         ]
     # Join the list of packages into a single string, separated by spaces
-    package_list = ' '.join(network_packages)
+    package_list = ''.join(network_packages)
 
     try:
         # Open a file for logging
@@ -455,42 +452,10 @@ def download_files():
 
 # Download and Install NoMachine
 def download_nomachine():
-    import requests
-    global user
-    current_version = "6.12.2_1"
-    download_url = "https://download.nomachine.com/download/8.4/Linux/nomachine_8.4.2_1_x86_64.rpm"
-    version_pattern = r"nomachine_(\d+\.\d+\.\d+_\d+)"
-    response = requests.get(download_url)
-
-    # Extract the URL of the latest version of the tar file from the response
-    url = response.url
-
-    # Extract the version number from the URL using the provided pattern
-    version = re.findall(version_pattern, url)
-
-    # Check if the version number matches the current version
-    if not version:
-        print("Error: No version number found in download URL")
-        return
-
-    version = version[0]
-    if version == current_version:
-        print("NoMachine is already up to date")
-        return
-
     # Open a file for logging
     log_file = open("output.log", "w")
-
-    # Download the latest version of NoMachine
-    os.system("wget -O nomachine.rpm " + download_url + " >> output.log 2>&1")
-
-    # Install NoMachine
-    os.system("rpm -Uvh nomachine.rpm >> output.log 2>&1")
-
-    # Remove the rpm file
-    os.system("rm nomachine.rpm >> output.log 2>&1")
-
-    # Close the log file
+    os.system("wget -O nomachine.rpm --cut-dirs=2 -A '*x86_64.rpm' 'https://download.nomachine.com/download/*/Linux/nomachine_*_x86_64.rpm' >> output.log 2>&1")
+    os.system("rpm -i nomachine.rpm >> output.log 2>&1")
     log_file.close()
 
 
