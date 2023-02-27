@@ -199,23 +199,24 @@ def install_packages():
                 "python3-psutil",
                 "python3-pip"
     ]
+
     # Join the list of packages into a single string, separated by spaces
     package_list = ' '.join(packages)
 
     try:
         # Open a file for logging
         log_file = open("output.log", "w")
-        # Use the joined package list in the dnf install command
         os.system("dnf -y install {} >> output.log 2>&1".format(package_list))
-        # Write package list to package install log file
-        with open('package_install_log.txt', 'w') as f:
-            f.write(package_list)
-            f.close()
-        # Close the log file
+        # Write packages to package install log file
+        os.system("touch package_install_log.txt >> output.log 2>&1")
         log_file.close()
+        with open('package_install_log.txt', 'a') as f:
+            f.write(package_list + '\n')
+            f.close()
     except os.error:
-        print("Error installing packages: {}".format(package_list))
+        print("Error installing packages: {}".format(package_list + '\n'))
         print("Continuing with installation...")
+        return
 
 # Install network packages
 def install_network_packages():
