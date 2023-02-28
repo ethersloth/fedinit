@@ -16,7 +16,7 @@
 import subprocess
 import os
 import time
-from wan_failover_setup import failover_priority
+from fedinitinstall import failover_priority
 
 failed_interfaces = []
 wan_interface = []
