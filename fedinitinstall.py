@@ -421,7 +421,7 @@ def download_files():
 def download_nomachine():
     # Open a file for logging
     log_file = open("output.log", "w")
-    os.system("wget -O nomachine.rpm --cut-dirs=2 -A '*x86_64.rpm' 'https://download.nomachine.com/download/*/Linux/nomachine_*_x86_64.rpm' >> output.log 2>&1")
+    os.system("wget -O nomachine.rpm --cut-dirs=2 -A '*x86_64.rpm' 'https://download.nomachine.com/download/*/Linux/nomachine_*_x86_64.rpm'")
     os.system("dnf -y install nomachine.rpm >> output.log 2>&1")
     log_file.close()
 
@@ -601,6 +601,7 @@ def main():
     run_function("install_pycharm")
     run_function("download_files")
     run_function("download_nomachine")
+    run_function("install_zsh")
     run_function("start_sddm")
     run_function("create_usbethernet_connection")
     run_function("avahi_setup")
