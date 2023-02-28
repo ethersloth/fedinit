@@ -430,7 +430,7 @@ def install_zsh():
     global user
     # Open a file for logging
     log_file = open("output.log", "w")
-    os.system("cp .zshrc /home/ {} /.zshrc >> output.log 2>&1".format(user))
+    os.system("cp .zshrc /home/{}/.zshrc >> output.log 2>&1".format(user))
     os.system("cp .zshrc-root /root/.zshrc >> output.log 2>&1")
     os.system("chsh -s /bin/zsh " + user + " >> output.log 2>&1")
     os.system("chsh -s /bin/zsh root >> output.log 2>&1")
